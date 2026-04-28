@@ -1,0 +1,24 @@
+defaults:
+  - base
+
+filters:
+  - include-files.lua
+  - pandoc-crossref
+  - fusionar-citas.lua
+  - noindent.lua
+  - citeproc
+  - correcciones-notas.lua
+
+metadata:
+  lang: es-ES
+  reference-section-title: "Bibliografía"
+
+  # ── pandoc-crossref: localización en español ────────────────────────────────
+  
+  figureTitle: "FIGURA"
+  tableTitle:  "TABLA"
+  figPrefix:   "fig."
+  tblPrefix:   "tabla"
+  eqnPrefix:   "ec."
+  loftitle:    "# Lista de figuras"
+  lotTitle:    "# Lista de tablas"

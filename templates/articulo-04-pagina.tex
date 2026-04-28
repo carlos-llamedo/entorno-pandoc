@@ -1,0 +1,26 @@
+% articulo-04-pagina.tex - Geometría de página y márgenes (Chicago § 2.12).
+%
+% Con "includeheadfoot", geometry mide "top" y "bottom" desde el borde
+% hasta el encabezado y el pie respectivamente, no hasta el cuerpo.
+% Así top=1.27cm coloca el encabezado a exactamente media pulgada del borde.
+%
+% Páginas normales (con encabezado):
+%   - Arriba: encabezado a 1.27 cm del borde → cuerpo a ~2.54 cm
+%   - Abajo:  pie a 1.27 cm del borde; notas al pie sobre el pie
+%
+% Páginas de inicio de sección (drop folio o no folio, sin encabezado):
+%   - Arriba: el cuerpo cae a ~2.54 cm del borde porque geometry
+%             reserva headheight+headsep aunque el encabezado esté ausente.
+%   - Abajo:  folio centrado a 1.27 cm del borde (igual que siempre).
+
+\usepackage[
+  includeheadfoot,
+  top        = 1.27cm,
+  bottom     = 1.27cm,
+  left       = 2.54cm,
+  right      = 2.54cm,
+  headheight = 14pt,
+  headsep    = 11pt
+]{geometry}
+
+\flushbottom

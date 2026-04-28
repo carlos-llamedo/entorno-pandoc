@@ -1,0 +1,111 @@
+% articulo-09-colores-enlaces.tex
+% Colores, hipervínculos, URL e imágenes (\pandocbounded).
+%
+% ORDEN DE CARGA CRÍTICO:
+%   xcolor → hyperref → xurl
+%   hyperref debe cargarse después de la mayoría de paquetes
+%   (tocloft, fancyhdr, titlesec, enumitem…) y xurl siempre después de hyperref.
+%
+% linkblue es el color de los hipervínculos externos y las citas bibliográficas.
+% También lo usa estilo-español.lua directamente en los \hyperref que genera
+% (\color{linkblue}): no renombrar sin actualizar también el filtro.
+%
+% Variables YAML (metadatos estándar de pandoc):
+%   author, title, subject, keywords, lang
+
+% ── Colores ───────────────────────────────────────────────────────────────────
+
+\usepackage{xcolor}
+\usepackage{etoolbox}
+\definecolor{linkblue}{RGB}{0, 70, 150}
+
+% ── Hipervínculos (hyperref) ──────────────────────────────────────────────────
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks    = true,
+  linkcolor     = black,      % referencias cruzadas internas (incluye entradas del índice)
+  urlcolor      = linkblue,   % URL
+  citecolor     = linkblue,   % citas bibliográficas
+  filecolor     = black,
+  anchorcolor   = black,
+  pdfauthor     = {$author$},
+  pdftitle      = {$title$},
+  pdfsubject    = {$subject$},
+  pdfkeywords   = {$for(keywords)$$keywords$$sep$, $endfor$},
+  pdflang       = {$if(lang)$$lang$$else$es-ES$endif$},
+  bookmarksopen = true
+}
+
+% \textsc en bookmarks PDF:
+% Con LuaLaTeX + fontspec, \textsc usa infraestructura Lua no disponible en el
+% contexto restringido de \pdfstringdef. Tanto \MakeUppercase como \uppercase
+% producen cadena vacía allí. Solución: pasar el argumento sin modificar.
+% El bookmark mostrará el texto en minúsculas («xvi» en vez de «XVI») pero
+% no quedará vacío. Para forzar mayúsculas en un caso concreto:
+%   \texorpdfstring{\textsc{xvi}}{XVI}
+
+\pdfstringdefDisableCommands{%
+  \def\textsc#1{#1}%
+  \def\scshape{}%
+}
+
+% ── URL (xurl) ────────────────────────────────────────────────────────────────
+% Las URLs literales (<url>) usan la fuente principal del documento.
+% \normalfont respeta la familia activa (serif o sans según tipografia-sans),
+% a diferencia de \urlstyle{rm} que forzaba siempre la familia romana.
+
+\usepackage{xurl}
+\renewcommand{\UrlFont}{\normalfont}
+
+% Corrección de \addcontentsline con hyperref: pandoc/citeproc emite
+% \addcontentsline antes de \phantomsection en la bibliografía, lo que hace
+% que el bookmark y la entrada del índice apunten a la página anterior.
+% Se parchea \addcontentsline para que emita \phantomsection él mismo.
+\makeatletter
+\pretocmd{\addcontentsline}{\phantomsection}{}{}
+\makeatother
+
+% ── Remisiones internas en azul ───────────────────────────────────────────────
+% Se activa linkcolor = linkblue globalmente y se fuerza negro solo en el
+% índice y en las llamadas de nota al pie.
+%
+% El índice usa \contentsline; se parchea para forzar linkcolor=black localmente.
+% Las llamadas de nota al pie usan \@makefnmark; se parchea para envolver
+% la llamada con linkcolor=black.
+
+\hypersetup{linkcolor = linkblue}
+
+\makeatletter
+\AtBeginDocument{%
+  % Índice en negro.
+  \let\Hy@org@contentsline\contentsline
+  \renewcommand{\contentsline}[4]{%
+    {\hypersetup{linkcolor=black}\Hy@org@contentsline{#1}{#2}{#3}{#4}}%
+  }%
+  % Llamadas de nota al pie en negro.
+  \let\Hy@org@makefnmark\@makefnmark
+  \renewcommand{\@makefnmark}{%
+    {\hypersetup{linkcolor=black}\Hy@org@makefnmark}%
+  }%
+}
+\makeatother
+
+% ── \pandocbounded ────────────────────────────────────────────────────────────
+% Limita imágenes a \linewidth × \textheight sin ampliarlas.
+
+\makeatletter
+\newsavebox{\pandoc@box}
+\providecommand{\pandocbounded}[1]{%
+  \sbox{\pandoc@box}{#1}%
+  \Gscale@div{\@tempa}{\linewidth}{\wd\pandoc@box}%
+  \Gscale@div{\@tempb}{\textheight}{\ht\pandoc@box}%
+  \ifdim\@tempa pt > 1pt \def\@tempa{1}\fi%
+  \ifdim\@tempb pt > 1pt \def\@tempb{1}\fi%
+  \ifdim\@tempa pt >\@tempb pt%
+    \scalebox{\@tempb}{\usebox{\pandoc@box}}%
+  \else
+    \scalebox{\@tempa}{\usebox{\pandoc@box}}%
+  \fi%
+}
+\makeatother

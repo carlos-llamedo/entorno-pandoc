@@ -1,0 +1,10 @@
+# este es el archivo marcador de ignorados de git
+# cada línea se interpreta como un patrón a ignorar
+
+# el archivo biblioteca.bib es una exportación de
+# toda la biblioteca de Zotero a través de BetterBibTeX
+# se usa para citar, pero no se ha de versionar
+biblioteca.bib
+
+# de momento, ignoramos la documentación
+docs

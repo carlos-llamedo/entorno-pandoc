@@ -1,0 +1,76 @@
+% articulo-14-figuras-tablas.tex - Gráficos y figuras, pies de foto, tablas y matemáticas.
+%
+% FLOTANTES (Chicago fig. 3.12)
+%   Objetivo: permitir que el texto continúe inmediatamente bajo una imagen.
+%   \textfloatsep e \intextsep = 1 interlineado (separación flotante/texto).
+%   \@fptop = 0pt: flotantes en página propia desde el borde superior.
+%
+% CAPTIONS
+%   Separador: punto + medio cuadratín (puntocuadra).
+%   Figuras: pie DEBAJO, justificado, anchura dinámica con mínimo 0.6\linewidth.
+%   Tablas: título ENCIMA, cuerpo normalsize (Chicago).
+%
+% NOMBRES EN ESPAÑOL
+%   FIGURA y TABLA en versales (convención Chicago en español).
+%   Se redefinen dentro de \captionsspanish para que babel no los sobreescriba.
+
+% ── Flotantes ─────────────────────────────────────────────────────────────────
+
+\makeatletter
+\setlength{\@fptop}{0pt plus 1fil}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+\renewcommand{\topfraction}{1.0}
+\renewcommand{\bottomfraction}{1.0}
+\renewcommand{\textfraction}{0.0}
+\renewcommand{\floatpagefraction}{0.5}
+\setlength{\textfloatsep}{0.5\baselineskip}
+\setlength{\intextsep}{0.5\baselineskip}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{threeparttable}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+\DeclareCaptionLabelSeparator{puntocuadra}{.\enspace}
+
+\addto\captionsspanish{%
+  \renewcommand{\figurename}{FIGURA}%
+  \renewcommand{\tablename}{TABLA}%
+}
+
+\captionsetup{
+  font            = small,
+  labelfont       = normalfont,
+  labelsep        = puntocuadra,
+  singlelinecheck = false,
+  justification   = raggedright
+}
+
+% Anchura dinámica del caption de figura: mínimo 0.6\linewidth.
+\newlength{\figcaptionwidth}
+\setlength{\figcaptionwidth}{\linewidth}
+\newcommand{\setfigcaptionwidth}[1]{%
+  \ifdim#1>0.60\linewidth
+    \setlength{\figcaptionwidth}{#1}%
+  \else
+    \setlength{\figcaptionwidth}{0.60\linewidth}%
+  \fi
+}
+\captionsetup[figure]{
+  position        = below,
+  justification   = justified,
+  singlelinecheck = false
+}
+
+% Tablas: título encima, cuerpo en normalsize.
+\captionsetup[table]{
+  font            = normalsize,
+  position        = above,
+  skip            = 4pt
+}
+
+% ── Matemáticas ───────────────────────────────────────────────────────────────
+
+\usepackage{amsmath, amssymb}

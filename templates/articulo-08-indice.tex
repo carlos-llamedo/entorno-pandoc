@@ -1,0 +1,126 @@
+% articulo-08-indice.tex - Índice de contenido.
+% (tocloft)
+%
+% Diseño:
+%   · Todo en cuerpo normal (12 pt).
+%   · Nivel 1 (section): MAYÚSCULAS, número al margen + folio.
+%   · Nivel 2 (subsection): redonda, sin número, con folio.
+%   · Nivel 3 (subsubsection): cursiva, sin número, sangría 0.5\ParIndent, con folio.
+%   · \tocblockskip separa bloques (preliminares / cuerpo / finales).
+%
+% Uso en el .md:
+%   Separar bloques:   ```{=latex}\n\addtocontents{toc}{\protect\tocblockskip}\n```
+%   Entrada sin folio: ```{=latex}\n\addcontentsline{toc}{part}{Título}\n```
+%
+% Variables YAML:
+%   numbersections: true   Activa numeración de secciones (por defecto desactivada).
+%   toc-depth: 3           Profundidad del índice (por defecto 3).
+%   titulos-sans: true     El índice completo va en sans-serif, coherente con la
+%                          opción homónima de 13-secciones.tex y 07-encabezado.tex.
+%                          Afecta a los tres niveles de entrada y a los folios.
+%   (sin declarar)         Índice en la familia principal del documento (por defecto).
+
+\usepackage[titles]{tocloft}
+
+% Numeración de secciones: desactivada por defecto.
+
+$if(numbersections)$
+\setcounter{secnumdepth}{5}
+$else$
+\setcounter{secnumdepth}{-\maxdimen}
+$endif$
+
+% Profundidad del índice: defecto 3 (section, subsection, subsubsection).
+
+\setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$3$endif$}
+
+\newlength{\tocsubindent}
+\setlength{\tocsubindent}{0.5\ParIndent}   % sangría nivel 3
+
+\newcommand{\tocblockskip}{\addvspace{\baselineskip}}
+
+\setlength{\cftbeforesecskip}{0.4\baselineskip}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftbeforesubsubsecskip}{0pt}
+
+\makeatletter
+
+% ── \toc@line{indent}{fontcmd}{number}{title}{page} ──────────────────────────
+%
+% Se controla el margen con \leftskip (no con \noindent+\hspace+\parbox).
+% \noindent suprime solo \parindent, pero \leftskip puede estar heredado de
+% algún entorno padre y seguir desplazando el texto. Fijando explícitamente
+% \leftskip=#1, \parindent=0pt y \parfillskip=0pt plus 1fil (raggedright)
+% el resultado es independiente del contexto en que se invoque.
+%
+% Con titulos-sans: true, \toc@font conmuta a \sffamily antes de aplicar
+% el comando de estilo (#2). Sin declarar, \toc@font es un no-op.
+% El folio (#5) hereda \toc@font porque va dentro del mismo \begingroup.
+
+$if(titulos-sans)$
+\newcommand{\toc@font}{\sffamily}
+$else$
+\newcommand{\toc@font}{}
+$endif$
+
+\newcommand{\toc@line}[5]{%
+  % #1=leftindent  #2=fontcmd  #3=number  #4=title  #5=page
+  \begingroup
+    \toc@font
+    \leftskip=#1\relax
+    \parindent=\z@
+    \rightskip=\z@
+    \parfillskip=\z@ plus 1fil
+    \leavevmode
+    \if\relax\detokenize{#3}\relax\else
+      \llap{#2{#3}\kern1em}%
+    \fi
+    #2{#4}%
+    \nobreak\enspace\textperiodcentered\nobreak\enspace\normalfont#5%
+    \par
+  \endgroup
+}
+
+% ── Nivel 1 ───────────────────────────────────────────────────────────────────
+
+\renewcommand*{\l@section}[2]{%
+  \ifnum\c@tocdepth>\z@
+    \addpenalty\@secpenalty
+    \addvspace{\cftbeforesecskip}%
+    \begingroup
+      \def\numberline##1{}%
+      \toc@line{0pt}{\MakeUppercase}{}{#1}{#2}%
+    \endgroup
+  \fi}
+
+% ── Nivel 2 ───────────────────────────────────────────────────────────────────
+
+\renewcommand*{\l@subsection}[2]{%
+  \ifnum\c@tocdepth>\@ne
+    \addvspace{\cftbeforesubsecskip}%
+    \begingroup
+      \def\numberline##1{}%
+      \toc@line{0pt}{\upshape}{}{#1}{#2}%
+    \endgroup
+  \fi}
+
+% ── Nivel 3 ───────────────────────────────────────────────────────────────────
+
+\renewcommand*{\l@subsubsection}[2]{%
+  \ifnum\c@tocdepth>\tw@
+    \addvspace{\cftbeforesubsubsecskip}%
+    \begingroup
+      \def\numberline##1{}%
+      \toc@line{\tocsubindent}{\itshape}{}{#1}{#2}%
+    \endgroup
+  \fi}
+
+% ── Entradas sin folio (via \addcontentsline{toc}{part}{Título}) ──────────────
+
+\providecommand{\l@part}[2]{}
+\renewcommand{\l@part}[2]{%
+  \addpenalty{-\@highpenalty}%
+  \addvspace{0.5\baselineskip}%
+  \noindent\normalfont #1\par}
+
+\makeatother

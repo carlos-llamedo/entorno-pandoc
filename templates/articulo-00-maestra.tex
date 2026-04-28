@@ -1,0 +1,223 @@
+% plantilla.tex - Plantilla LuaLaTeX para documentos académicos.
+% Para usar con pandoc y lualatex.
+%
+% Los partials tienen el prefijo "articulo-" y viven junto a este archivo.
+% Pandoc los resuelve desde el directorio de la plantilla maestra.
+%
+% Índice de partials:
+%   articulo-01-clase.tex               Clase base (article) y opciones YAML
+%   articulo-02-fuentes.tex             Motor de fuentes (fontspec, tres familias)
+%   articulo-03-idioma.tex              Babel: español, francés, inglés
+%   articulo-04-pagina.tex              Geometría de página (geometry)
+%   articulo-05-tipografia.tex          Microtype, interlineado, párrafo, viudas
+%   articulo-06-romanos.tex             Numeración romana de páginas preliminares
+%   articulo-07-encabezado.tex          Encabezado y pie de página (fancyhdr)
+%   articulo-08-indice.tex              Índice de contenido (tocloft)
+%   articulo-09-colores-enlaces.tex     Colores, hipervínculos, URL, \pandocbounded
+%   articulo-10-listas.tex              Listas y tablas (enumitem, booktabs, longtable)
+%   articulo-11-citas.tex               Citas exentas (quoting, \quotingbreak)
+%   articulo-12-notas.tex               Notas al pie (footmisc, \@makefntext)
+%   articulo-13-secciones.tex           Secciones y títulos (needspace, titleformat)
+%   articulo-14-figuras-tablas.tex      Gráficos, captions, tablas, matemáticas
+%   articulo-15-codigo.tex              Código fuente (fancyvrb, tokens de resaltado)
+%   articulo-16-bibliografia.tex        Bibliografía CSL (citeproc/pandoc)
+%   articulo-17-abstract.tex            Entorno abstract (Resumen + palabras clave)
+
+% ── Partials ──────────────────────────────────────────────────────────────────
+
+${ articulo-01-clase() }
+
+${ articulo-02-fuentes() }
+
+${ articulo-03-idioma() }
+
+${ articulo-04-pagina() }
+
+${ articulo-05-tipografia() }
+
+${ articulo-06-romanos() }
+
+${ articulo-07-encabezado() }
+
+${ articulo-08-indice() }
+
+${ articulo-09-colores-enlaces() }
+
+${ articulo-10-listas() }
+
+${ articulo-11-citas() }
+
+${ articulo-12-notas() }
+
+${ articulo-13-secciones() }
+
+${ articulo-14-figuras-tablas() }
+
+${ articulo-15-codigo() }
+
+${ articulo-16-bibliografia() }
+
+${ articulo-17-abstract() }
+
+% ── Cabeceras personalizadas de pandoc ────────────────────────────────────────
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% ── Fecha (mes y año, sin día) ────────────────────────────────────────────────
+
+\newcommand{\mesanio}{%
+  \ifcase\month\or enero\or febrero\or marzo\or abril\or mayo\or junio\or
+  julio\or agosto\or septiembre\or octubre\or noviembre\or diciembre\fi
+  { }de{ }\the\year}
+
+% ── Portada ───────────────────────────────────────────────────────────────────
+% \pagenumbering{roman} desde la portada: el contador empieza en i aquí,
+% aunque el folio no sea visible hasta el índice (\thispagestyle{empty}).
+% \patchcmd suprime el \newpage interno de \maketitle para que
+% \thispagestyle{empty} se aplique sobre la portada y no sobre la página siguiente.
+
+$if(title)$
+\title{$title$$if(subtitle)$\\\medskip\large $subtitle$$endif$}
+$endif$
+$if(author)$
+\author{$author$}
+$endif$
+\date{$if(date)$$date$$else$\mesanio$endif$}
+
+\begin{document}
+
+$if(maketitle)$
+\pagenumbering{roman}
+\makeatletter
+\patchcmd{\@maketitle}{\newpage}{}{}{}
+\makeatother
+\pdfbookmark[1]{Portada}{portada}
+\maketitle
+\thispagestyle{empty}
+$endif$
+
+% ── Resumen y palabras clave ──────────────────────────────────────────────────
+% Formato definido en articulo-17-abstract.tex.
+% Variables YAML:
+%   abstract:  texto del resumen (activa el bloque)
+%   keywords:  lista de palabras clave; se imprimen en la misma página
+
+$if(abstract)$
+\clearpage
+\thispagestyle{empty}
+\begin{abstract}
+$abstract$
+$if(keywords)$
+\par\noindent\textbf{Palabras clave:} $for(keywords)$$keywords$$sep$, $endfor$
+$endif$
+\end{abstract}
+$endif$
+
+% ── Dedicatoria ───────────────────────────────────────────────────────────────
+% Variable YAML:
+%   dedicatoria: texto en cursiva situado en el tercio superior de la página,
+%                en un bloque justificado de media caja anclado a la derecha.
+%
+% \noindent\hfill empuja el minipage al margen derecho.
+% Sin \raggedright: el texto queda justificado dentro del bloque.
+
+$if(dedicatoria)$
+\clearpage
+\thispagestyle{empty}
+\vspace*{0.25\textheight}
+\noindent\hfill
+\begin{minipage}{0.5\linewidth}
+  \setstretch{1}%
+  \textit{$dedicatoria$}
+\end{minipage}
+$endif$
+
+% ── Epígrafe ──────────────────────────────────────────────────────────────────
+% Variables YAML:
+%   epigrafe-texto: cita en redonda (activa el bloque)
+%   epigrafe-autor: nombre del autor en versalitas (opcional)
+%   epigrafe-obra:  título de la obra en cursiva (opcional)
+% Atribución: AUTOR, Obra  (solo los campos declarados)
+%
+% El texto va en redonda (sin \textit) para distinguirse de la dedicatoria.
+% La atribución se alinea a la derecha del minipage con \raggedleft.
+
+$if(epigrafe-texto)$
+\clearpage
+\thispagestyle{empty}
+\vspace*{0.25\textheight}
+\noindent\hfill
+\begin{minipage}{0.5\linewidth}
+  \setstretch{1}%
+  $epigrafe-texto$
+  $if(epigrafe-autor)$
+  \par\smallskip
+  {\raggedleft%
+  \textsc{$epigrafe-autor$}%
+  $if(epigrafe-obra)$, \textit{$epigrafe-obra$}$endif$\par}
+  $else$$if(epigrafe-obra)$
+  \par\smallskip
+  {\raggedleft\textit{$epigrafe-obra$}\par}
+  $endif$$endif$
+\end{minipage}
+$endif$
+
+% ── Índice ────────────────────────────────────────────────────────────────────
+
+$if(toc)$
+\clearpage
+\renewcommand{\contentsname}{Índice}
+% Primera página donde aparece la numeración visible (drop folio).
+\thispagestyle{plain}
+\pdfbookmark[1]{Índice}{toc}
+\tableofcontents
+$endif$
+
+% ── Lista de ilustraciones ────────────────────────────────────────────────────
+% Variable YAML:
+%   lof: true   Activa la lista de figuras (requiere \caption en cada figura).
+
+$if(lof)$
+\clearpage
+\thispagestyle{plain}
+\listoffigures
+$endif$
+
+% ── Lista de tablas ───────────────────────────────────────────────────────────
+% Variable YAML:
+%   lot: true   Activa la lista de tablas (requiere \caption en cada tabla).
+
+$if(lot)$
+\clearpage
+\thispagestyle{plain}
+\listoftables
+$endif$
+
+% ── Cuerpo ────────────────────────────────────────────────────────────────────
+% impresion: true  →  cuerpo siempre en recto (impar); la página en blanco
+%                     lleva numeración romana invisible y arabic arranca en 1
+%                     directamente en recto.
+% (sin declarar)   →  cuerpo en página nueva, recto o verso según caiga.
+
+$if(impresion)$
+\clearpage
+\makeatletter
+\ifodd\c@page\else
+  \hbox{}\thispagestyle{empty}\clearpage
+\fi
+\makeatother
+\pagenumbering{arabic}
+$else$
+\clearpage
+\pagenumbering{arabic}
+$endif$
+
+$body$
+
+$for(include-after)$
+$include-after$
+$endfor$
+
+\end{document}

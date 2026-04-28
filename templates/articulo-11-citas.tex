@@ -1,0 +1,44 @@
+% articulo-11-citas.tex - Citas exentas y separador entre bloques.
+% (quoting, \quotingbreak)
+%
+% Chicago § 2.23, RAE § T-74.
+% indentfirst=false: el primer párrafo de la cita no lleva sangría (norma).
+% A partir del segundo párrafo sí lleva sangría: se restaura con \everypar.
+% Sangrado solo por la izquierda (Chicago, por defecto).
+%
+% Variables YAML:
+%   (sin declarar)                  →  sangrado solo por la izquierda (por defecto)
+%   citas-sangrado-simetrico: true  →  sangrado simétrico izquierda y derecha
+%
+% \quotingbreak: separador entre bloques de cita independientes fusionados en
+% un único entorno quoting por el filtro fusionar-citas.lua.
+% Dos citas Markdown separadas por línea en blanco fuera del «>» generan dos
+% BlockQuote independientes; el filtro los fusiona con \quotingbreak entre
+% ellos. \par cierra el párrafo en curso; \noindent suprime la sangría del
+% siguiente párrafo (norma de inicio de cita).
+%
+% El filtro distingue dos casos:
+%   > Párrafo uno        →  línea en blanco DENTRO del ">": un solo entorno
+%   >                        quoting con dos párrafos; el segundo lleva sangría.
+%   > Párrafo dos
+%
+%   > Párrafo uno        →  línea en blanco FUERA del ">": dos entornos
+%                            quoting independientes fusionados con \quotingbreak;
+%   > Párrafo dos            ninguno lleva sangría en primera línea.
+
+\usepackage{quoting}
+\quotingsetup{
+  font        = small,
+  indentfirst = false,
+  leftmargin  = \parindent,
+  rightmargin = $if(citas-sangrado-simetrico)$\parindent$else$0pt$endif$,
+  vskip       = 0pt             % sin espacio extra antes/después de la cita
+}
+
+% Restaurar sangría a partir del segundo párrafo dentro de quoting.
+% Solo tiene efecto cuando hay varios párrafos en el mismo bloque de cita.
+\AtBeginEnvironment{quoting}{%
+  \everypar{\parindent=\dimexpr\parindent\relax}%
+}
+
+\newcommand{\quotingbreak}{\par\noindent}

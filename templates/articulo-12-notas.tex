@@ -1,0 +1,108 @@
+% articulo-12-notas.tex - Notas al pie.
+% (footmisc + \@makefntext)
+%
+% FILETE SEPARADOR (Chicago § 16.63)
+%
+%   Comportamiento por defecto ([norule,splitrule]):
+%     - Página con nota normal o inicio de nota larga: sin filete.
+%     - Página de continuación (nota de la página anterior): filete sin sangría.
+%   Esto es lo que Chicago indica como obligatorio.
+%
+%   Variables YAML:
+%     filete-pie:   true  →  filete sin sangría en todas las páginas con notas.
+%     filete-nunca: true  →  sin filete en ningún caso (suprime también el de continuación).
+%     (sin declarar)      →  filete solo en páginas de continuación (por defecto).
+%
+%   Mecanismo: [norule] fija \pagefootnoterule a vacío; [splitrule] usa
+%   \insertpenalties como flag para distinguir página normal de continuación.
+%   Con filete-pie se redefine \pagefootnoterule con las mismas dimensiones
+%   que \splitfootnoterule (0.6 pt × 1.5 in, sin sangría).
+%
+% FORMATO DEL PIE (Chicago § 16.63)
+%   - Número (superíndice) sangrado \ParIndent desde el margen.
+%   - Medio cuadratín (0.5em) entre número y texto.
+%   - Párrafos adicionales: sangría \ParIndent en primera línea.
+%   - Listas: mismo formato que en el cuerpo (rayas, \ParIndent, etc.)
+%
+%   Variables YAML:
+%     (sin declarar)          →  primera línea de cada nota sangrada (por defecto)
+%     notas-sin-sangria: true →  primera línea de cada nota sin sangría
+%
+% FAMILIA TIPOGRÁFICA DEL NUMERADOR (marca en cuerpo y en pie)
+%   El texto de la nota va siempre en la familia principal del documento (serif
+%   si el cuerpo es serif), siguiendo la convención tipográfica habitual.
+%   El numerador, como elemento del aparato de referencia, puede ir en sans
+%   cuando titulos-sans: true, en coherencia con encabezados, folios e índice.
+%
+%   Variables YAML:
+%     titulos-sans: true  →  numerador (superíndice en cuerpo y en pie) en sans.
+%     (sin declarar)      →  numerador en la familia principal (por defecto).
+%
+% La redefinición de \@makefntext va después de que footmisc ejecute
+% \ProcessOptions (que es donde footmisc redefine \@makefntext).
+%
+% \@parboxrestore (llamado por footmisc justo antes de \@makefntext) resetea
+% \parindent a 0pt. Por eso se restaura \parindent=\ParIndent DENTRO de
+% \@makefntext, antes de procesar #1, para que los párrafos adicionales y
+% las listas del cuerpo de la nota funcionen correctamente.
+%
+% Se resetean también \@enumdepth e \@itemdepth a 0. Cuando el footnote
+% aparece dentro de un \item, enumitem lleva ya un nivel de anidamiento
+% acumulado; sin el reset, la primera lista dentro de la nota se trataría
+% como nivel 2 (boliche) en lugar de nivel 1 (raya).
+
+$if(filete-nunca)$
+\usepackage[norule]{footmisc}
+$else$$if(filete-pie)$
+\usepackage[splitrule]{footmisc}
+$else$
+\usepackage[norule,splitrule]{footmisc}
+$endif$$endif$
+
+\renewcommand{\footnotesize}{\small}
+
+% Filetes separadores: 0.6 pt de grosor, 1.5 pulgadas de longitud, sin sangría.
+% \splitfootnoterule: páginas de continuación (siempre activo salvo filete-nunca).
+% \pagefootnoterule:  páginas de nota normal (solo con filete-pie).
+\makeatletter
+\newcommand{\@footrule}{%
+  \kern-3\p@
+  \hrule \@width 1.5in \@height 0.6pt
+  \kern 2.6\p@
+}
+\let\splitfootnoterule\@footrule
+$if(filete-pie)$
+\let\pagefootnoterule\@footrule
+$endif$
+\makeatother
+
+% Marca en el cuerpo del texto: superíndice en negro.
+% hyperref colorea por defecto con linkcolor (azul); se sobreescribe aquí.
+% Con titulos-sans: true, el numerador va en sans como el resto del aparato
+% navegacional; sin declarar, hereda la familia principal.
+\renewcommand{\thefootnote}{%
+  \textcolor{black}{$if(titulos-sans)${\sffamily\arabic{footnote}}$else$\arabic{footnote}$endif$}%
+}
+
+% Formato del pie
+% (sin declarar)             → número sangrado + medio cuadratín + texto.
+% notas-sin-sangria: true    → la primera línea no lleva sangría.
+% nota-numeracion-linea true → «1. Texto» en línea, sin superíndice
+\makeatletter
+\renewcommand{\@makefntext}[1]{%
+  \parindent=\ParIndent%             % restaurar (footmisc + @parboxrestore lo ponen a 0pt)
+  \@enumdepth=0\relax%               % resetear profundidad de enumerate
+  \@itemdepth=0\relax%               % resetear profundidad de itemize
+  \noindent
+$if(notas-sin-sangria)$%
+$else$%
+  \hspace*{\ParIndent}%
+$endif$%
+$if(nota-numeracion-linea)$
+  $if(titulos-sans)${\sffamily\arabic{footnote}}$else$\arabic{footnote}$endif$.
+$else$%
+  \@makefnmark%
+$endif$%
+  \hspace{0.5em}#1%
+}
+\makeatother

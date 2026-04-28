@@ -1,0 +1,124 @@
+% articulo-13-secciones.tex - Secciones y títulos.
+% (needspace, titleformat).
+%
+% SECCIONES
+%   \section siempre abre página nueva con drop folio (thispagestyle{plain}).
+%   Variable YAML:
+%     impresion: true  →  \section siempre en recto (impar), página en blanco
+%                         intercalada sin encabezado ni folio si hace falta.
+%     (sin declarar)   →  página nueva, recto o verso según caiga (por defecto).
+%
+%   \cleardoublepage: páginas en blanco intercaladas sin encabezado ni folio.
+%   \cleardoubleoddpage: avanza a la siguiente página impar (recto). Requiere
+%     que \c@page esté sincronizado con la paridad física.
+%
+% JERARQUÍA DE TÍTULOS
+%   \section       16 pt, redonda
+%   \subsection    12 pt, negrita
+%   \subsubsection 12 pt, negrita cursiva
+%   \paragraph     12 pt, cursiva         (en línea propia)
+%   \subparagraph  12 pt, redonda         (en línea propia)
+%
+%   Principio tipográfico (Chicago): espacio generoso ANTES del título
+%   (separa la sección anterior), mínimo DESPUÉS (el título y su texto
+%   son una unidad visual).
+%     \titlespacing*{cmd}{izq}{antes}{después}
+%     El * suprime la sangría del párrafo inmediatamente posterior.
+%
+%   \titleformat*{} replica el estilo en la versión estrella (\section* etc.)
+%   que pandoc emite cuando el título lleva {-} o {.unnumbered}.
+%
+%   Numeración: desactivada por defecto (numbersections: true para activar).
+%   Para suprimir en un título concreto:
+%     # Agradecimientos {-}
+%     ## Subtítulo {.unnumbered}
+%
+% FAMILIA TIPOGRÁFICA DE LOS TÍTULOS
+%   Variable YAML:
+%     titulos-sans: true  →  todos los niveles de título en sans-serif (\sffamily).
+%                            Convención habitual cuando el cuerpo va en serif y
+%                            se busca contraste entre texto y aparato estructural.
+%     (sin declarar)      →  títulos en serif, familia principal del documento
+%                            (\rmfamily, por defecto).
+
+% ── Secciones ─────────────────────────────────────────────────────────────────
+
+\usepackage{needspace}
+
+% Páginas en blanco intercaladas: sin encabezado ni folio.
+\makeatletter
+\renewcommand{\cleardoublepage}{%
+  \clearpage
+  \if@twoside
+    \ifodd\c@page\else
+      \hbox{}\thispagestyle{empty}\newpage
+    \fi
+  \fi
+}
+\makeatother
+
+\let\oldsection\section
+
+% \cleardoubleoddpage: avanza a la siguiente página impar (recto).
+\makeatletter
+\newcommand{\cleardoubleoddpage}{%
+  \clearpage
+  \ifodd\c@page\else
+    \hbox{}\thispagestyle{empty}\clearpage
+  \fi
+}
+\makeatother
+
+% Redefinición de \section: drop folio en inicio de sección.
+% En article, \section no llama a \thispagestyle por sí solo.
+\renewcommand{\section}{%
+  $if(impresion)$
+  \cleardoubleoddpage
+  $else$
+  \clearpage
+  $endif$
+  \thispagestyle{plain}%
+  \oldsection%
+}
+
+% ── Formato y espaciado de títulos ────────────────────────────────────────────
+
+\titleformat{\section}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\fontsize{16}{20}\selectfont}
+  {\thesection}{1em}{}
+\titleformat*{\section}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\fontsize{16}{20}\selectfont}
+\titlespacing*{\section}
+  {0pt}{0pt}{2\baselineskip}
+
+\titleformat{\subsection}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize\bfseries}
+  {\thesubsection}{1em}{}
+\titleformat*{\subsection}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize\bfseries}
+\titlespacing*{\subsection}
+  {0pt}{\baselineskip}{0pt}
+
+\titleformat{\subsubsection}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize\bfseries\itshape}
+  {\thesubsubsection}{1em}{}
+\titleformat*{\subsubsection}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize\bfseries\itshape}
+\titlespacing*{\subsubsection}
+  {0pt}{\baselineskip}{0pt}
+
+\titleformat{\paragraph}[hang]
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize\itshape}
+  {\theparagraph}{1em}{}
+\titleformat*{\paragraph}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize\itshape}
+\titlespacing*{\paragraph}
+  {0pt}{\baselineskip}{0pt}
+
+\titleformat{\subparagraph}[hang]
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize}
+  {\thesubparagraph}{1em}{}
+\titleformat*{\subparagraph}
+  {$if(titulos-sans)$\sffamily$else$\rmfamily$endif$\normalsize}
+\titlespacing*{\subparagraph}
+  {0pt}{\baselineskip}{0pt}

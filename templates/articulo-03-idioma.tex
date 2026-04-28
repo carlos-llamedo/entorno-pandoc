@@ -1,0 +1,17 @@
+% articulo-03-idioma.tex - Idioma y silabación con Babel (LuaLaTeX).
+%
+% hyphenrules=spanish fuerza la carga de los patrones de silabación del español
+% en tiempo de ejecución con LuaLaTeX. Sin esta opción, babel en modo babelprovide
+% no registra los patrones aunque se use "import", porque LuaLaTeX los necesita
+% preregistrados en el formato o cargados explícitamente vía Lua.
+%
+% Verificación: buscar en el .log la línea
+%   [babel] hyphenation patterns for spanish loaded
+% Si no aparece, instalar el paquete hyphen-spanish:
+%   tlmgr install hyphen-spanish   (TeX Live)
+%   miktex-console → Packages       (MiKTeX)
+
+\usepackage{babel}
+\babelprovide[main, import, hyphenrules=spanish]{spanish}
+\babelprovide[import]{french}
+\babelprovide[import]{british}

@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "Si usa este software, cítelo como se indica:"
+authors:
+- family-names: Llamedo Gutiérrez
+  given-names: Carlos
+  email: carlosllamedo@protonmail.com
+  orcid: https://orcid.org/0009-0009-2819-5157
+title: "Directorio de datos de Pandoc"
+abstract: "Directorio personal de datos de Pandoc: plantillas, filtros, defaults y recursos CSL para escritura académica en Markdown."
+date-released: 2026-04
+license: GPL-3.0
+license-url: https://www.gnu.org/licenses/gpl-3.0.html
+repository-code: https://codeberg.org/carlos-llamedo/pandoc-datadir

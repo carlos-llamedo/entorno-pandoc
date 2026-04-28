@@ -1,0 +1,21 @@
+% articulo-06-romanos.tex - Numeración romana de páginas preliminares.
+%
+% Tres variantes controladas desde el frontmatter YAML:
+%   romanos-minusculas: true  → i, ii, iii… (norma anglosajona, Chicago 18.ª § 1.4)
+%   romanos-mayusculas: true  → I, II, III… (RAE, Ortografía § 2.1.1h)
+%   (sin declarar)            → ɪ, ɪɪ, ɪɪɪ… versalitas (compromiso tipográfico, por defecto)
+%
+% \@roman es el comando interno que LaTeX llama para producir \roman{N}.
+% Redefinirlo aquí afecta solo a los contextos de numeración romana
+% (páginas preliminares); la numeración arábiga del cuerpo no se ve afectada.
+
+\makeatletter
+$if(romanos-minusculas)$
+% Minúsculas — sin redefinición; \pagenumbering{roman} produce minúsculas por defecto.
+$else$$if(romanos-mayusculas)$
+\renewcommand{\@roman}[1]{\MakeUppercase{\romannumeral#1}}
+$else$
+% Versalitas (por defecto)
+\renewcommand{\@roman}[1]{\textsc{\romannumeral#1}}
+$endif$$endif$
+\makeatother

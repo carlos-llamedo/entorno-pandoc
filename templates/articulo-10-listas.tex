@@ -1,0 +1,152 @@
+% articulo-10-listas.tex - Listas y tablas.
+% (enumitem, booktabs, longtable)
+%
+% Listas ampliadas a 6 niveles con \renewlist + \setlistdepth.
+% LaTeX core limita itemize y enumerate a 4; esto lo elimina redefiniendo
+% las listas estándar (pandoc genera \begin{itemize} estándar).
+%
+% Nivel 1: raya sangrada \ParIndent + 2em desde el margen.
+%   leftmargin usa \ParIndent directamente (medida fija), NO \parindent,
+%   para que funcione correctamente dentro de footnotes donde footmisc
+%   y \@parboxrestore pueden alterar \parindent en cualquier momento.
+% Niveles 2–6: leftmargin=* (enumitem sitúa la viñeta en la vertical del
+%   texto del nivel superior). Viñetas: raya → boliche → ◆, ciclando.
+% topsep=partopsep=0pt: elimina el espacio extra de \setstretch antes/después.
+%
+% \setlistdepth y \renewlist van aquí, en el preámbulo (necesitan ejecutarse
+% antes del documento). Los \setlist van en \AtBeginDocument para aplicarse
+% después de que todos los paquetes hayan cargado, evitando que alguno los
+% sobrescriba.
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+
+% \tightlist es requerido por pandoc para listas compactas generadas con el
+% modo «tight» de Markdown (ítems sin línea en blanco entre ellos).
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setlistdepth{6}
+\renewlist{itemize}{itemize}{6}
+\renewlist{enumerate}{enumerate}{6}
+
+\AtBeginDocument{%
+
+\setlist[itemize,1]{
+  label      = \textemdash,
+  leftmargin = \dimexpr\ParIndent + 1em + 1em\relax,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[itemize,2]{
+  label      = \textbullet,
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[itemize,3]{
+  label      = {\small◆},
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[itemize,4]{
+  label      = \textemdash,
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[itemize,5]{
+  label      = \textbullet,
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[itemize,6]{
+  label      = {\small◆},
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+
+\setlist[enumerate,1]{
+  leftmargin = \dimexpr\ParIndent + 1em + 1em\relax,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[enumerate,2]{
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[enumerate,3]{
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[enumerate,4]{
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[enumerate,5]{
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+\setlist[enumerate,6]{
+  leftmargin = *,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  topsep     = 0pt,
+  partopsep  = 0pt
+}
+
+}% fin \AtBeginDocument
