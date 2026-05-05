@@ -1,4 +1,4 @@
-from: markdown+smart+raw_tex
+from: markdown
 pdf-engine: lualatex
 
 bibliography: biblioteca.bib

@@ -3,6 +3,7 @@ defaults:
 
 filters:
   - include-files.lua
+  - multibib.lua
   - pandoc-crossref
   - fusionar-citas.lua
   - noindent.lua
