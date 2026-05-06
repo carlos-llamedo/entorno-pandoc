@@ -2,10 +2,3 @@ from: markdown
 pdf-engine: lualatex
 
 bibliography: biblioteca.bib
-
-resource-path:
-  - "."
-  - "figuras"
-
-metadata:
-  author: "Carlos Llamedo Gutiérrez"

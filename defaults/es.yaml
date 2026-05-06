@@ -3,7 +3,6 @@ defaults:
 
 filters:
   - include-files.lua
-  - multibib.lua
   - pandoc-crossref
   - fusionar-citas.lua
   - noindent.lua
@@ -12,10 +11,8 @@ filters:
 
 metadata:
   lang: es-ES
-  reference-section-title: "Bibliografía"
 
   # ── pandoc-crossref: localización en español ────────────────────────────────
-  
   figureTitle: "FIGURA"
   tableTitle:  "TABLA"
   figPrefix:   "fig."
