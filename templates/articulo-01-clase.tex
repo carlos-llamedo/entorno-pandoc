@@ -11,7 +11,25 @@
 %                                classoption: [oneside, draft]
 
 \documentclass[%
-  $if(fontsize)$$fontsize$$else$12pt$endif$,%
-  $if(papersize)$$papersize$$else$a4paper$endif$,%
-  $if(classoption)$$for(classoption)$$classoption$$sep$,$endfor$$else$twoside$endif$%
-]{article}
+  $if(fontsize)$
+    $fontsize$
+  $else$
+    12pt
+  $endif$,%
+  $if(papersize)$
+    $papersize$
+  $else$
+    a4paper
+  $endif$,%
+  $if(classoption)$
+    $for(classoption)$
+      $classoption$$sep$,
+    $endfor$
+  $else$
+    twoside
+  $endif$%
+]{$if(documentclass)$$documentclass$$else$article$endif$}
+
+$if(beamerarticle)$
+\usepackage{beamerarticle}
+$endif$

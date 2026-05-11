@@ -15,8 +15,14 @@ metadata:
   # ── pandoc-crossref: localización en español ────────────────────────────────
   figureTitle: "FIGURA"
   tableTitle:  "TABLA"
-  figPrefix:   "fig."
-  tblPrefix:   "tabla"
-  eqnPrefix:   "ec."
-  loftitle:    "# Lista de figuras"
-  lotTitle:    "# Lista de tablas"
+  figPrefix:
+    - "fig."
+    - "figs."
+  tblPrefix:
+    - "tabla"
+    - "tablas"
+  eqnPrefix:
+    - "ec."
+    - "ecs."
+  lofTitle:    "Lista de figuras"
+  lotTitle:    "Lista de tablas"

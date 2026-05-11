@@ -25,7 +25,7 @@
 % Numeración de secciones: desactivada por defecto.
 
 $if(numbersections)$
-\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
 $else$
 \setcounter{secnumdepth}{-\maxdimen}
 $endif$
@@ -76,7 +76,7 @@ $endif$
       \llap{#2{#3}\kern1em}%
     \fi
     #2{#4}%
-    \nobreak\enspace\textperiodcentered\nobreak\enspace\normalfont#5%
+    \nobreak\toc@font{\enspace\textperiodcentered\enspace#5}%
     \par
   \endgroup
 }
