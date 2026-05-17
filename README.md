@@ -19,7 +19,7 @@ El archivo [`NOTICES`](licences/NOTICES.md) hace un inventario completo de los d
 |  `include-files.lua` |  Pandoc Extensions |  [MIT](licences/MIT.md) |
 |  `multibib.lua` |  Albert Krewinkel y contribuidores |  [MIT](licences/MIT.md) |
 |  `zotero.lua` |  Emiliano Heyns |  [MIT](licences/MIT.md) |
-|  `csl/` |  Citation Style Language |  [CC BY-SA 3.0 Unported](<CC BY-SA 3.0 Unported.md>) |
-|  `locales/` |  Citation Style Language |  [CC BY-SA 3.0 Unported](<CC BY-SA 3.0 Unported.md>) |
+|  `csl/` |  Citation Style Language |  [CC BY-SA 3.0 Unported](<licences/CC BY-SA 3.0 Unported.md>) |
+|  `locales/` |  Citation Style Language |  [CC BY-SA 3.0 Unported](<licences/CC BY-SA 3.0 Unported.md>) |
 
 Se trata de material de terceros con términos de uso propios, sobre el que este repositorio no reclama derechos.
