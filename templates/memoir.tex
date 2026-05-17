@@ -1,0 +1,607 @@
+% memoir.tex — Plantilla genérica para Pandoc, centrada en la API de la clase memoir.
+% Compatible con default.latex. Soporte principal: LuaLaTeX.
+% ────────────────────────────────────────────────────────────────────────────
+
+$document-metadata.latex()$
+$passoptions.latex()$
+
+\documentclass[
+$for(babel-otherlangs)$
+  $babel-otherlangs$,
+$endfor$
+$if(babel-lang)$
+  $babel-lang$,
+$endif$
+$if(fontsize)$
+  $fontsize$,
+$else$
+  12pt,
+$endif$
+$if(papersize)$
+  $papersize$paper,
+$else$
+  a4paper,
+$endif$
+$if(classoption)$
+  $for(classoption)$$classoption$$sep$, $endfor$
+$else$
+  twoside
+$endif$
+]{memoir}
+
+$if(beamerarticle)$
+\usepackage{beamerarticle} % needs to be loaded first
+$endif$
+
+% ── Geometría ───────────────────────────────────────────────────────────────
+\usepackage{xcolor}
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$else$
+\setulmarginsandblock{0.5in}{0.5in}{*}
+\setlrmarginsandblock{1in}{1in}{*}
+\setheadfoot{14.5pt}{11pt}
+\checkandfixthelayout
+$endif$
+
+\usepackage{amsmath,amssymb}
+$if(cancel)$
+\usepackage{cancel}
+$endif$
+
+% ── Numeración de Secciones ─────────────────────────────────────────────────
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+$endif$
+
+% ── Fuentes (Fontspec + LuaHarfBuzz) ────────────────────────────────────────
+$fonts.latex()$
+$font-settings.latex()$
+
+\directlua{
+  luaotfload.add_fallback("seriffallback", {"Source Serif 4:mode=harf;"})
+  luaotfload.add_fallback("sansfallback",  {"Source Sans 3:mode=harf;"})
+}
+
+\setmainfont{$if(mainfont)$$mainfont$$else$Arno Pro$endif$}[
+  Renderer   = HarfBuzz,
+  RawFeature = {fallback=seriffallback}$if(mainfontoptions)$,
+  $for(mainfontoptions)$$mainfontoptions$$sep$,
+  $endfor$$endif$]
+
+\setsansfont{$if(sansfont)$$sansfont$$else$Myriad Pro$endif$}[
+  Renderer   = HarfBuzz,
+  RawFeature = {fallback=sansfallback}$if(sansfontoptions)$,
+  $for(sansfontoptions)$$sansfontoptions$$sep$,
+  $endfor$$endif$]
+
+\setmonofont{$if(monofont)$$monofont$$else$Source Code Pro$endif$}[
+  Renderer   = HarfBuzz$if(monofontoptions)$,
+  $for(monofontoptions)$$monofontoptions$$sep$,
+  $endfor$$endif$]
+
+% Familia tipográfica de display: titlefont > titlesans > mainfont.
+$if(titlefont)$
+\newfontfamily\displayfamily{$titlefont$}[$if(titlefontoptions)$
+  $for(titlefontoptions)$$titlefontoptions$$sep$,
+  $endfor$$endif$]
+$elseif(titlesans)$
+\newcommand{\displayfamily}{\sffamily}
+$else$
+\newcommand{\displayfamily}{\rmfamily}
+$endif$
+
+$if(bodysans)$
+\renewcommand{\familydefault}{\sfdefault}
+$endif$
+
+% \textsmall: tamaño para notas, citas, captions y código.
+\newcommand{\textsmall}{$if(smallsize)$$smallsize$$else$\small$endif$}
+
+% ── Componentes Nativos de Pandoc (Listas, CSL, Polyglossia, etc.) ──────────
+$common.latex()$
+
+% ── Reescritura de Listas (sobreescribiendo common) ─────────────────────────
+\usepackage{enumitem}
+\setlist[itemize,1]{label=\textemdash, leftmargin=$if(parindent)$$parindent$$else$0.5in$endif$, labelwidth=0.75em, labelsep=0.5em}
+\setlist[itemize,2]{label=\textbullet, leftmargin=*}
+\setlist[itemize,3]{label={\small◆}, leftmargin=*}
+
+\setlist[enumerate,1]{leftmargin=$if(parindent)$$parindent$$else$0.5in$endif$, labelwidth=0.75em, labelsep=0.5em}
+\setlist[enumerate,2]{leftmargin=*}
+\setlist[enumerate,3]{leftmargin=*}
+
+% ── Idioma adicional (selnolig para LuaLaTeX) ───────────────────────────────
+\usepackage{selnolig}
+
+% ── Tipografía fina y Párrafos ──────────────────────────────────────────────
+\newlength{\ParIndent}
+\setlength{\ParIndent}{$if(parindent)$$parindent$$else$0.5in$endif$}
+
+$if(noindent)$
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5\baselineskip}
+$else$
+\setlength{\parindent}{\ParIndent}
+\setlength{\parskip}{0pt}
+$endif$
+
+\linespread{$if(linestretch)$$linestretch$$else$1.5$endif$}
+
+% ── Figuras, Tablas y Captions ──────────────────────────────────────────────
+\addto\captionsspanish{%
+  \renewcommand{\figurename}{FIGURA}%
+  \renewcommand{\tablename}{TABLA}%
+}
+
+\captionnamefont{$if(titlesans)$\sffamily$elseif(titlefont)$\displayfamily$else$\normalfont$endif$\small}
+\captiontitlefont{\small}
+\captiondelim{.\enspace}
+\captionstyle{\raggedright}
+\setfloatadjustment{figure}{\captionstyle{\justifying}}
+\setfloatadjustment{table}{\captiontitlefont{\normalsize}\captionnamefont{$if(titlesans)$\sffamily$elseif(titlefont)$\displayfamily$else$\normalfont$endif$\normalsize}}
+\setlength{\abovecaptionskip}{4pt}
+
+% ── Citas exentas ───────────────────────────────────────────────────────────
+\let\quoting\relax
+\let\endquoting\relax
+\usepackage{quoting}
+\quotingsetup{
+  font        = \textsmall,
+  indentfirst = false,
+  leftmargin  = \parindent,
+  rightmargin = $if(quotesymmetric)$\parindent$else$0pt$endif$,
+  vskip       = 0pt
+}
+\AtBeginEnvironment{quoting}{\everypar{\parindent=\dimexpr\parindent\relax}}
+\newcommand{\quotingbreak}{\par\noindent}
+
+% ── Notas al pie ────────────────────────────────────────────────────────────
+\renewcommand{\footnotesize}{\textsmall}
+
+% Filete separador.
+\makeatletter
+\newcommand{\@footrule}{%
+  \kern-3\p@
+  \hrule \@width 1.5in \@height 0.6pt
+  \kern 2.6\p@}
+$if(nofootrule)$
+\let\footnoterule\relax
+$elseif(footrule)$
+\let\footnoterule\@footrule
+$else$
+\let\splitfootnoterule\@footrule
+$endif$
+\makeatother
+
+\renewcommand{\thefootnote}{%
+  \textcolor{black}{$if(titlesans)${\sffamily\arabic{footnote}}$elseif(titlefont)${\displayfamily\arabic{footnote}}$else$\arabic{footnote}$endif$}%
+}
+
+\setlength{\footparindent}{\ParIndent}
+$if(footnoindent)$
+\setlength{\footmarkwidth}{0pt}
+\setlength{\footmarksep}{0pt}
+$else$
+\setlength{\footmarkwidth}{0pt}
+\setlength{\footmarksep}{0pt}
+$endif$
+
+\makeatletter
+\renewcommand{\@makefntext}[1]{%
+  \parindent=\ParIndent
+  \@enumdepth=0\relax
+  \@itemdepth=0\relax
+  \noindent
+$if(footnoindent)$%
+$else$%
+  \hspace*{\ParIndent}%
+$endif$%
+$if(footinline)$%
+  $if(titlesans)${\sffamily\arabic{footnote}}$elseif(titlefont)${\displayfamily\arabic{footnote}}$else$\arabic{footnote}$endif$.%
+$else$%
+  \@makefnmark%
+$endif$%
+  \hspace{0.5em}#1%
+}
+\makeatother
+
+% ── Numeración romana de páginas preliminares ───────────────────────────────
+\makeatletter
+$if(romansmall)$
+$elseif(romancaps)$
+\renewcommand{\@roman}[1]{\MakeUppercase{\romannumeral#1}}
+$else$
+\renewcommand{\@roman}[1]{\textsc{\romannumeral#1}}
+$endif$
+\makeatother
+
+% ── Índice (TOC) ────────────────────────────────────────────────────────────
+\newlength{\tocsubindent}
+\setlength{\tocsubindent}{0.5\ParIndent}
+\newcommand{\tocblockskip}{\addvspace{\baselineskip}}
+
+\makeatletter
+$if(titlefont)$
+\newcommand{\toc@font}{\displayfamily}
+$elseif(titlesans)$
+\newcommand{\toc@font}{\sffamily}
+$else$
+\newcommand{\toc@font}{}
+$endif$
+
+\newcommand{\toc@line}[5]{%
+  \begingroup
+    \toc@font
+    \leftskip=#1\relax
+    \parindent=\z@
+    \rightskip=\z@
+    \parfillskip=\z@ plus 1fil
+    \leavevmode
+    \if\relax\detokenize{#3}\relax\else
+      \llap{#2{#3}\kern1em}%
+    \fi
+    #2{#4}%
+    \nobreak\toc@font{\enspace\textperiodcentered\enspace#5}%
+    \par
+  \endgroup
+}
+
+\renewcommand*{\l@chapter}[2]{%
+  \ifnum\c@tocdepth>\m@ne
+    \addpenalty{-\@highpenalty}%
+    \addvspace{0.4\baselineskip}%
+    \begingroup
+      \def\numberline##1{}%
+      \toc@line{0pt}{\MakeUppercase}{}{#1}{#2}%
+    \endgroup
+  \fi}
+
+\renewcommand*{\l@section}[2]{%
+  \ifnum\c@tocdepth>\z@
+    \begingroup
+      \def\numberline##1{}%
+      \toc@line{\tocsubindent}{\upshape}{}{#1}{#2}%
+    \endgroup
+  \fi}
+
+\renewcommand*{\l@subsection}[2]{%
+  \ifnum\c@tocdepth>\@ne
+    \begingroup
+      \def\numberline##1{}%
+      \toc@line{2\tocsubindent}{\itshape}{}{#1}{#2}%
+    \endgroup
+  \fi}
+
+\renewcommand*{\l@subsubsection}[2]{%
+  \ifnum\c@tocdepth>\tw@
+    \begingroup
+      \def\numberline##1{}%
+      \toc@line{3\tocsubindent}{\itshape}{}{#1}{#2}%
+    \endgroup
+  \fi}
+\makeatother
+
+% ── Secciones y Títulos (memoir API) ────────────────────────────────────────
+\makechapterstyle{mio}{%
+  \renewcommand{\chapterheadstart}{%
+    $if(impresion)$%
+    \clearpage
+    \ifodd\c@page\else
+      \hbox{}\thispagestyle{empty}\clearpage
+    \fi
+    $else$%
+    \clearpage
+    $endif$%
+    \thispagestyle{mioplan}%
+    \vspace*{0pt}}%
+  \renewcommand{\printchaptername}{}%
+  \renewcommand{\chapternamenum}{}%
+  \renewcommand{\printchapternum}{}%
+  \renewcommand{\afterchapternum}{}%
+  \renewcommand{\printchaptertitle}[1]{%
+    \displayfamily\fontsize{16}{20}\selectfont ##1}%
+  \renewcommand{\afterchaptertitle}{\par\vspace{2\baselineskip}}%
+}
+\chapterstyle{mio}
+
+\setsecheadstyle{\displayfamily\fontsize{14}{18}\selectfont}
+\setbeforesecskip{\baselineskip}
+\setaftersecskip{0.5\baselineskip}
+
+\setsubsecheadstyle{\displayfamily\normalsize\bfseries}
+\setbeforesubsecskip{\baselineskip}
+\setaftersubsecskip{1sp}
+
+\setsubsubsecheadstyle{\displayfamily\normalsize\bfseries\itshape}
+\setbeforesubsubsecskip{\baselineskip}
+\setaftersubsubsecskip{1sp}
+
+\setparaheadstyle{\displayfamily\normalsize\itshape}
+\setbeforeparaskip{\baselineskip}
+\setafterparaskip{-1em}
+
+% ── Estilos de página (encabezados y folios) ────────────────────────────────
+$if(titlesans)$
+\newcommand{\pagefont}[1]{{\sffamily#1}}
+$elseif(titlefont)$
+\newcommand{\pagefont}[1]{{\displayfamily#1}}
+$else$
+\newcommand{\pagefont}[1]{#1}
+$endif$
+
+$if(headscaps)$
+\newcommand{\headerfont}[1]{\pagefont{\textsc{\MakeLowercase{#1}}}}
+$else$
+\newcommand{\headerfont}[1]{\pagefont{\textit{#1}}}
+$endif$
+
+\nouppercaseheads
+\makepagestyle{mio}
+
+\makeevenhead{mio}{\small\pagefont{\thepage}}{}{}
+\makeoddhead {mio}{}{}{\small\pagefont{\thepage}}
+
+$if(folioonly)$
+$elseif(headtitlesec)$
+$if(title)$
+\makeevenhead{mio}{\small\pagefont{\thepage}}{}{\small\headerfont{$title$}}
+$endif$
+\makeoddhead {mio}{\small\headerfont{\rightmark}}{}{\small\pagefont{\thepage}}
+$elseif(headsecsec)$
+\makeevenhead{mio}{\small\pagefont{\thepage}}{}{\small\headerfont{\rightmark}}
+\makeoddhead {mio}{\small\headerfont{\rightmark}}{}{\small\pagefont{\thepage}}
+$else$
+$if(author)$
+$if(authorrecto)$
+\makeevenhead{mio}{\small\pagefont{\thepage}}{}{\small\headerfont{\rightmark}}
+\makeoddhead {mio}{\small\headerfont{$for(author)$$author$$sep$, $endfor$}}{}{\small\pagefont{\thepage}}
+$else$
+\makeevenhead{mio}{\small\pagefont{\thepage}}{}{\small\headerfont{$for(author)$$author$$sep$, $endfor$}}
+\makeoddhead {mio}{\small\headerfont{\rightmark}}{}{\small\pagefont{\thepage}}
+$endif$
+$endif$
+$endif$
+
+$if(headrule)$
+\makeheadrule{mio}{\textwidth}{0.4pt}
+$else$
+\makeheadrule{mio}{\textwidth}{0pt}
+$endif$
+
+\makepagestyle{mioplan}
+$if(nofolio)$
+$else$
+\makeoddfoot {mioplan}{}{\small\pagefont{\thepage}}{}
+\makeevenfoot{mioplan}{}{\small\pagefont{\thepage}}{}
+$endif$
+\makeheadrule{mioplan}{\textwidth}{0pt}
+
+\pagestyle{mio}
+\aliaspagestyle{chapter}{mioplan}
+
+% ── Cabeceras extra de Pandoc y del usuario ─────────────────────────────────
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+$after-header-includes.latex()$
+
+% ── Hipervínculos (hypersetup de Pandoc + xurl + overrides) ─────────────────
+\providecommand{\xmpquote}[1]{#1}
+$hypersetup.latex()$
+
+$if(colorlinks)$
+\definecolor{linkblue}{RGB}{0, 70, 150}
+\hypersetup{
+  linkcolor=$if(linkcolor)$$linkcolor$$else$linkblue$endif$,
+  urlcolor=$if(urlcolor)$$urlcolor$$else$linkblue$endif$,
+  citecolor=$if(citecolor)$$citecolor$$else$linkblue$endif$,
+  filecolor=$if(filecolor)$$filecolor$$else$black$endif$
+}
+$endif$
+
+\usepackage{xurl}
+\renewcommand{\UrlFont}{$if(urlstyle)$\$urlstyle$family$else$\normalfont$endif$}
+
+$if(links-as-notes)$
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+
+% Asegurarnos de que las remisiones a notas al pie van en negro siempre
+\makeatletter
+\AtBeginDocument{
+  \let\Hy@org@makefnmark\@makefnmark
+  \renewcommand{\@makefnmark}{%
+    {\hypersetup{linkcolor=black}\Hy@org@makefnmark}}
+}
+\makeatother
+
+% ── Tráiler PDF de Pandoc ───────────────────────────────────────────────────
+$if(pdf-trailer-id)$
+\ifXeTeX
+\special{pdf:trailerid [ $pdf-trailer-id$ ]}
+\fi
+\ifPDFTeX
+\pdftrailerid{}
+\pdftrailer{/ID [ $pdf-trailer-id$ ]}
+\fi
+\ifLuaTeX
+\pdfvariable trailerid {[ $pdf-trailer-id$ ]}
+\fi
+$endif$
+
+% ── Portada y Título ────────────────────────────────────────────────────────
+$if(title)$
+\title{$title$}
+$endif$
+
+$if(subtitle)$
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{%
+  \apptocmd{\@title}{\par{\large #1\par}}{}{}}
+\makeatother
+\subtitle{$subtitle$}
+$endif$
+
+\author{$for(author)$$author$$sep$ \and $endfor$}
+\date{$date$}
+
+% ════════════════════════════════════════════════════════════════════════════
+\begin{document}
+% ════════════════════════════════════════════════════════════════════════════
+
+$if(has-frontmatter)$
+\frontmatter
+$endif$
+
+% ── Portada ─────────────────────────────────────────────────────────────────
+$if(title)$
+$if(maketitle)$
+$if(has-chapters)$
+\pagenumbering{roman}
+$endif$
+\makeatletter
+\patchcmd{\@maketitle}{\newpage}{}{}{}
+\makeatother
+\pdfbookmark[1]{Portada}{portada}
+\maketitle
+\thispagestyle{empty}
+$endif$
+$endif$
+
+% ── Abstract ────────────────────────────────────────────────────────────────
+$if(abstract)$
+\clearpage
+\thispagestyle{empty}
+\renewenvironment{abstract}{%
+  \normalsize\noindent\textbf{Resumen}\par\noindent\ignorespaces
+}{\par}
+\begin{abstract}
+$abstract$
+$if(keywords)$
+\par\noindent\textbf{Palabras clave:} $for(keywords)$$keywords$$sep$, $endfor$
+$endif$
+\end{abstract}
+$endif$
+
+% ── Dedicatoria ─────────────────────────────────────────────────────────────
+$if(dedicatoria)$
+\clearpage
+\thispagestyle{empty}
+\vspace*{0.25\textheight}
+\noindent\hfill
+\begin{minipage}{0.5\linewidth}
+  \setstretch{1}%
+  \textit{$dedicatoria$}
+\end{minipage}
+$endif$
+
+% ── Epígrafe ────────────────────────────────────────────────────────────────
+$if(epigraphtext)$
+\clearpage
+\thispagestyle{empty}
+\vspace*{0.25\textheight}
+\noindent\hfill
+\begin{minipage}{0.5\linewidth}
+  \setstretch{1}%
+  $epigraphtext$
+  $if(epigraphauthor)$
+  \par\smallskip
+  {\raggedleft%
+  \textsc{$epigraphauthor$}%
+  $if(epigraphwork)$, \textit{$epigraphwork$}$endif$\par}
+  $else$$if(epigraphwork)$
+  \par\smallskip{\raggedleft\textit{$epigraphwork$}\par}
+  $endif$$endif$
+\end{minipage}
+$endif$
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+% ── Índice ──────────────────────────────────────────────────────────────────
+$if(toc)$
+\clearpage
+$if(toc-title)$
+\renewcommand*\contentsname{$toc-title$}
+$else$
+\renewcommand*\contentsname{Índice}
+$endif$
+\thispagestyle{mioplan}
+\pdfbookmark[1]{\contentsname}{toc}
+{
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
+$endif$
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+}
+$endif$
+
+$if(lof)$
+\clearpage\thispagestyle{mioplan}\listoffigures
+$endif$
+
+$if(lot)$
+\clearpage\thispagestyle{mioplan}\listoftables
+$endif$
+
+% ── Agradecimientos ─────────────────────────────────────────────────────────
+$if(thanks)$
+\clearpage
+\chapter*{Agradecimientos}
+$thanks$
+$endif$
+
+% ── Cuerpo Principal ────────────────────────────────────────────────────────
+$if(has-frontmatter)$
+\mainmatter
+$else$
+$if(impresion)$
+\clearpage
+\makeatletter
+\ifodd\c@page\else
+  \hbox{}\thispagestyle{empty}\clearpage
+\fi
+\makeatother
+\pagenumbering{arabic}
+$else$
+\clearpage
+\pagenumbering{arabic}
+$endif$
+$endif$
+
+$body$
+
+% ── Elementos Finales ───────────────────────────────────────────────────────
+$if(has-frontmatter)$
+\backmatter
+$endif$
+
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+\renewcommand\bibname{$biblio-title$}
+$endif$
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+$endif$
+$endif$
+
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+$endif$
+
+$for(include-after)$
+$include-after$
+$endfor$
+
+\end{document}
