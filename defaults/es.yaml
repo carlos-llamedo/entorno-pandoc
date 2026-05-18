@@ -4,7 +4,6 @@ defaults:
 filters:
   - include-files.lua
   - pandoc-crossref
-  - fusionar-citas.lua
   - noindent.lua
   - citeproc
   - correcciones-notas.lua

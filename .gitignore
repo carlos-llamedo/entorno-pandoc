@@ -5,3 +5,5 @@
 # toda la biblioteca de Zotero a través de BetterBibTeX
 # se usa para citar, pero no se ha de versionar
 biblioteca.bib
+
+templates/legacy/*

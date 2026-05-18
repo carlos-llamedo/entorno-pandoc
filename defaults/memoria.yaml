@@ -2,3 +2,4 @@ defaults:
   - es
 
 template: memoir.tex
+top-level-division: chapter
