@@ -10,4 +10,4 @@ abstract: "Directorio personal de datos de Pandoc: plantillas, filtros, defaults
 date-released: 2026-04
 license: MIT
 license-url: https://mit-license.org
-repository-code: https://codeberg.org/carlos-llamedo/pandoc-datadir
+repository-code: https://github.com/carlos-llamedo/entorno-pandoc

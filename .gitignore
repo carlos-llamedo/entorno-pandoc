@@ -6,6 +6,8 @@
 # se usa para citar, pero no se ha de versionar
 biblioteca.bib
 
+filters/fusionar-citas.lua
+
 templates/legacy/*
 templates/completa.tex
 
