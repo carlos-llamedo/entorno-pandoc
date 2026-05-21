@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# md-pdf.sh — Convierte Markdown a PDF (o TEX) mediante pandoc + LuaLaTeX.
+# pan.sh — Wrapper de Pandoc.
+# Convierte Markdown a PDF (o TEX) mediante pandoc + LuaLaTeX.
 
 # ── Color ───────────────────────────────────────────────────────────────────
 
