@@ -6,7 +6,7 @@ Este archivo recopila los términos de uso y procedencia de todos los componente
 
 ### Pandoc
 
-[Pandoc](https://pandoc.org) está, [de acuerdo con su README](https://github.com/jgm/pandoc#license), bajo una licencia GPL versión ≥ 2. El repositorio contiene un archivo [COPYING](https://github.com/jgm/pandoc/blob/main/COPYING.md) y otro [COPYRIGHT](https://github.com/jgm/pandoc/blob/main/COPYRIGHT), con concreciones sobre cada uno de sus componentes.
+[Pandoc](https://pandoc.org) está, [de acuerdo con su README](https://github.com/jgm/pandoc#license), bajo una licencia GPLv2-or-later. El repositorio contiene un archivo [COPYING](https://github.com/jgm/pandoc/blob/main/COPYING.md) y otro [COPYRIGHT](https://github.com/jgm/pandoc/blob/main/COPYRIGHT), con concreciones sobre cada uno de sus componentes.
 
 ### Filtros de Pandoc
 
@@ -19,12 +19,12 @@ La librería [`citeproc`](https://github.com/jgm/citeproc), de John MacFarlane, 
 En el caso del [Citation Style Language](https://citationstyles.org/) (CSL), tenemos tres elementos distintos:
 
 - Por un lado, tenemos los propios archivos CSL. Aunque lo declaran cada uno al principio del propio archivo, el README especifica que todos los estilos del repositorio están [bajo una licencia Creative Commons Attribution-ShareAlike 3.0 Unported](https://github.com/citation-style-language/styles#licensing).
-- Los archivos de traducción y *localización* están [sujetos a la misma licencia Creative Commons Attribution-ShareAlike 3.0 Unported](https://github.com/citation-style-language/locales#licensing).
+- Los archivos de traducción están [sujetos a la misma licencia Creative Commons Attribution-ShareAlike 3.0 Unported](https://github.com/citation-style-language/locales#licensing).
 - La documentación está bajo una licencia Creative Commons Attribution-ShareAlike 4.0 International ([README](https://github.com/citation-style-language/documentation/tree/master#licensing); [archivo de la licencia en el repositorio](https://github.com/citation-style-language/documentation/blob/master/LICENSE.txt)).
 
 #### pandoc-crossref
 
-[`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) está bajo una licencia GPL≥2 ([README](https://github.com/lierdakil/pandoc-crossref#license);[archivo de la licencia en el repositorio](https://github.com/lierdakil/pandoc-crossref/blob/master/LICENSE)).
+[`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) está bajo una licencia GPLv2-or-later ([README](https://github.com/lierdakil/pandoc-crossref#license); [archivo de la licencia en el repositorio](https://github.com/lierdakil/pandoc-crossref/blob/master/LICENSE)).
 
 ### Filtros Lua de Pandoc
 
@@ -48,7 +48,7 @@ El filtro `noindent.lua` es, en realidad, código propio inspirado en el trabajo
 
 #### Plantillas oficiales de Pandoc
 
-El [README](https://github.com/jgm/pandoc-templates/blob/master/README.markdown) del [repositorio](https://github.com/jgm/pandoc-templates) indica que las plantillas están bajo una licencia doble: GPL ≥ 2, al igual que Pandoc, y la BSD 3-clause.
+El [README](https://github.com/jgm/pandoc-templates/blob/master/README.markdown) del [repositorio](https://github.com/jgm/pandoc-templates) indica que las plantillas están bajo una licencia doble: GPLv2-or-later, al igual que Pandoc, y la BSD 3-Clause.
 
 #### Kieran Healy
 
@@ -60,11 +60,11 @@ El [repositorio de Dunning](https://github.com/adunning/benedict-rule-doyle) que
 
 ## Zettlr
 
-Tanto el código de [Zettlr](https://www.zettlr.com) ([README](https://github.com/Zettlr/Zettlr#license); [archivo de la licencia en el repositorio](https://github.com/Zettlr/Zettlr/blob/develop/LICENSE)) como la documentación de Zettlr están bajo una licencia GNU GPL v3 ([README](https://github.com/Zettlr/zettlr-docs/tree/master#license); [archivo de la licencia en el repositorio](https://github.com/Zettlr/zettlr-docs/blob/master/LICENSE)).
+Tanto el código de [Zettlr](https://www.zettlr.com) ([README](https://github.com/Zettlr/Zettlr#license); [archivo de la licencia en el repositorio](https://github.com/Zettlr/Zettlr/blob/develop/LICENSE)) como la documentación de Zettlr están bajo una licencia GPLv3 ([README](https://github.com/Zettlr/zettlr-docs/tree/master#license); [archivo de la licencia en el repositorio](https://github.com/Zettlr/zettlr-docs/blob/master/LICENSE)).
 
 ## Zotero
 
-El [código](https://github.com/zotero/zotero) de [Zotero](https://www.zotero.org/) está bajo una [GNU Affero General Public Licence, version 3 (AGPLv3)](https://github.com/zotero/zotero/blob/main/COPYING). Sin embargo [su documentación](https://github.com/zotero/zotero-docs) está bajo una doble licencia: el código bajo una [AGPLv3](https://github.com/zotero/zotero-docs/blob/main/LICENSE), y el contenido (todo lo contenido en el directorio `content/`), bajo una licencia [CC BY-SA 4.0](https://github.com/zotero/zotero-docs/blob/main/LICENSE-CONTENT).
+El [código](https://github.com/zotero/zotero) de [Zotero](https://www.zotero.org/) está bajo una [licencia AGPLv3](https://github.com/zotero/zotero/blob/main/COPYING). Sin embargo [su documentación](https://github.com/zotero/zotero-docs) está bajo una doble licencia: el código bajo una [AGPLv3](https://github.com/zotero/zotero-docs/blob/main/LICENSE), y el contenido (todo lo contenido en el directorio `content/`), bajo una licencia [CC BY-SA 4.0](https://github.com/zotero/zotero-docs/blob/main/LICENSE-CONTENT).
 
 ## Better BibTeX
 

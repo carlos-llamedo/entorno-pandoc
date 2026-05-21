@@ -8,6 +8,6 @@ authors:
 title: "Directorio de datos de Pandoc"
 abstract: "Directorio personal de datos de Pandoc: plantillas, filtros, defaults y recursos CSL para escritura académica en Markdown."
 date-released: 2026-04
-license: GPL-3.0
-license-url: https://www.gnu.org/licenses/gpl-3.0.html
+license: MIT
+license-url: https://mit-license.org
 repository-code: https://codeberg.org/carlos-llamedo/pandoc-datadir

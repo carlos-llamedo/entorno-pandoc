@@ -1,4 +1,0 @@
-from: markdown
-pdf-engine: lualatex
-
-bibliography: biblioteca.bib

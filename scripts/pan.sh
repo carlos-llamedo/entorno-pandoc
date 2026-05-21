@@ -65,6 +65,7 @@ enlace_local() {
 
 defaults="memoria"
 modo="pdf"
+verbosidad=""
 
 usage() {
   cat <<EOF
@@ -76,6 +77,7 @@ Opciones:
   -t            Modo tex: genera .tex en el directorio del Markdown en vez de
                 PDF en el Escritorio. Procesa citas y filtros; útil para
                 retocar a mano antes de compilar.
+  -v            Modo verboso: activa información de depuración de pandoc.
   -h            Muestra esta ayuda y sale.
 
 Ejemplos:
@@ -86,10 +88,11 @@ Ejemplos:
 EOF
 }
 
-while getopts ":d:th" opt; do
+while getopts ":d:thv" opt; do
   case $opt in
     d) defaults="$OPTARG" ;;
     t) modo="tex" ;;
+    v) verbosidad="--verbose" ;;
     h) usage; exit 0 ;;
     :) echo "Error: la opción -$OPTARG requiere un argumento."; exit 1 ;;
    \?) echo "Error: opción desconocida: -$OPTARG."; exit 1 ;;
@@ -116,8 +119,6 @@ dir_rel="$(dirname "$entrada")"
 dir="$(realpath "$dir_rel")"
 nombre_base="$(basename "${entrada%.*}")"
 escritorio="${XDG_DESKTOP_DIR:-$HOME/Escritorio}"
-dir_pandoc="${XDG_DATA_HOME:-$HOME/.local/share}/pandoc"
-recursos=".:figuras:$dir_pandoc"
 
 if [[ "$modo" == "tex" ]]; then
   salida_final="$dir_rel/$nombre_base.tex"
@@ -130,8 +131,8 @@ fi
 # ── Compilación ─────────────────────────────────────────────────────────────
 
 (cd "$dir" && pandoc "$(basename "$entrada")" \
-  --defaults "$defaults" \
-  --resource-path="$recursos" \
+  -d "$defaults" \
+  $verbosidad \
   -o "$salida")
 
 # ── Salida ──────────────────────────────────────────────────────────────────

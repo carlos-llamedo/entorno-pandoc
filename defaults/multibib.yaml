@@ -5,13 +5,11 @@ resource-path:
   - figuras
   - ${USERDATA}
 
-bibliography: biblioteca.bib
-
 filters:
   - include-files.lua
   - pandoc-crossref
   - noindent.lua
-  - citeproc
+  - multibib.lua
   - correcciones-notas.lua
 
 template: memoir.tex

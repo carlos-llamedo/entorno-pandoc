@@ -10,7 +10,7 @@ Lo argumentativo (por qué texto plano, ventajas operativas y archivísticas) ta
 
 `docs/`: documentación técnica de consulta
 
-Propongo esta estructura:
+Estructura:
 
 ```
 docs/

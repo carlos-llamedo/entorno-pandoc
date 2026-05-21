@@ -10,13 +10,13 @@ Este repositorio contiene los datos y elementos necesarios para escribir en Mark
 
 ## Derechos
 
-Este repositorio está bajo una [Licencia Pública General de GNU versión 3](LICENCE.md).
+Este repositorio está bajo una [licencia MIT](LICENCE.md).
 
 El archivo [`NOTICES`](licences/NOTICES.md) hace un inventario completo de los derechos que aplican a cada uno de los elementos que intervienen en el flujo de trabajo, que son libres y abiertos. De ellos, sin embargo, hay que señalar los que se incluyen directamente en este repositorio, y que tienen su texto legal en [`licences/`](licences/):
 
 |  Archivo |  Autor |  Licencia |
 |---|---|---|
-|  `include-files.lua` |  Pandoc Extensions |  [MIT](licences/MIT.md) |
+|  `include-files.lua` |  Albert Krewinkel |  [MIT](licences/MIT.md) |
 |  `multibib.lua` |  Albert Krewinkel y contribuidores |  [MIT](licences/MIT.md) |
 |  `zotero.lua` |  Emiliano Heyns |  [MIT](licences/MIT.md) |
 |  `csl/` |  Citation Style Language |  [CC BY-SA 3.0 Unported](<licences/CC BY-SA 3.0 Unported.md>) |
