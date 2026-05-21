@@ -1,6 +1,8 @@
 [submodule "templates/pandoc-templates"]
 	path = templates/pandoc-templates
 	url = https://github.com/jgm/pandoc-templates.git
+	branch = master
 [submodule "templates/kjhealy"]
 	path = templates/kjhealy
 	url = https://github.com/kjhealy/pandoc-templates.git
+	branch = master
