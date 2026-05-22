@@ -286,8 +286,6 @@ $else$
 \usepackage[norule,splitrule]{footmisc}
 $endif$
 
-\renewcommand{\footnotesize}{\textsmall}
-
 $if(colorlinks)$
 \renewcommand{\thefootnote}{\textcolor{black}{\arabic{footnote}}}
 $else$
@@ -297,6 +295,7 @@ $endif$
 % Formato del texto de la nota.
 \makeatletter
 \renewcommand{\@makefntext}[1]{%
+  \textsmall
   \parindent=\ParIndent
   \@enumdepth=0\relax
   \@itemdepth=0\relax
@@ -446,7 +445,7 @@ $endif$
 \renewcommand*{\l@chapter}[2]{%
   \ifnum\c@tocdepth>\m@ne
     \addpenalty{-\@highpenalty}%
-    \addvspace{0.4\baselineskip}%
+    \addvspace{0.2\baselineskip}%
     \begingroup
       \def\numberline##1{}%
       \toc@line{0pt}{\MakeUppercase}{}{#1}{#2}%

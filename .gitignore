@@ -11,4 +11,4 @@ filters/fusionar-citas.lua
 templates/legacy/*
 templates/completa.tex
 
-docs/TODO*
+docs/TODO.md
