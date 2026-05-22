@@ -70,7 +70,7 @@ verbosidad=""
 
 usage() {
   cat <<EOF
-Uso: md-pdf.sh [-d PLANTILLA] [-t] [-h] DOCUMENTO.md
+Uso: pan.sh [-d PLANTILLA] [-t] [-h] DOCUMENTO.md
 
 Opciones:
   -d PLANTILLA  Defaults file a usar (sin extensión). Por defecto: memoria.
@@ -82,10 +82,10 @@ Opciones:
   -h            Muestra esta ayuda y sale.
 
 Ejemplos:
-  md-pdf.sh documento.md
-  md-pdf.sh -d handout documento.md
-  md-pdf.sh -t documento.md
-  md-pdf.sh -d handout -t documento.md
+  pan.sh documento.md
+  pan.sh -d handout documento.md
+  pan.sh -t documento.md
+  pan.sh -d handout -t documento.md
 EOF
 }
 
