@@ -353,7 +353,7 @@ $endif$
 % ── Secciones y títulos (titlesec) ────────────────────────────────────────────
 
 \usepackage{needspace}
-\usepackage{titlesec}
+\usepackage[compact]{titlesec}
 
 % Páginas en blanco intercaladas (twoside): sin encabezado ni folio.
 \makeatletter
@@ -380,63 +380,40 @@ $endif$
 % ── Sección y subsecciones ────────────────────────────────────────────────────
 
 \titleformat{\section}
-  {\needspace{4\baselineskip}\metafont\fontsize{14}{18}\selectfont}
+  {\metafont\fontsize{14}{18}\selectfont}
   {\thesection}{1em}{}
-\titlespacing*{\section}
-  {0pt}{\baselineskip}{0.5\baselineskip}
 
 \titleformat{\subsection}
-  {\needspace{3\baselineskip}\metafont\normalsize\bfseries}
+  {\metafont\normalsize\bfseries}
   {\thesubsection}{1em}{}
-\titlespacing*{\subsection}
-  {0pt}{\baselineskip}{0pt}
 
 \titleformat{\subsubsection}
-  {\needspace{3\baselineskip}\metafont\normalsize\bfseries\itshape}
+  {\metafont\normalsize\bfseries\itshape}
   {\thesubsubsection}{1em}{}
-\titlespacing*{\subsubsection}
-  {0pt}{\baselineskip}{0pt}
 
 \titleformat{\paragraph}[hang]
-  {\needspace{3\baselineskip}\metafont\normalsize\itshape}
+  {\metafont\normalsize\itshape}
   {\theparagraph}{1em}{}
-\titlespacing*{\paragraph}
-  {0pt}{\baselineskip}{0pt}
 
 \titleformat{\subparagraph}[hang]
-  {\needspace{3\baselineskip}\metafont\normalsize}
+  {\metafont\normalsize}
   {\thesubparagraph}{1em}{}
-\titlespacing*{\subparagraph}
-  {0pt}{\baselineskip}{0pt}
 
-% ── Índice (TOC) ─────────────────────────────────────────────────────────────
+% ── Formato de los índices ───────────────────────────────────────────────────
 
 \makeatletter
-
-$if(titlesans)$
-\newcommand{\toc@font}{\sffamily}
-$elseif(titlefont)$
-\newcommand{\toc@font}{\displayfamily}
-$else$
-\newcommand{\toc@font}{}
-$endif$
 
 \newlength{\tocsubindent}
 \setlength{\tocsubindent}{0.5\ParIndent}
 
-\newcommand{\toc@line}[5]{%
+\newcommand{\toc@line}[4]{%
   \begingroup
-    \toc@font
+    \metafont
     \leftskip=#1\relax
+    \hangindent=\tocsubindent
     \parindent=\z@
-    \rightskip=\z@
-    \parfillskip=\z@ plus 1fil
     \leavevmode
-    \if\relax\detokenize{#3}\relax\else
-      \llap{#2{#3}\kern1em}%
-    \fi
-    #2{#4}%
-    \nobreak{\toc@font\enspace\textperiodcentered\enspace#5}%
+    #2{#3}\if\relax\detokenize{#4}\relax\else\nobreak{\upshape\enspace\textperiodcentered\enspace#4}\fi%
     \par
   \endgroup
 }
@@ -448,7 +425,7 @@ $endif$
     \addvspace{0.2\baselineskip}%
     \begingroup
       \def\numberline##1{}%
-      \toc@line{0pt}{\MakeUppercase}{}{#1}{#2}%
+      \toc@line{0pt}{\MakeUppercase}{#1}{}%
     \endgroup
   \fi}
 
@@ -457,7 +434,7 @@ $endif$
   \ifnum\c@tocdepth>\z@
     \begingroup
       \def\numberline##1{}%
-      \toc@line{\tocsubindent}{\upshape}{}{#1}{#2}%
+      \toc@line{\tocsubindent}{\upshape}{#1}{#2}%
     \endgroup
   \fi}
 
@@ -466,7 +443,7 @@ $endif$
   \ifnum\c@tocdepth>\@ne
     \begingroup
       \def\numberline##1{}%
-      \toc@line{2\tocsubindent}{\itshape}{}{#1}{#2}%
+      \toc@line{2\tocsubindent}{\itshape}{#1}{#2}%
     \endgroup
   \fi}
 
@@ -475,9 +452,25 @@ $endif$
   \ifnum\c@tocdepth>\tw@
     \begingroup
       \def\numberline##1{}%
-      \toc@line{3\tocsubindent}{\itshape}{}{#1}{#2}%
+      \toc@line{3\tocsubindent}{\itshape}{#1}{#2}%
     \endgroup
   \fi}
+
+% Lista de figuras: redonda, sin sangrado.
+\renewcommand*{\l@figure}[2]{%
+  \begingroup
+    \def\numberline##1{##1.\enspace}%
+    \toc@line{0pt}{\upshape}{#1}{#2}%
+  \endgroup
+}
+
+% Lista de tablas: redonda, sin sangrado.
+\renewcommand*{\l@table}[2]{%
+  \begingroup
+    \def\numberline##1{##1.\enspace}%
+    \toc@line{0pt}{\upshape}{#1}{#2}%
+  \endgroup
+}
 
 \makeatother
 
@@ -660,7 +653,7 @@ $if(epigraphtext)$
 \end{minipage}
 $endif$
 
-% ── Índice ────────────────────────────────────────────────────────────────────
+% ── Índices ───────────────────────────────────────────────────────────────────
 
 {%
 $if(colorlinks)$
