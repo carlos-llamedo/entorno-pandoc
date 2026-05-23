@@ -64,13 +64,15 @@ $if(geometry)$
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 $else$
 \usepackage[
-  includeheadfoot,
-  top        = 0.5in,
-  bottom     = 0.5in,
-  left       = 1in,
-  right      = 1in,
+  top        = 3cm,
+  bottom     = 3cm,
+  left       = 3cm,
+  right      = 3cm,
   headheight = 14pt,
-  headsep    = 11pt
+  % la mitad del margen superior menos la altura del encabezado
+  headsep    = \dimexpr1.5cm - 14pt\relax,
+  % la mitad del margen inferior
+  footskip   = 1.5cm,
 ]{geometry}
 $endif$
 
@@ -130,11 +132,8 @@ $else$
 \setmathfont{IBM Plex Math}
 $endif$
 
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{%
-  \usepackage[$if(microtypeoptions)$$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$$else$protrusion=true$endif$]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath}
-}{}
+\usepackage[$if(microtypeoptions)$$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$$else$protrusion=true$endif$]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath}
 
 % Familia de display
 $if(titlesans)$
@@ -166,7 +165,8 @@ $endif$
 \setstretch{$if(linestretch)$$linestretch$$else$1.5$endif$}
 
 \newlength{\ParIndent}
-\setlength{\ParIndent}{$if(parindent)$$parindent$$else$0.5in$endif$}
+% Otras posibilidades: 0.5in, 1cm, 2em
+\setlength{\ParIndent}{$if(parindent)$$parindent$$else$1cm$endif$}
 
 $if(noindent)$
 \setlength{\parindent}{0pt}
@@ -200,16 +200,24 @@ $endif$
 
 \usepackage{enumitem}
 
-\AtBeginDocument{%
-  \setlist[itemize,1]{label=\textemdash}
-  \setlist[itemize,2]{label=\textbullet}
-  \setlist[itemize,3]{label={\small◆}}
-  \setlist[itemize,4]{label=\textemdash}
+\setlist{
+  topsep     = 0pt,
+  partopsep  = 0pt,
+  itemsep    = 0pt,
+  parsep     = 0pt,
+  labelwidth = 1em,
+  labelsep   = 1em,
+  leftmargin = *,
 }
 
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}
+\AtBeginDocument{%
+  \setlist[itemize,1]{label=\textemdash, leftmargin=\dimexpr\ParIndent\relax}
+  \setlist[itemize,2]{label=\textbullet, leftmargin=\dimexpr0.5\ParIndent\relax}
+  \setlist[itemize,3]{label={\small◆}, leftmargin=\dimexpr0.5\ParIndent\relax}
+  \setlist[itemize,4]{label=\textemdash, leftmargin=\dimexpr0.5\ParIndent\relax}
 }
+
+\providecommand{\tightlist}{}%
 
 % ── Citas exentas ────────────────────────────────────────────────────────────
 
@@ -243,7 +251,7 @@ $endif$
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
 
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\usepackage{footnotehyper}
 \makesavenoteenv{longtable}
 
 \setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
