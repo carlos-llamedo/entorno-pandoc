@@ -215,9 +215,17 @@ $endif$
   \setlist[itemize,2]{label=\textbullet, leftmargin=\dimexpr0.5\ParIndent\relax}
   \setlist[itemize,3]{label={\small◆}, leftmargin=\dimexpr0.5\ParIndent\relax}
   \setlist[itemize,4]{label=\textemdash, leftmargin=\dimexpr0.5\ParIndent\relax}
+$if(noindent)$
+  \setlist{topsep=\parskip}
+$endif
 }
 
-\providecommand{\tightlist}{}%
+$if(noindent)$
+\renewcommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}
+$else$
+\renewcommand{\tightlist}{}%
+$endif$
 
 % ── Citas exentas ────────────────────────────────────────────────────────────
 
