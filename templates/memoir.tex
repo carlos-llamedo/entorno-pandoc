@@ -217,14 +217,13 @@ $endif$
   \setlist[itemize,4]{label=\textemdash, leftmargin=\dimexpr0.5\ParIndent\relax}
 $if(noindent)$
   \setlist{topsep=\parskip}
-$endif
+$endif$
 }
 
+\providecommand{\tightlist}{}
 $if(noindent)$
 \renewcommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}
-$else$
-\renewcommand{\tightlist}{}%
 $endif$
 
 % ── Citas exentas ────────────────────────────────────────────────────────────
@@ -265,11 +264,12 @@ $endif$
 \setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
 \setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
 
-\DeclareCaptionLabelSeparator{puntocuadra}{.\enspace}
+\DeclareCaptionLabelSeparator{enspace}{\enspace}
+
 
 \captionsetup{
   labelfont       = normalfont,
-  labelsep        = puntocuadra,
+  labelsep        = enspace,
   singlelinecheck = false,
   justification   = justified
 }
@@ -301,6 +301,8 @@ $elseif(footrule)$
 $else$
 \usepackage[norule,splitrule]{footmisc}
 $endif$
+
+\setlength{\skip\footins}{0.5\baselineskip plus 2pt minus 2pt}
 
 $if(colorlinks)$
 \renewcommand{\thefootnote}{\textcolor{black}{\arabic{footnote}}}
