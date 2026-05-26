@@ -18,9 +18,8 @@ template: memoir.tex
 top-level-division: chapter
 
 metadata:
-  lang: es-ES
-  figureTitle: "FIGURA"
-  tableTitle: "TABLA"
+  figureTitle: "Figura"
+  tableTitle: "Tabla"
   figPrefix:
     - "fig."
     - "figs."

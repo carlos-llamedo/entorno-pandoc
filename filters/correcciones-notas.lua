@@ -39,7 +39,9 @@ Las dos correcciones comparten el mismo recorrido de inlines y el estado
 local function fix_inlines(inlines)
   -- Paso 1: "párr." → "§"
   for _, el in ipairs(inlines) do
-    if el.t == "Str" and el.text == "párr." then el.text = "§" end
+    if el.t == "Str" and (el.text == "párr." or el.text == "sec." or el.text == "secs.") then
+      el.text = "§"
+    end
   end
 
   -- Paso 2: semirraya → guion en rangos tras §

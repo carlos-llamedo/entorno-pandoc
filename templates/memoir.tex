@@ -170,7 +170,7 @@ $endif$
 
 $if(noindent)$
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{0.5\baselineskip plus 2pt minus 1pt}
+\setlength{\parskip}{0.25\baselineskip plus 2pt minus 1pt}
 $else$
 \setlength{\parindent}{\ParIndent}
 \setlength{\parskip}{0pt}
@@ -231,12 +231,17 @@ $endif$
 \usepackage{quoting}
 
 \quotingsetup{
-  font        = \textsmall,
   leftmargin  = \parindent,
   rightmargin = $if(quotesymmetric)$\parindent$else$0pt$endif$,
-  vskip       = 0pt plus 2.5pt,
+  vskip       = $if(noindent)$\parskip$else$0pt$endif$,
   indentfirst = false,
 }
+
+\AtBeginEnvironment{quoting}{%
+  \textsmall
+}
+
+\renewenvironment{quote}{\begin{quoting}}{\end{quoting}}
 
 % ── Idioma ───────────────────────────────────────────────────────────────────
 
@@ -264,14 +269,17 @@ $endif$
 \setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
 \setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
 
+\DeclareCaptionFont{captionfont}{%
+  \normalfont\scshape\addfontfeatures{Numbers=OldStyle}}
+\DeclareCaptionLabelFormat{scapslabel}{\MakeLowercase{#1}~#2}
 \DeclareCaptionLabelSeparator{enspace}{\enspace}
 
-
 \captionsetup{
-  labelfont       = normalfont,
+  labelfont       = captionfont,
   labelsep        = enspace,
+  labelformat     = scapslabel,
   singlelinecheck = false,
-  justification   = justified
+  justification   = justified,
 }
 \renewcommand{\captionfont}{\textsmall}
 \captionsetup[figure]{position = below}
@@ -318,7 +326,7 @@ $endif$
   \@enumdepth=0\relax
   \@itemdepth=0\relax
   \noindent
-$if(footnoindent)$%
+$if(noindent)$%
 % Usamos el comportamiento por defecto: notas al pie sin sangría
 $else$%
   \hspace*{\ParIndent}%
@@ -477,7 +485,7 @@ $endif$
 % Lista de figuras: redonda, sin sangrado.
 \renewcommand*{\l@figure}[2]{%
   \begingroup
-    \def\numberline##1{##1.\enspace}%
+    \def\numberline##1{##1\enspace}%
     \toc@line{0pt}{\upshape}{#1}{#2}%
   \endgroup
 }
@@ -485,7 +493,7 @@ $endif$
 % Lista de tablas: redonda, sin sangrado.
 \renewcommand*{\l@table}[2]{%
   \begingroup
-    \def\numberline##1{##1.\enspace}%
+    \def\numberline##1{##1\enspace}%
     \toc@line{0pt}{\upshape}{#1}{#2}%
   \endgroup
 }
@@ -561,6 +569,8 @@ $if(author-meta)$
 $endif$
 $if(lang)$
   pdflang={$lang$},
+$else$
+  pdflang={es-ES},
 $endif$
 $if(subject)$
   pdfsubject={$subject$},
