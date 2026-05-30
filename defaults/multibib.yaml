@@ -16,6 +16,7 @@ template: memoir.tex
 top-level-division: chapter
 
 metadata:
+  lang: es-ES
   figureTitle: "Figura"
   tableTitle: "Tabla"
   figPrefix:

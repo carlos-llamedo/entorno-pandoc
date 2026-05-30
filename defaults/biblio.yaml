@@ -1,0 +1,19 @@
+pdf-engine: lualatex
+
+resource-path: 
+  - .
+  - figuras
+  - ${USERDATA}
+
+filters:
+  - citeproc
+
+csl: chicago-author-date
+
+template: memoir.tex
+top-level-division: chapter
+
+metadata:
+  lang: es-ES
+  reference-section-title: "Bibliografía"
+  colorlinks: true

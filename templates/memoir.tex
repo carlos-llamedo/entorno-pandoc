@@ -1,4 +1,5 @@
-% memoria.tex: Plantilla Pandoc para memorias académicas.
+% memoria.tex
+% Plantilla Pandoc para memorias académicas.
 % Clase: book (LuaLaTeX). Compatible con default.latex y memoria.yaml.
 % Copyright © 2026 Carlos Llamedo (MIT Licence)
 % ────────────────────────────────────────────────────────────────────────────
@@ -20,8 +21,6 @@ $if(pdfstandard.tagging)$
 $endif$
 $if(lang)$
   lang=$lang$,
-$else$
-  lang=es-ES,
 $endif$
   xmp=true}
 $endif$
@@ -572,8 +571,6 @@ $if(author-meta)$
 $endif$
 $if(lang)$
   pdflang={$lang$},
-$else$
-  pdflang={es-ES},
 $endif$
 $if(subject)$
   pdfsubject={$subject$},
