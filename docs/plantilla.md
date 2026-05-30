@@ -111,7 +111,7 @@ parindent: 2em     # relativo al cuerpo de texto; escala con el tamaño de fuent
 
 Por defecto la plantilla usa sangría de primera línea sin espacio entre párrafos (convención tipográfica europea). `noindent: true` invierte el comportamiento: elimina la sangría y añade espacio entre párrafos (`0.25\baselineskip`). Nota: `\ParIndent` conserva su valor en ambos modos y sigue usándose para listas, notas al pie e índice.
 
-`smallsize` controla el tamaño tipográfico de los elementos secundarios: notas al pie, citas exentas, captions y bloques de código. Acepta cualquier comando de tamaño LaTeX estándar. Con un cuerpo de `12pt` los tamaños aproximados son:
+`smallsize` controla el tamaño tipográfico de los elementos secundarios: notas al pie, citas exentas, pies de foto, encabezados y pies de página y bloques de código. Acepta cualquier comando de tamaño LaTeX estándar. Con un cuerpo de `12pt` los tamaños aproximados son:
 
 ```yaml
 smallsize: \tiny         # 6 pt
@@ -167,20 +167,20 @@ Por defecto el encabezado verso lleva el nombre del autor en cursiva (o el títu
 | `abstract` | string | pandoc |
 | `keywords` | lista | pandoc |
 | `maketitle` | booleano | propio |
-| `dedicatoria` | string | propio |
+| `dedication` | string | propio |
 | `epigraphtext` | string | propio |
 | `epigraphauthor` | string | propio |
 | `epigraphwork` | string | propio |
 
 `title`, `subtitle` y `author` se usan tanto para los metadatos del PDF como para la portada cuando `maketitle: true`. En los metadatos, el subtítulo se añade al título separado por punto y espacio. Para un valor distinto en los metadatos (sin formato LaTeX, sin notas al pie), declarar `title-meta` y `author-meta` explícitamente; en ese caso `subtitle` no se añade al `pdftitle` automáticamente.
 
-`maketitle` activa la portada. Si no está declarado, el título existe como metadato pero no se imprime. Esto permite titular un documento en Zettlr o para los encabezados sin generar una portada.
+`maketitle` activa la portada. Si no está declarado, el título existe como metadato pero no se imprime. Esto permite titular un documento sin generar una portada.
 
 `abstract` activa una página de resumen con el encabezado «Resumen» en negrita. Si `keywords` está declarado, las palabras clave se añaden al final con el encabezado «Palabras clave:».
 
 `thanks` genera un capítulo sin numerar de agradecimientos, situado después de los índices y antes del cuerpo principal.
 
-`dedicatoria` genera una página de dedicatoria: texto en cursiva, alineado a la derecha en la mitad inferior.
+`dedication` genera una página de dedicatoria: texto en cursiva, alineado a la derecha en la mitad inferior.
 
 `epigraphtext` genera una página de epígrafe en la mitad inferior derecha. Se complementa con `epigraphauthor` (en versalitas) y `epigraphwork` (en cursiva). Los tres campos son independientes: pueden combinarse en cualquier proporción.
 
@@ -245,9 +245,9 @@ Los colores por defecto son `purpleblue` (RGB 72, 61, 139). También está defin
 
 El color de los enlaces del índice se controla mediante `toccolor`; si no está declarado, los enlaces del índice van en negro.
 
-`urlstyle` acepta: `tt` (monoespacio), `rm` (serif), `sf` (sans), `same` (igual al contexto). Por defecto las URLs van en la misma fuente que el texto circundante.
+`urlstyle` acepta: `tt` (monoespacio), `rm` (serif), `sf` (sans), `same` (igual al contexto). Por defecto las URL van en la misma fuente que el texto circundante.
 
-`lang` acepta etiquetas BCP 47. Los valores más habituales en este flujo de trabajo son `es-ES` (español de España, defecto), `es-419` (español de América), `en-GB`, `en-US`, `fr-FR` y `ca-ES` (catalán). El valor afecta a los metadatos del PDF, a la configuración de hyperref y, a través de babel, a la silabación.
+`lang` acepta etiquetas BCP 47. Los valores más habituales en este flujo de trabajo son `es-ES` (español de España, defecto), `en-GB`, `en-US` y `fr-FR`. El valor afecta a los metadatos del PDF, a la configuración de hyperref y, a través de babel, a la silabación.
 
 `verbatim-in-note` activa `\VerbatimFootnotes` de `fancyvrb` para permitir verbatim dentro de notas al pie.
 
