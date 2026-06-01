@@ -389,6 +389,10 @@ $endif$
   \renewcommand{\headrulewidth}{0pt}%
 }
 
+\makeatletter
+\pretocmd{\@schapter}{\chaptermark{#1}}{}{}
+\makeatother
+
 % ── Secciones y títulos (titlesec) ────────────────────────────────────────────
 
 \usepackage{needspace}

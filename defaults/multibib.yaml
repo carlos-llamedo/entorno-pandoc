@@ -30,3 +30,9 @@ metadata:
     - "ecs."
   lofTitle: "Lista de figuras"
   lotTitle: "Lista de tablas"
+
+variables:
+  header-includes:
+    - |
+        \usepackage{chngcntr}
+        \counterwithout{footnote}{chapter}
