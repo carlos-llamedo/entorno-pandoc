@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # pan.sh — Wrapper de Pandoc.
-# Convierte Markdown a PDF (o TEX) mediante pandoc + LuaLaTeX.
+# Convierte Markdown a PDF (o TeX) mediante pandoc + LuaLaTeX.
 
 # ── Color ───────────────────────────────────────────────────────────────────
 
@@ -75,7 +75,7 @@ Uso: pan.sh [-d PLANTILLA] [-t] [-h] DOCUMENTO.md
 Opciones:
   -d PLANTILLA  Defaults file a usar (sin extensión). Por defecto: memoria.
                 Los defaults files viven en el data-dir de pandoc (defaults/).
-  -t            Modo tex: genera .tex en el directorio del Markdown en vez de
+  -t            Modo TeX: genera .tex en el directorio del Markdown en vez de
                 PDF en el Escritorio. Procesa citas y filtros; útil para
                 retocar a mano antes de compilar.
   -v            Modo verboso: activa información de depuración de pandoc.

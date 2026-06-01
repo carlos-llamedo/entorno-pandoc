@@ -1,6 +1,6 @@
 # Variables de la plantilla `memoir.tex`
 
-Referencia completa de todas las variables YAML que acepta la plantilla. Las variables marcadas como **pandoc** son estándar y están documentadas en el manual de pandoc; las marcadas como **propio** son específicas de esta plantilla.
+Referencia completa de todas las variables YAML que acepta la plantilla. Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla.
 
 * * *
 
@@ -13,7 +13,7 @@ Referencia completa de todas las variables YAML que acepta la plantilla. Las var
 | `pdfstandard.standards` | lista | pandoc |
 | `pdfstandard.tagging` | booleano | pandoc |
 
-Si `pdfstandard` está declarado, la plantilla emite `\DocumentMetadata{…}` con los valores correspondientes. El idioma del PDF se toma de `lang`; si no está declarado, se aplica `es-ES`. `xmp=true` se activa siempre que el bloque esté presente. `pdfstandard.version` acepta valores como `1.7` o `2.0`; `pdfstandard.standards` acepta identificadores de conformidad como `a-4f` (PDF/A con fuentes embebidas), `ua-2` (accesibilidad) o `x-4` (PDF/X). Para accesibilidad académica la combinación habitual es `A-4f` con `tagging: true`.
+Si `pdfstandard` está declarado, la plantilla emite `\DocumentMetadata{…}` con los valores correspondientes. El idioma del PDF se toma de `lang`; si no está declarado, se aplica `es-ES`. `xmp=true` se activa siempre que el bloque esté presente. `pdfstandard.version` acepta valores como `1.7` o `2.0`; `pdfstandard.standards` acepta identificadores de conformidad como `a-4f` (PDF/A con fuentes embebidas), `ua-2` (accesibilidad) o `x-4` (PDF/X). Para accesibilidad académica la combinación habitual es `a-4f` con `tagging: true`.
 
 * * *
 
@@ -146,7 +146,7 @@ Por defecto el encabezado verso lleva el nombre del autor en cursiva (o el títu
 
 | Variable | Tipo | Efecto | Origen |
 |---|---|---|---|
-| `headscaps` | booleano | Encabezados en versalitas en lugar de cursiva | propio |
+| `headscaps` | booleano | Encabezados en versalitas (*serif*) o mayúsculas (*sans*) en lugar de cursiva | propio |
 | `folioonly` | booleano | Solo folio, sin texto de encabezado | propio |
 | `headrule` | booleano | Filete bajo el encabezado | propio |
 | `nofolio` | booleano | Suprime el folio en páginas de inicio de capítulo | propio |
@@ -212,12 +212,11 @@ Las citas exentas van en el tamaño `\textsmall` y con el sangrado izquierdo igu
 
 ## Numeración romana
 
-Por defecto los números romanos de las páginas preliminares van en versalitas.
+Por defecto los números romanos de las páginas preliminares van en versalitas (o en mayúsculas si la fuente que les aplica es *sans*).
 
 | Variable | Tipo | Efecto | Origen |
 |---|---|---|---|
-| `romansmall` | booleano | Minúsculas ordinarias | propio |
-| `romancaps` | booleano | Mayúsculas | propio |
+| `romansmall` | booleano | Romanitos | propio |
 
 * * *
 

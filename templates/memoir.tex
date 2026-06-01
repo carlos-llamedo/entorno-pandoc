@@ -140,15 +140,29 @@ $endif$
 % Familia de display
 $if(titlesans)$
   \newcommand{\metafont}{\sffamily}
+  \newcommand{\metacaps}[1]{\MakeUppercase{#1}}
+  \newcommand{\capsfont}{\sffamily\upshape}
+  \newcommand{\metalabelformat}[2]{\MakeUppercase{#1}~#2}
 $elseif(titlefont)$
-  \newfontfamily\displayfamily[$for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
+  \newfontfamily\displayfamily[Numbers=OldStyle, $for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
   \newcommand{\metafont}{\displayfamily}
+  \newcommand{\metacaps}[1]{\textsc{#1}}
+  \newcommand{\capsfont}{\displayfamily\scshape}
+  \newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
 $else$
   \newcommand{\metafont}{\normalfont}
+  \newcommand{\metacaps}[1]{\textsc{#1}}
+  \newcommand{\capsfont}{\scshape}
+  \newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
 $endif$
 
 $if(bodysans)$
 \renewcommand{\familydefault}{\sfdefault}
+$if(titlefont)$$else$
+  \renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
+  \renewcommand{\capsfont}{\sffamily\upshape}
+  \renewcommand{\metalabelformat}[2]{#1~#2}
+$endif$
 $endif$
 
 % \textsmall: tamaño reducido para notas, citas, captions y código.
@@ -191,10 +205,8 @@ $endif$
 \makeatletter
 $if(romansmall)$
 % Los romanos se quedan en minúsculas
-$elseif(romancaps)$
-\renewcommand{\@roman}[1]{\MakeUppercase{\romannumeral#1}}
 $else$
-\renewcommand{\@roman}[1]{\textsc{\romannumeral#1}}
+\renewcommand{\@roman}[1]{\capsfont{\romannumeral#1}}
 $endif$
 \makeatother
 
@@ -233,8 +245,8 @@ $endif$
 \usepackage{quoting}
 
 \quotingsetup{
-  leftmargin  = \parindent,
-  rightmargin = $if(quotesymmetric)$\parindent$else$0pt$endif$,
+  leftmargin  = \ParIndent,
+  rightmargin = $if(quotesymmetric)$\ParIndent$else$0pt$endif$,
   vskip       = $if(noindent)$\parskip$else$0pt$endif$,
   indentfirst = false,
 }
@@ -271,15 +283,14 @@ $endif$
 \setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
 \setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
 
-\DeclareCaptionFont{captionfont}{%
-  \normalfont\scshape\addfontfeatures{Numbers=OldStyle}}
-\DeclareCaptionLabelFormat{scapslabel}{\MakeLowercase{#1}~#2}
+\DeclareCaptionFont{captionfont}{\capsfont}
+\DeclareCaptionLabelFormat{displaylabel}{\metalabelformat{#1}{#2}}
 \DeclareCaptionLabelSeparator{enspace}{\enspace}
 
 \captionsetup{
   labelfont       = captionfont,
   labelsep        = enspace,
-  labelformat     = scapslabel,
+  labelformat     = displaylabel,
   singlelinecheck = false,
   justification   = justified,
 }
@@ -347,7 +358,7 @@ $endif$%
 \usepackage{fancyhdr}
 
 $if(headscaps)$
-  \newcommand{\headerstyle}[1]{\textsmall\metafont\textsc{\MakeLowercase{#1}}}
+  \newcommand{\headerstyle}[1]{\textsmall\metafont\metacaps{\MakeLowercase{#1}}}
 $else$
   \newcommand{\headerstyle}[1]{\textsmall\metafont\textit{#1}}
 $endif$
@@ -520,7 +531,7 @@ $highlighting-macros$
   \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
 \makeatother
 \newlength{\cslhangindent}
-\setlength{\cslhangindent}{\parindent}
+\setlength{\cslhangindent}{\ParIndent}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
 \newenvironment{CSLReferences}[2]
@@ -673,7 +684,7 @@ $if(epigraphtext)$
   $if(epigraphauthor)$
   \par\smallskip
   {\raggedleft%
-  \textsc{$epigraphauthor$}%
+  \capsfont{$epigraphauthor$}%
   $if(epigraphwork)$, \textit{$epigraphwork$}$endif$\par}
   $else$$if(epigraphwork)$
   \par\smallskip{\raggedleft\textit{$epigraphwork$}\par}
