@@ -139,29 +139,29 @@ $endif$
 
 % Familia de display
 $if(titlesans)$
-  \newcommand{\metafont}{\sffamily}
-  \newcommand{\metacaps}[1]{\MakeUppercase{#1}}
-  \newcommand{\capsfont}{\sffamily\upshape}
-  \newcommand{\metalabelformat}[2]{\MakeUppercase{#1}~#2}
+\newcommand{\metafont}{\sffamily}
+\newcommand{\metacaps}[1]{\MakeUppercase{#1}}
+\newcommand{\capsfont}{\sffamily\upshape}
+\newcommand{\metalabelformat}[2]{\MakeUppercase{#1}~#2}
 $elseif(titlefont)$
-  \newfontfamily\displayfamily[Numbers=OldStyle, $for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
-  \newcommand{\metafont}{\displayfamily}
-  \newcommand{\metacaps}[1]{\textsc{#1}}
-  \newcommand{\capsfont}{\displayfamily\scshape}
-  \newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
+\newfontfamily\displayfamily[Numbers=OldStyle, $for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
+\newcommand{\metafont}{\displayfamily}
+\newcommand{\metacaps}[1]{\textsc{#1}}
+\newcommand{\capsfont}{\displayfamily\scshape}
+\newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
 $else$
-  \newcommand{\metafont}{\normalfont}
-  \newcommand{\metacaps}[1]{\textsc{#1}}
-  \newcommand{\capsfont}{\scshape}
-  \newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
+\newcommand{\metafont}{\normalfont}
+\newcommand{\metacaps}[1]{\textsc{#1}}
+\newcommand{\capsfont}{\scshape}
+\newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
 $endif$
 
 $if(bodysans)$
 \renewcommand{\familydefault}{\sfdefault}
 $if(titlefont)$$else$
-  \renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
-  \renewcommand{\capsfont}{\sffamily\upshape}
-  \renewcommand{\metalabelformat}[2]{#1~#2}
+\renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
+\renewcommand{\capsfont}{\sffamily\upshape}
+\renewcommand{\metalabelformat}[2]{#1~#2}
 $endif$
 $endif$
 
@@ -206,7 +206,7 @@ $endif$
 $if(romansmall)$
 % Los romanos se quedan en minúsculas
 $else$
-\renewcommand{\@roman}[1]{\capsfont{\romannumeral#1}}
+\renewcommand{\@roman}[1]{\capsfont{\metacaps{\romannumeral#1}}}
 $endif$
 \makeatother
 
