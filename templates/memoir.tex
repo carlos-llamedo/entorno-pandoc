@@ -219,16 +219,16 @@ $endif$
   partopsep  = 0pt,
   itemsep    = 0pt,
   parsep     = 0pt,
-  labelwidth = 1em,
+  labelwidth = \dimexpr\ParIndent - 1em\relax,
   labelsep   = 1em,
-  leftmargin = *,
+  leftmargin = !,
 }
 
-\AtBeginDocument{%
-  \setlist[itemize,1]{label=\textemdash, leftmargin=\dimexpr\ParIndent\relax}
-  \setlist[itemize,2]{label=\textbullet, leftmargin=\dimexpr0.5\ParIndent\relax}
-  \setlist[itemize,3]{label={\small◆}, leftmargin=\dimexpr0.5\ParIndent\relax}
-  \setlist[itemize,4]{label=\textemdash, leftmargin=\dimexpr0.5\ParIndent\relax}
+\AtBeginDocument{
+  \setlist[itemize,1]{label=\textemdash}
+  \setlist[itemize,2]{label=\textbullet}
+  \setlist[itemize,3]{label={\small◆}}
+  \setlist[itemize,4]{label=\textemdash}
 $if(noindent)$
   \setlist{topsep=\parskip}
 $endif$
