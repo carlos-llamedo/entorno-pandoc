@@ -142,18 +142,15 @@ $if(titlesans)$
 \newcommand{\metafont}{\sffamily}
 \newcommand{\metacaps}[1]{\MakeUppercase{#1}}
 \newcommand{\capsfont}{\sffamily\upshape}
-\newcommand{\metalabelformat}[2]{\MakeUppercase{#1}~#2}
 $elseif(titlefont)$
 \newfontfamily\displayfamily[Numbers=OldStyle, $for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
 \newcommand{\metafont}{\displayfamily}
-\newcommand{\metacaps}[1]{\textsc{#1}}
+\newcommand{\metacaps}[1]{\textsc{\MakeLowercase{#1}}}
 \newcommand{\capsfont}{\displayfamily\scshape}
-\newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
 $else$
 \newcommand{\metafont}{\normalfont}
-\newcommand{\metacaps}[1]{\textsc{#1}}
+\newcommand{\metacaps}[1]{\textsc{\MakeLowercase{#1}}}
 \newcommand{\capsfont}{\scshape}
-\newcommand{\metalabelformat}[2]{\MakeLowercase{#1}~#2}
 $endif$
 
 $if(bodysans)$
@@ -161,7 +158,6 @@ $if(bodysans)$
 $if(titlefont)$$else$
 \renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
 \renewcommand{\capsfont}{\sffamily\upshape}
-\renewcommand{\metalabelformat}[2]{#1~#2}
 $endif$
 $endif$
 
@@ -284,12 +280,12 @@ $endif$
 \setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
 
 \DeclareCaptionFont{captionfont}{\capsfont}
-\DeclareCaptionLabelFormat{displaylabel}{\metalabelformat{#1}{#2}}
-\DeclareCaptionLabelSeparator{enspace}{\enspace}
+\DeclareCaptionLabelFormat{displaylabel}{\metacaps{#1}~#2}
+\DeclareCaptionLabelSeparator{emspace}{\emspace}
 
 \captionsetup{
   labelfont       = captionfont,
-  labelsep        = enspace,
+  labelsep        = emspace,
   labelformat     = displaylabel,
   singlelinecheck = false,
   justification   = justified,
@@ -358,7 +354,7 @@ $endif$%
 \usepackage{fancyhdr}
 
 $if(headscaps)$
-  \newcommand{\headerstyle}[1]{\textsmall\metafont\metacaps{\MakeLowercase{#1}}}
+  \newcommand{\headerstyle}[1]{\textsmall\metafont\metacaps{#1}}
 $else$
   \newcommand{\headerstyle}[1]{\textsmall\metafont\textit{#1}}
 $endif$
@@ -389,6 +385,7 @@ $endif$
   \renewcommand{\headrulewidth}{0pt}%
 }
 
+% Los capítulos sin numerar también cuentan
 \makeatletter
 \pretocmd{\@schapter}{\chaptermark{#1}}{}{}
 \makeatother

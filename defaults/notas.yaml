@@ -1,0 +1,15 @@
+to: markdown
+
+resource-path: 
+  - .
+  - figuras
+  - ${USERDATA}
+
+filters:
+  - citeproc
+
+csl: chicago-notes-bibliography
+bibliography: biblioteca.bib
+
+metadata:
+  lang: es-ES

@@ -57,6 +57,8 @@ La documentación de la especificación [Citation Style Language](https://citati
 - una guía para la traducción de los estilos ([web](https://docs.citationstyles.org/en/stable/translating-locale-files.html); [GitHub](https://github.com/citation-style-language/documentation/blob/master/translating-locale-files.rst)),
 - la especificación CSL completa ([web](https://docs.citationstyles.org/en/stable/specification.html); [GitHub](https://github.com/citation-style-language/documentation/blob/master/specification.rst)).
 
+Todos los estilos de citación son accesibles desde [el repositorio](https://github.com/citation-style-language), aunque el [repositorio de estilos de Zotero](https://www.zotero.org/styles), que se actualiza constantemente, es una forma más fácil de navegar y comparar.
+
 #### pandoc-crossref
 
 La documentación de [`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) se puede ver [en web](https://lierdakil.github.io/pandoc-crossref/) y [en el directorio `docs/` de su repositorio de GitHub](https://lierdakil.github.io/pandoc-crossref/).
