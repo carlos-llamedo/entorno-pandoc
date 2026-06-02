@@ -16,10 +16,6 @@ template: memoir.tex
 top-level-division: chapter
 
 metadata:
-  header-inclues:
-    - |
-        \usepackage{chngcntr}
-        \counterwithout{footnote}{chapter}
   lang: es-ES
   figureTitle: "Figura"
   tableTitle: "Tabla"
