@@ -198,6 +198,15 @@ Por defecto el filete aparece solo en páginas donde una nota continúa desde la
 
 La sangría de las notas al pie sigue el valor de `parindent` cuando el documento usa sangría de primera línea. En modo `noindent` las notas van sin sangría.
 
+Hay una interacción conocida entre `pandoc-crossref` y `multibib.lua` que obliga al contador de numeración de notas al pie a reiniciarse en cada capítulo. Si se quiere evitar este comportamiento, hay que añadir un bloque `header-includes` en el YAML del documento:
+
+```yaml
+header-includes:
+  - |
+      \usepackage{chngcntr}
+      \counterwithout{footnote}{chapter}
+```
+
 * * *
 
 ## Citas exentas
