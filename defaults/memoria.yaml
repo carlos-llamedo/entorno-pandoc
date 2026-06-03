@@ -5,7 +5,7 @@ resource-path:
   - figuras
   - ${USERDATA}
 
-bibliography: biblioteca.bib
+bibliography: biblioteca.json
 
 filters:
   - include-files.lua
