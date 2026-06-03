@@ -27,7 +27,11 @@ fatal_trap
 
 # ── Variables ─────────────────────────────────────────────────────────────────
 
-dir_locales="$(chezmoi source-path ~/.local/share/pandoc/locales/)"
+if command -v chezmoi &>/dev/null; then
+  dir_locales="$(chezmoi source-path ~/.local/share/pandoc/locales/)"
+else
+  dir_locales="${XDG_DATA_HOME:-$HOME/.local/share}/pandoc/locales/"
+fi
 url_base="https://raw.githubusercontent.com/citation-style-language/locales/master"
 
 locales=(

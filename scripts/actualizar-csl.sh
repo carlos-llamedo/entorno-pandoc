@@ -26,7 +26,11 @@ fatal_trap
 
 # ── Variables ─────────────────────────────────────────────────────────────────
 
-dir_csl="$(chezmoi source-path ~/.local/share/pandoc/csl)"
+if command -v chezmoi &>/dev/null; then
+  dir_csl="$(chezmoi source-path ~/.local/share/pandoc/csl/)"
+else
+  dir_csl="${XDG_DATA_HOME:-$HOME/.local/share}/pandoc/csl/"
+fi
 url_base="https://raw.githubusercontent.com/citation-style-language/styles/master"
 
 estilos=(
