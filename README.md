@@ -24,6 +24,41 @@ En el caso de `pandoc` y `pandoc-crossref`, es importante que ambos estén compi
 
 ### Filtros
 
+### Referencias bibliográficas
+
+En lugar de formatear manualmente las citas, `citeproc` es capaz de generar referencias en texto junto con su bibliografía en cualquier estilo. Lo único que necesita es un documento con referencias en la [sintaxis de la extensión `citations` de Pandoc](https://pandoc.org/MANUAL.html#citation-syntax); un [archivo de bibliografía](https://pandoc.org/MANUAL.html#specifying-bibliographic-data) en uno de los formatos admitidos (BibLaTeX, BibTeX, CSL JSON, CSL YAML o RIS); y, si se quiere, un [archivo de estilo CSL](https://www.zotero.org/styles) (si no se indica, se usa Chicago autor-fecha).
+
+Generar el archivo de bibliografía es, seguramente, la parte que más planificación requiere. Podemos distinguir tres formas de hacerlo, cada una de ellas con sus ventajas:
+
+1. La exportación simple por proyecto: se acopia bibliografía en un gestor de citas como [Zotero](https://www.zotero.org/), se exporta cuando se va a compilar el PDF y se pasa, sea en el campo `bibliography` del YAML o en la línea de comandos. El archivo de bibliografía queda así en el sistema de archivos como una instantánea (que se puede versiona fácilmente), lo que hace que el proceso de generar el documento se pueda reproducir exactamente. En este sistema, sin embargo, cualquier adición o modificación implica tener que volver a exportar. Tampoco hay que dar por sentado que todo proyecto tenga un lugar donde volcar cómodamente un archivo de bibliografía; hay proyectos (y momentos de los mismos) donde esto no tiene sentido, y en general depende del sistema de organización de archivos, si es que se sigue alguno.
+2. La exportación por proyecto que se mantiene actualizada mediante la [extensión Better BibTeX de Zotero](https://retorque.re/zotero-better-bibtex/). Esto soluciona el problema de la exportación simple, pero las exportaciones se siguen actualizando a no ser que se eliminen manualmente en los ajustes de Better BibTeX en Zotero. Además, no soluciona el problema de dónde debería vivir el archivo, y pierde una gran virtud del primer método: la reproducibilidad del proceso.
+3. La exportación global actualizada mediante Better BibTeX. No se exporta una colección vinculada a un proyecto concreto, sino toda la biblioteca de Zotero. Solo hay una colección actualizándose constantemente; y puede vivir en el directorio de datos de Pandoc sin ningún problema, donde además será fácil de encontrar para las preconfiguraciones (por ejemplo, en `${USERDATA}/biblioteca.json`). Es un método fácil, muy apto para proyectos rápidos, donde un archivo de bibliografía propio puede no tener mucho sentido. Al igual que el segundo método, claro, la reproducibilidad del proceso queda alterada. El hecho de que funcione bien con proyectos rápidos tiene otra cara de la moneda: aquí, los proyectos son menos autónomos.
+
+: Pros y contras de cada método de generación de un archivo de bibliografía para `citeproc` desde Zotero
+
+|  Método |  Pros |  Contras |
+|---|---|---|
+|  *Exportación simple por proyecto* |  Reproducibilidad y autonomía absoluta, simplicidad (no requiere BBT), versionado |  Cambios requieren reexportar, no todo proyecto alberga ficheros sueltos sin problema |
+|  *Exportación actualizada por proyecto* |  Cambios no requieren reexportar, autonomía, reproducibilidad moderada, versionado  |  Posible acumulación de exportaciones, la reproducibilidad no es exacta, no todo proyecto alberga ficheros sueltos sin problema |
+|  *Exportación actualizada global* |  No requiere reexportar más que la primera vez, no hay riesgo de acumulación, no requiere que el proyecto tenga un lugar designado donde poner la bibliografía |  Proyectos carecen absolutamente de autonomía, no hay reproducibilidad |
+
+Combinar el método 1 y el 3 ofrece lo mejor de ambos mundos, y es lo que este repositorio asume. Hay un archivo de exportación global que se mantiene actualizado, con el que se trabaja y se compila durante todas las fases del proyecto. Una vez el trabajo se da por finalizado, y si se considera apropiado, se hace una exportación simple al directorio para garantizar su reproducibilidad y autonomía. Es cierto que de este modo no se aprovecha el versionado del archivo de bibliografía, pero fundamentalmente no es tan interesante ver cómo las referencias de un proyecto van modificándose y añadiéndose.
+
+### Preconfiguraciones
+
+El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para tareas específicas. El archivo [`filtros.md`](docs/filtros.md) da instrucciones sobre qué sintaxis concreta usar para utilizarlos.
+
+- [`memoria.yaml`](defaults/memoria.yaml). Sería la opción por defecto: toma un documento Markdown y lo convierte en un PDF. Utiliza, en este orden:
+    - `include-files.lua`
+    - `pandoc-crossref`
+    - `noindent.lua`
+    - `citeproc`
+    - `correcciones-notas.lua`
+- [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
+- [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al DOCX de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`. Los formatos ODT y DOCX son simplemente archivos XML comprimidos; este repositorio ofrece un directorio [`odt/`](templates/odt/) con esos archivos. Simplemente hay que empaquetarlos en un archivo `memoir.odt` y poner este en el directorio [`templates/`](templates/).
+- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BIB, JSON, etc.) y la formatea en un PDF a partir de `memoir.tex`. El estilo usado es Chicago autor-fecha.
+- [`notas.yaml`](defaults/notas.yaml). 
+
 ### Submódulos
 
 Se incluyen como submódulos de Git dos proyectos que conviene tener a mano:
