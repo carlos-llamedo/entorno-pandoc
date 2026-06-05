@@ -45,9 +45,11 @@ Además de eso, en el repositorio de GitHub hay:
 
 #### Citeproc
 
-[Citeproc](https://github.com/jgm/citeproc) es una librería Haskell escrita por John McFarlane. Es una reescritura de `pandoc-citeproc`, que a su vez era una derivación de la librería `citeproc-hs` de Andrea Rossato.
+[Citeproc](https://github.com/jgm/citeproc) es una librería Haskell escrita por John McFarlane. Es una reescritura de `pandoc-citeproc`, que a su vez era una derivación de la librería `citeproc-hs` de Andrea Rossato. En su repositorio GitHub [se puede consultar el manual completo](https://github.com/jgm/citeproc/blob/master/man/).
 
-**Sin conexión:** El ejecutable ofrece unas escuetas aclaraciones con `citeproc --help`, pero en su repositorio GitHub [se puede consultar el manual completo](https://github.com/jgm/citeproc/blob/master/man/citeproc.1.md). En cualquier caso, la sección [«Citations»](https://pandoc.org/MANUAL.html#citations) y [«Citation syntax»](https://pandoc.org/MANUAL.html#citation-syntax) del manual de Pandoc cubren bastante bien el uso de la librería.
+En cualquier caso, la sección [«Citations»](https://pandoc.org/MANUAL.html#citations) y [«Citation syntax»](https://pandoc.org/MANUAL.html#citation-syntax) del manual de Pandoc cubren bastante bien el uso de la librería.
+
+**Sin conexión:** `man citeproc`
 
 #### Citation Style Language
 
@@ -61,9 +63,11 @@ Todos los estilos de citación son accesibles desde [el repositorio](https://git
 
 #### pandoc-crossref
 
-La documentación de [`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) se puede ver [en web](https://lierdakil.github.io/pandoc-crossref/) y [en el directorio `docs/` de su repositorio de GitHub](https://lierdakil.github.io/pandoc-crossref/).
+La documentación de [`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) se puede ver [en web](https://lierdakil.github.io/pandoc-crossref/) y [en el directorio `docs/` de su repositorio de GitHub](https://github.com/lierdakil/pandoc-crossref/blob/master/docs/).
 
-**Sin conexión:** `pandoc-crossref --help` · `pandoc-crossref --man`
+Cada [binario precompilado](https://github.com/lierdakil/pandoc-crossref/releases/latest) incluye el manual `pandoc-crossref.1`.
+
+**Sin conexión:** `pandoc-crossref --help` · `man pandoc-crossref`
 
 ### Filtros Lua de Pandoc
 
