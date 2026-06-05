@@ -635,7 +635,7 @@
           <text:tab/>
           <text:tab/>
           <text:span text:style-name="Emphasis">
-            <text:author-name text:fixed="false">Carlos Llamedo Gutiérrez</text:author-name>
+            <text:author-name text:fixed="false"></text:author-name>
           </text:span>
           <text:span text:style-name="Emphasis">
             <text:s/>
@@ -687,7 +687,7 @@
             <text:tab/>
           </text:span>
           <text:span text:style-name="Emphasis">
-            <text:author-name text:fixed="false">Carlos Llamedo Gutiérrez</text:author-name>
+            <text:author-name text:fixed="false"></text:author-name>
           </text:span>
         </text:p>
       </style:header-first>
