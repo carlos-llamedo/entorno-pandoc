@@ -70,9 +70,9 @@ $else$
   bottom     = 3cm,
   left       = 3cm,
   right      = 3cm,
-  headheight = 14pt,
+  headheight = 14.5pt,
   % la mitad del margen superior menos la altura del encabezado
-  headsep    = \dimexpr1.5cm - 14pt\relax,
+  headsep    = \dimexpr1.5cm - 14.5pt\relax,
   % la mitad del margen inferior
   footskip   = 1.5cm,
 ]{geometry}
@@ -215,8 +215,8 @@ $endif$
   partopsep  = 0pt,
   itemsep    = 0pt,
   parsep     = 0pt,
-  labelwidth = \dimexpr\ParIndent - 1em\relax,
-  labelsep   = 1em,
+  labelwidth = \dimexpr\ParIndent - 0.5em\relax,
+  labelsep   = 0.5em,
   leftmargin = !,
 }
 
@@ -340,10 +340,10 @@ $if(noindent)$%
 $else$%
   \hspace*{\ParIndent}%
 $endif$%
-$if(footinline)$%
-  {\@thefnmark.}\enspace%
-$else$%
+$if(footsuper)$%
   {\@makefnmark}\enspace%
+$else$%
+  {\@thefnmark.}\enspace%
 $endif$%
   #1%
 }

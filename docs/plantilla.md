@@ -190,7 +190,7 @@ Por defecto el encabezado verso lleva el nombre del autor en cursiva (o el títu
 
 | Variable | Tipo | Efecto | Origen |
 |---|---|---|---|
-| `footinline` | booleano | Número en línea (seguido de punto) en lugar de superíndice | propio |
+| `footsuper` | booleano | Numeración en superíndice en lugar de en el renglón | propio |
 | `footrule` | booleano | Filete separador en todas las páginas | propio |
 | `nofootrule` | booleano | Suprime el filete incluso en páginas de continuación | propio |
 
