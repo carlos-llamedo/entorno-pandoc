@@ -1,0 +1,8 @@
+reference-doc: templates/memoir.odt
+
+resource-path: 
+  - ${USERDATA}
+
+filters:
+  - include-files.lua
+  - zotero.lua

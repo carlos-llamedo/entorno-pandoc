@@ -5,6 +5,7 @@
 # toda la biblioteca de Zotero a través de BetterBibTeX
 # se usa para citar, pero no se ha de versionar
 biblioteca.bib
+biblioteca.json
 
 filters/fusionar-citas.lua
 
@@ -12,3 +13,5 @@ templates/legacy/*
 templates/completa.tex
 
 docs/TODO.md
+
+templates/memoir.odt
