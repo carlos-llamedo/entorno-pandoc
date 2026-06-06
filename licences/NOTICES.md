@@ -39,7 +39,7 @@ Todo el repositorio de Better BibTeX (y por tanto [el filtro `zotero.lua`](https
 
 #### noindent.lua
 
-El filtro `noindent.lua` es, en realidad, código propio inspirado en el trabajo de Duck. Todo el [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions/tree/master) está bajo la licencia [GPLv3](https://github.com/tomduck/pandoc-latex-extensions/blob/master/LICENSE).
+El filtro `noindent.lua` es, en realidad, código propio inspirado en el trabajo de Duck. Todo el [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions) está bajo la licencia [GPLv3](https://github.com/tomduck/pandoc-latex-extensions/blob/master/LICENSE).
 
 #### multibib.lua\*
 

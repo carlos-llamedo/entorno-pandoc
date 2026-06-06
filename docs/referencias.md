@@ -77,7 +77,7 @@ Documentación sobre su uso se puede encontrar en [el sitio web de Better BibTeX
 
 #### noindent.lua
 
-Aunque el filtro es una reescritura propia, está inspirado por la funcionalidad implementada por Thomas Duck en su [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions/tree/master). Hay unas cuantas extensiones con ideas muy interesantes; `noindent.lua`, concretamente, está inspirado en su [`noindent.py`](https://github.com/tomduck/pandoc-latex-extensions/blob/master/pandoclatexextensions/plugins/noindent.py).
+Aunque el filtro es una reescritura propia, está inspirado por la funcionalidad implementada por Thomas Duck en su [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions). Hay unas cuantas extensiones con ideas muy interesantes; `noindent.lua`, concretamente, está inspirado en su [`noindent.py`](https://github.com/tomduck/pandoc-latex-extensions/blob/master/pandoclatexextensions/plugins/noindent.py).
 
 #### multibib.lua
 
@@ -103,14 +103,14 @@ Incluyo una plantilla, originalmente de Iago Mosqueira (como se indica en el pro
 
 ## Zettlr
 
-[Zettlr](https://www.zettlr.com) ofrece traducciones hechas por la comunidad de su propia documentación, pero la única oficial y que garantiza estar actualizada y mantenida es la versión inglesa: [web](https://docs.zettlr.com/en/); [GitHub](https://github.com/Zettlr/zettlr-docs/tree/master/docs/en).
+[Zettlr](https://www.zettlr.com) ofrece traducciones hechas por la comunidad de su propia documentación, pero la única oficial y que garantiza estar actualizada y mantenida es la versión inglesa: [web](https://docs.zettlr.com/en); [GitHub](https://github.com/Zettlr/zettlr-docs/tree/master/docs/en).
 
 **Sin conexión:** Zettlr se empaqueta con un tutorial que se puede consultar siempre en local, pero la documentación completa hay que consultarla en línea.
 
 ## Zotero
 
-La documentación de [Zotero](https://www.zotero.org/) se puede ver [en web](https://www.zotero.org/support/) y en [su repositorio de GitHub propio](https://github.com/zotero/zotero-docs/tree/main). Aunque es bastante extensa, cabe señalar [la sección de tipos de elemento y campos](https://www.zotero.org/support/kb/item_types_and_fields) dentro de ella.
+La documentación de [Zotero](https://www.zotero.org/) se puede ver [en web](https://www.zotero.org/support/) y en [su repositorio de GitHub propio](https://github.com/zotero/zotero-docs). Aunque es bastante extensa, cabe señalar [la sección de tipos de elemento y campos](https://www.zotero.org/support/kb/item_types_and_fields) dentro de ella.
 
 ## Better BibTeX
 
-La documentación de la [extensión Better BibTeX](https://retorque.re/zotero-better-bibtex/) se puede ver [en web](https://retorque.re/zotero-better-bibtex/) y [en su repositorio de GitHub](https://github.com/retorquere/zotero-better-bibtex/tree/master). En este último, la documentación se encuentra concretamente bajo [`site/content`](https://github.com/retorquere/zotero-better-bibtex/tree/master/site/content).
+La documentación de la [extensión Better BibTeX](https://retorque.re/zotero-better-bibtex) se puede ver [en web](https://retorque.re/zotero-better-bibtex) y [en su repositorio de GitHub](https://github.com/retorquere/zotero-better-bibtex). En este último, la documentación se encuentra concretamente bajo [`site/content`](https://github.com/retorquere/zotero-better-bibtex/tree/master/site/content).

@@ -47,64 +47,54 @@ En lugar de formatear manualmente las citas, `citeproc` es capaz de generar refe
 
 #### Archivo de bibliografía
 
-La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunas preconfiguraciones —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`dependencias`](docs/dependencias.md).
+La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunas preconfiguraciones —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`dependencias`](docs/dependencias.md).
 
 El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuario tienen que crear su propia exportación** en el directorio de datos de Pandoc.
 
 #### Archivos de estilo CSL y de localización
 
-El directorio [`csl/`](csl/) contiene los estilos de citación y el directorio [`locales/`](locales/) los archivos de localización (léase «traducción»). Ambos forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias.
+El directorio [`csl/`](csl/) contiene los estilos de citación y el directorio [`locales/`](locales/) los archivos de localización (léase «traducción»).
 
-Los [estilos](https://www.zotero.org/styles) determinan el formato de las citas: qué información se muestra, en qué orden, con qué separadores y con qué puntuación. Este repositorio incluye los estilos más habituales en humanidades y ciencias sociales:
+Ambos forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias. Este repositorio incluye los [estilos](https://github.com/citation-style-language/styles) más habituales en humanidades y ciencias sociales[^2].
 
-- `chicago-notes-bibliography`. *Chicago* 18.ª ed. con notas al pie y bibliografía final. Estándar en humanidades.
-- `chicago-shortened-notes-bibliography`. Variante de *Chicago* 18.ª ed. con notas abreviadas a partir de la segunda cita.
-- `chicago-author-date`. *Chicago* 18.ª ed. autor-fecha. Es también el más adecuado para bibliografías autónomas.
-- `mhra-notes`: *MHRA* 4.ª ed. con notas al pie, alternativa británica al *Chicago* de notas.
-- `mhra-shortened-notes`: variante de *MHRA* 4.ª ed. con notas abreviadas.
-- `mhra-author-date`: *MHRA* 4.ª ed. autor-fecha.
-- `apa`. *APA* 7.ª ed. Estilo autor-fecha, estándar en ciencias sociales.
+[^2]: Se pueden encontrar más fácilmente en <https://www.zotero.org/styles>.
 
-Las [localizaciones](https://github.com/citation-style-language/locales) adaptan los estilos al idioma del documento: traducen cadenas fijas como «ed.», «vol.» o «et al.» y aplican las convenciones tipográficas propias de cada lengua. Sin el archivo de localización correspondiente, `citeproc` recurre al inglés estadounidense por defecto. El repositorio incluye `es-ES`. `en-GB`, `fr-FR` y `en-US`.
+Las [localizaciones](https://github.com/citation-style-language/locales) adaptan los estilos al idioma del documento: traducen cadenas fijas como «ed.», «vol.» o «et al.» y aplican las convenciones tipográficas propias de cada lengua. Sin el archivo de localización correspondiente, `citeproc` recurre al inglés estadounidense por defecto.
 
 ### Preconfiguraciones
 
 El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para tareas específicas.
 
-- [`memoria.yaml`](defaults/memoria.yaml). Sería la opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF. Utiliza, en este orden:
-    - `include-files.lua`
-    - `pandoc-crossref`
-    - `noindent.lua`
-    - `citeproc`
-    - `correcciones-notas.lua`
+- [`memoria.yaml`](defaults/memoria.yaml). La opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF.
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
-- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía.
+- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^3].
 
-```bash
-pandoc -d notas.yaml <<< "[@Ward-Perkins2005]"
-```
-
-devuelve
-
-```markdown
-[^1]
-
-:::: {#refs .references .csl-bib-body .hanging-indent}
-::: {#ref-Ward-Perkins2005 .csl-entry}
-Ward-Perkins, Bryan. *The Fall of Rome and the End of Civilization*.
-Oxford University Press, 2005.
-:::
-::::
-
-[^1]: Bryan Ward-Perkins, *The Fall of Rome and the End of Civilization*
-    (Oxford University Press, 2005).
-```
+[^3]: Escribir en la consola
+    ```bash
+    pandoc -d notas.yaml <<< "[@Ward-Perkins2005]"
+    ```
+    
+    devuelve
+    
+    ```markdown
+    [^1]
+    
+    :::: {#refs .references .csl-bib-body .hanging-indent}
+    ::: {#ref-Ward-Perkins2005 .csl-entry}
+    Ward-Perkins, Bryan. *The Fall of Rome and the End of Civilization*.
+    Oxford University Press, 2005.
+    :::
+    ::::
+    
+    [^1]: Bryan Ward-Perkins, *The Fall of Rome and the End of Civilization*
+        (Oxford University Press, 2005).
+    ```
 
 ### *Scripts*
 
-El directorio [`scripts/`](scripts/) contiene utilidades de mantenimiento y actualización.
+El directorio [`scripts/`](scripts/) contiene utilidades de mantenimiento y actualización:
 
 - [`actualizar-csl.sh`](scripts/actualizar-csl.sh). Descarga las versiones más recientes de los estilos CSL incluidos en el repositorio desde el repositorio oficial de Citation Style Language.
 - [`actualizar-locales.sh`](scripts/actualizar-locales.sh). Hace lo propio con los archivos de localización.
@@ -114,23 +104,24 @@ El directorio [`scripts/`](scripts/) contiene utilidades de mantenimiento y actu
 El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
 - [`dependencias`](docs/dependencias.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
-- [`plantilla`](docs/plantilla.md). Referencia completa de las variables YAML de `memoir.tex`.
-- [`filtros`](docs/filtros.md). Instrucciones de uso de los filtros con sintaxis específica de cada uno.
-- [`referencias`](docs/referencias.md). Inventario de fuentes documentales del flujo de trabajo: dónde está la documentación oficial de cada componente.
-- [`markdown`](docs/markdown.md). Guía de estilo de Markdown en este contexto, extensiones de Pandoc activas en este flujo y qué hacen.
+- [`plantilla`](docs/plantilla.md). Qué variables variables YAML contempla `memoir.tex`.
+- [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
+- [`referencias`](docs/referencias.md). Dónde está la documentación oficial de cada componente.
+- [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
 
-### Submódulos
+## Proyectos similares
 
-Se incluyen como submódulos de Git dos proyectos que conviene tener a mano:
-
-- [`pandoc-templates`](https://github.com/jgm/pandoc-templates), que contiene [las plantillas](templates/pandoc-templates/) que Pandoc usa por defecto en todos los formatos soportados.
-- [`pandoc-templates` de Kieran Healy](https://github.com/kjhealy/pandoc-templates), que contiene [plantillas y recursos](templates/kjhealy/) útiles como referencia.
+- [`pandoc-templates`](https://github.com/jgm/pandoc-templates), el propio repositorio de las plantillas que usa Pandoc. Se incluye [como submódulo](templates/pandoc-templates/).
+- [`pandoc-templates`](https://github.com/kjhealy/pandoc-templates) de Kieran Healy. Se incluye [como submódulo](templates/kjhealy/).
+- [`Technical-Markdown`](https://github.com/gabyx/Technical-Markdown) de Gabriel Nützi.
+- [`phd_thesis_markdown`](https://github.com/tompollard/phd_thesis_markdown) de Tom Pollard.
+- [`pandoc-scholar`](https://github.com/pandoc-scholar/pandoc-scholar) de Albert Krewinkel.
 
 ## Justificación teórica
 
-En su polémico artículo *Word Processors: Stupid and Inefficient*[^2], Cottrell 
+En su polémico artículo *Word Processors: Stupid and Inefficient*[^4], Cottrell 
 
-[^2]: Allin Cottrell, *Word Processors: Stupid and Inefficient*, 1999, <http://cda.psych.uiuc.edu/latex_class_material/wp.html>.
+[^4]: Allin Cottrell, *Word Processors: Stupid and Inefficient*, 1999, <http://cda.psych.uiuc.edu/latex_class_material/wp.html>.
 
 vale. antes de hacer el diagrama, que ya veré cómo lo hago, voy a escribir la parte argumentativa. para mí, el README del documento se debería estructurar así
 

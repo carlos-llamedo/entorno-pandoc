@@ -33,7 +33,7 @@ Si `pdfstandard` está declarado, la plantilla emite `\DocumentMetadata{…}` co
 | `classoption` | lista | `twoside, openany` | pandoc |
 | `geometry` | lista | véase abajo | pandoc |
 
-Los valores habituales de `fontsize` son `10pt`, `11pt` y `12pt`. `papersize` acepta los nombres que reconoce la clase `book`: `a4paper` (defecto), `letterpaper` (carta estadounidense, 8,5 × 11 in), `a5paper`, `b5paper`. `classoption` admite cualquier opción de la clase; los valores más relevantes son `twoside` / `oneside` para documentos de una o dos caras, y `openright` / `openany` para controlar en qué página se abre cada capítulo.
+Los valores habituales de `fontsize` son `10pt`, `11pt` y `12pt`. `papersize` acepta los nombres que reconoce la clase `book`: `a4paper` (valor por defecto), `letterpaper` (carta estadounidense, 8,5 × 11 in), `a5paper`, `b5paper`. `classoption` admite cualquier opción de la clase; los valores más relevantes son `twoside` / `oneside` para documentos de una o dos caras, y `openright` / `openany` para controlar en qué página se abre cada capítulo.
 
 Si `geometry` no está declarado, la plantilla aplica márgenes de `3cm` en los cuatro lados, con `headheight = 14.5pt`, `headsep` igual a la mitad del margen superior menos la altura del encabezado, y `footskip = 1.5cm`. Para sobrescribir, hay que declarar siempre `headheight`, `headsep` y `footskip` junto con los márgenes para evitar advertencias de fancyhdr. Ejemplo con márgenes anglosajones de una pulgada:
 
@@ -110,7 +110,7 @@ Las opciones de ligaduras deben declararse como entradas separadas de la lista; 
 `parindent` controla la sangría de primera línea y actúa como medida central de la plantilla: el margen izquierdo del primer nivel de listas, el cuelgue de la bibliografía y el sangrado de las notas al pie son proporcionales a este valor. Acepta cualquier unidad LaTeX; los valores más habituales:
 
 ```yaml
-parindent: 1cm     # defecto
+parindent: 1cm     # valor por defecto
 parindent: 0.5in   # sangría de primera línea anglosajona
 parindent: 1.27cm  # equivalente en centímetros a la anglosajona
 parindent: 2em     # relativo al cuerpo de texto; escala con el tamaño de fuente
@@ -253,7 +253,7 @@ El color de los enlaces del índice se controla mediante `toccolor`; si no está
 
 `urlstyle` acepta: `tt` (monoespacio), `rm` (serif), `sf` (sans), `same` (igual al contexto). Por defecto las URL van en la misma fuente que el texto circundante.
 
-`lang` acepta etiquetas BCP 47. Los valores más habituales en este flujo de trabajo son `es-ES` (español de España, defecto), `en-GB`, `en-US` y `fr-FR`. El valor afecta a los metadatos del PDF, a la configuración de hyperref y, a través de babel, a la silabación.
+`lang` acepta etiquetas BCP 47. Los valores más habituales en este flujo de trabajo son `es-ES` (español de España, valor por defecto), `en-GB`, `en-US` y `fr-FR`. El valor afecta a los metadatos del PDF, a la configuración de hyperref y, a través de babel, a la silabación.
 
 `verbatim-in-note` activa `\VerbatimFootnotes` de `fancyvrb` para permitir verbatim dentro de notas al pie.
 
