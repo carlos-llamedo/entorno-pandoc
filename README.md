@@ -22,7 +22,7 @@ En el caso de `pandoc` y `pandoc-crossref`, es importante que ambos estén compi
 
 ### Plantillas
 
-El directorio [`templates/`](templates/) contiene las plantillas Pandoc usa para generar los documentos.
+El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa para generar los documentos.
 
 - [`memoir.tex`](templates/memoir.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todas las preconfiguraciones que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`docs/plantilla.md`](docs/plantilla.md).
 - [`dunning.tex`](templates/dunning.tex) es una plantilla ligera basada en la clase `tufte-handout`, útil para documentos breves con notas al margen. Obra de Andrew Dunning.
@@ -69,9 +69,9 @@ Las [localizaciones](https://github.com/citation-style-language/locales) adaptan
 
 ### Preconfiguraciones
 
-El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para tareas específicas. El archivo [`filtros.md`](docs/filtros.md) da instrucciones sobre qué sintaxis concreta usan.
+El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para tareas específicas.
 
-- [`memoria.yaml`](defaults/memoria.yaml). Sería la opción por defecto: toma un documento Markdown y lo convierte en un PDF. Utiliza, en este orden:
+- [`memoria.yaml`](defaults/memoria.yaml). Sería la opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF. Utiliza, en este orden:
     - `include-files.lua`
     - `pandoc-crossref`
     - `noindent.lua`
@@ -80,7 +80,27 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha.
-- [`notas.yaml`](defaults/notas.yaml). 
+- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía.
+
+```bash
+pandoc -d notas.yaml <<< "[@Ward-Perkins2005]"
+```
+
+devuelve
+
+```markdown
+[^1]
+
+:::: {#refs .references .csl-bib-body .hanging-indent}
+::: {#ref-Ward-Perkins2005 .csl-entry}
+Ward-Perkins, Bryan. *The Fall of Rome and the End of Civilization*.
+Oxford University Press, 2005.
+:::
+::::
+
+[^1]: Bryan Ward-Perkins, *The Fall of Rome and the End of Civilization*
+    (Oxford University Press, 2005).
+```
 
 ### *Scripts*
 
@@ -97,7 +117,7 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 - [`plantilla.md`](docs/plantilla.md). Referencia completa de las variables YAML de `memoir.tex`.
 - [`filtros.md`](docs/filtros.md). Instrucciones de uso de los filtros con sintaxis específica de cada uno.
 - [`referencias.md`](docs/referencias.md). Inventario de fuentes documentales del flujo de trabajo: dónde está la documentación oficial de cada componente.
-- [`markdown.md`](docs/markdown.md). Extensiones de Markdown activas en este flujo y qué hacen.
+- [`markdown.md`](docs/markdown.md). Guía de estilo de Markdown en este contexto, extensiones de Pandoc activas en este flujo y qué hacen.
 
 ### Submódulos
 

@@ -1,6 +1,3 @@
-from: csljson
-to: pdf
-
 pdf-engine: lualatex
 
 resource-path: 
