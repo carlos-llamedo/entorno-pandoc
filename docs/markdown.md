@@ -1,6 +1,6 @@
 # El Markdown de Pandoc
 
-## Extensiones nativas y activadas
+## Extensiones predeterminadas
 
 Se puede ajustar cómo el lector de Pandoc de ciertos formatos se comporta usando extensiones. El argumento `--list-extensions[=FORMATO]` lista cuáles están disponibles para cada formato. Esta configuración mantiene las activas por defecto, que se listan con `+` como prefijo:
 
@@ -50,3 +50,7 @@ Se puede ajustar cómo el lector de Pandoc de ciertos formatos se comporta usand
 - `table_captions`.
 - `tex_math_dollars`.
 - `yaml_metadata_block`.
+
+## Extensiones activas no predeterminadas
+
+- `rebase_relative_paths`.

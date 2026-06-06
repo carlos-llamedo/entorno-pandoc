@@ -56,10 +56,10 @@ En cualquier caso, la sección [«Citations»](https://pandoc.org/MANUAL.html#ci
 La documentación de la especificación [Citation Style Language](https://citationstyles.org/) (CSL) se puede ver [en web](https://docs.citationstyles.org/en/stable/specification.html) y [en su repositorio propio en GitHub](https://github.com/citation-style-language/documentation). Contiene:
 
 - una introducción a CSL ([web](https://docs.citationstyles.org/en/stable/primer.html); [GitHub](https://github.com/citation-style-language/documentation/blob/master/primer.rst)),
-- una guía para la traducción de los estilos ([web](https://docs.citationstyles.org/en/stable/translating-locale-files.html); [GitHub](https://github.com/citation-style-language/documentation/blob/master/translating-locale-files.rst)),
+- una guía para la localización (léase «traducción») de los estilos ([web](https://docs.citationstyles.org/en/stable/translating-locale-files.html); [GitHub](https://github.com/citation-style-language/documentation/blob/master/translating-locale-files.rst)),
 - la especificación CSL completa ([web](https://docs.citationstyles.org/en/stable/specification.html); [GitHub](https://github.com/citation-style-language/documentation/blob/master/specification.rst)).
 
-Todos los estilos de citación son accesibles desde [el repositorio](https://github.com/citation-style-language), aunque el [repositorio de estilos de Zotero](https://www.zotero.org/styles), que se actualiza constantemente, es una forma más fácil de navegar y comparar.
+Todos los estilos de citación son accesibles desde [el repositorio](https://github.com/citation-style-language), aunque el [repositorio de estilos de Zotero](https://www.zotero.org/styles), que se actualiza constantemente, es una forma más fácil de navegar y comparar. Las localizaciones están disponibles en [su propio repositorio de GitHub](https://github.com/citation-style-language/locales).
 
 #### pandoc-crossref
 

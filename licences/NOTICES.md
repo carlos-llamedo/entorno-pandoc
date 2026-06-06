@@ -19,7 +19,7 @@ La librería [`citeproc`](https://github.com/jgm/citeproc), de John MacFarlane, 
 En el caso del [Citation Style Language](https://citationstyles.org/) (CSL), tenemos tres elementos distintos:
 
 - Por un lado, tenemos los propios archivos CSL. Aunque lo declaran cada uno al principio del propio archivo, el README especifica que todos los estilos del repositorio están [bajo una licencia Creative Commons Attribution-ShareAlike 3.0 Unported](https://github.com/citation-style-language/styles#licensing).
-- Los archivos de traducción están [sujetos a la misma licencia Creative Commons Attribution-ShareAlike 3.0 Unported](https://github.com/citation-style-language/locales#licensing).
+- Los archivos de localización (léase «traducción») están [sujetos a la misma licencia Creative Commons Attribution-ShareAlike 3.0 Unported](https://github.com/citation-style-language/locales#licensing).
 - La documentación está bajo una licencia Creative Commons Attribution-ShareAlike 4.0 International ([README](https://github.com/citation-style-language/documentation/tree/master#licensing); [archivo de la licencia en el repositorio](https://github.com/citation-style-language/documentation/blob/master/LICENSE.txt)).
 
 #### pandoc-crossref
