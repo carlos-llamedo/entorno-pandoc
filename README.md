@@ -24,14 +24,14 @@ En el caso de `pandoc` y `pandoc-crossref`, es importante que ambos estén compi
 
 El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa para generar los documentos.
 
-- [`memoir.tex`](templates/memoir.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todas las preconfiguraciones que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`docs/plantilla.md`](docs/plantilla.md).
+- [`memoir.tex`](templates/memoir.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todas las preconfiguraciones que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`plantilla`](docs/plantilla.md).
 - [`dunning.tex`](templates/dunning.tex) es una plantilla ligera basada en la clase `tufte-handout`, útil para documentos breves con notas al margen. Obra de Andrew Dunning.
 
 El repositorio incluye también los archivos XML para construir `memoir.odt`, una plantilla para documentos ODT con aspecto parecido al de los PDF generados por `memoir.tex`. Los formatos `.odt` y `.docx` son archivos XML comprimidos; el directorio [`odt/`](templates/odt/) contiene esos archivos, que hay que empaquetar manualmente en `memoir.odt` y colocar en [`templates/`](templates/). El archivo construido **no se incluye en el repositorio** por ser un binario.
 
 ### Filtros
 
-El directorio [`filters/`](filters/) contiene los filtros Lua que transforman el documento durante la compilación. [`referencias.md`](docs/referencias.md) incluye dónde buscar la documentación exhaustiva de los filtros de terceros, aunque una guía de uso básica, tanto de los propios como de los ajenos, se da en [`filtros.md`](docs/filtros.md).
+El directorio [`filters/`](filters/) contiene los filtros Lua que transforman el documento durante la compilación. [`referencias`](docs/referencias.md) incluye dónde buscar la documentación exhaustiva de los filtros de terceros, aunque una guía de uso básica, tanto de los propios como de los ajenos, se da en [`filtros`](docs/filtros.md).
 
 - [`include-files.lua`](filters/include-files.lua). Permite incluir un archivo Markdown dentro de otro, lo que facilita dividir textos largos en varios archivos. De Albert Krewinkel.
 - [`multibib.lua`](filters/multibib.lua). Genera bibliografías múltiples y separadas en lugar de una única en un documento Markdown. De Albert Krewinkel.
@@ -47,7 +47,7 @@ En lugar de formatear manualmente las citas, `citeproc` es capaz de generar refe
 
 #### Archivo de bibliografía
 
-La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunas preconfiguraciones —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`dependencias.md`](docs/dependencias.md).
+La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunas preconfiguraciones —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`dependencias`](docs/dependencias.md).
 
 El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuario tienen que crear su propia exportación** en el directorio de datos de Pandoc.
 
@@ -113,11 +113,11 @@ El directorio [`scripts/`](scripts/) contiene utilidades de mantenimiento y actu
 
 El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
-- [`dependencias.md`](docs/dependencias.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
-- [`plantilla.md`](docs/plantilla.md). Referencia completa de las variables YAML de `memoir.tex`.
-- [`filtros.md`](docs/filtros.md). Instrucciones de uso de los filtros con sintaxis específica de cada uno.
-- [`referencias.md`](docs/referencias.md). Inventario de fuentes documentales del flujo de trabajo: dónde está la documentación oficial de cada componente.
-- [`markdown.md`](docs/markdown.md). Guía de estilo de Markdown en este contexto, extensiones de Pandoc activas en este flujo y qué hacen.
+- [`dependencias`](docs/dependencias.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
+- [`plantilla`](docs/plantilla.md). Referencia completa de las variables YAML de `memoir.tex`.
+- [`filtros`](docs/filtros.md). Instrucciones de uso de los filtros con sintaxis específica de cada uno.
+- [`referencias`](docs/referencias.md). Inventario de fuentes documentales del flujo de trabajo: dónde está la documentación oficial de cada componente.
+- [`markdown`](docs/markdown.md). Guía de estilo de Markdown en este contexto, extensiones de Pandoc activas en este flujo y qué hacen.
 
 ### Submódulos
 

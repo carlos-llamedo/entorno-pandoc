@@ -28,7 +28,7 @@ Si `pdfstandard` está declarado, la plantilla emite `\DocumentMetadata{…}` co
 
 Los valores habituales de `fontsize` son `10pt`, `11pt` y `12pt`. `papersize` acepta los nombres que reconoce la clase `book`: `a4paper` (defecto), `letterpaper` (carta estadounidense, 8,5 × 11 in), `a5paper`, `b5paper`. `classoption` admite cualquier opción de la clase; los valores más relevantes son `twoside` / `oneside` para documentos de una o dos caras, y `openright` / `openany` para controlar en qué página se abre cada capítulo.
 
-Si `geometry` no está declarado, la plantilla aplica márgenes de `3cm` en los cuatro lados, con `headheight = 14pt`, `headsep` igual a la mitad del margen superior menos la altura del encabezado, y `footskip = 1.5cm`. Para sobrescribir, hay que declarar siempre `headheight`, `headsep` y `footskip` junto con los márgenes para evitar advertencias de fancyhdr. Ejemplo con márgenes anglosajones de una pulgada:
+Si `geometry` no está declarado, la plantilla aplica márgenes de `3cm` en los cuatro lados, con `headheight = 14.5pt`, `headsep` igual a la mitad del margen superior menos la altura del encabezado, y `footskip = 1.5cm`. Para sobrescribir, hay que declarar siempre `headheight`, `headsep` y `footskip` junto con los márgenes para evitar advertencias de fancyhdr. Ejemplo con márgenes anglosajones de una pulgada:
 
 ```yaml
 geometry:
@@ -36,8 +36,8 @@ geometry:
   - bottom=1in
   - left=1in
   - right=1in
-  - headheight=14pt
-  - headsep=0.5in - 14pt
+  - headheight=14.5pt
+  - headsep=0.5in - 14.5pt
   - footskip=0.5in
 ```
 
