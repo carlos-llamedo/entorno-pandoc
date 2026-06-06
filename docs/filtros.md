@@ -186,7 +186,16 @@ El filtro envuelve el contenido del div en `{\parindent0pt … }` en lugar de us
 
 [`multibib.lua`](https://github.com/pandoc-ext/multibib) es un filtro de Albert Krewinkel. Permite separar la bibliografía en varias partes dentro de un mismo documento, cada una alimentada por un archivo de bibliografía distinto. 
 
-Sustituye a Citeproc cuando el documento requiere separar las referencias en secciones independientes (p. ej., fuentes primarias y bibliografía secundaria), por lo que **no es compatible con Citeproc**. Cuando se usa `multibib.lua`, Citeproc no debe declararse en `filters`.
+Sustituye a Citeproc cuando el documento requiere separar las referencias en secciones independientes (p. ej., fuentes primarias y bibliografía secundaria), por lo que **no es compatible con Citeproc**. Cuando se usa `multibib.lua`, Citeproc no debe declararse en `filters`. Es compatible con `pandoc-crossref`, aunque hay una interacción conocida entre ellos relativa a la numeración de notas al pie[^1].
+
+[^1]: Hay una interacción conocida entre `pandoc-crossref` y `multibib.lua` que obliga al contador de numeración de notas al pie a reiniciarse en cada capítulo. Si se quiere evitar este comportamiento, hay que añadir un bloque `header-includes` en el YAML del documento:
+
+    ```yaml
+    header-includes:
+      - |
+          \usepackage{chngcntr}
+          \counterwithout{footnote}{chapter}
+    ```
 
 Las bibliografías se declaran en el bloque de metadatos del documento como un mapa, donde cada clave es un nombre que identificará la sección y cada valor es la ruta al archivo de bibliografía correspondiente:
 
@@ -210,17 +219,6 @@ Cada sección de referencias se inserta en el punto del documento donde se quier
 :::
 ```
 
-#### La numeración de notas al pie se reinicia en cada capítulo
-
-Hay una interacción conocida entre `pandoc-crossref` y `multibib.lua` que obliga al contador de numeración de notas al pie a reiniciarse en cada capítulo. Si se quiere evitar este comportamiento, hay que añadir un bloque `header-includes` en el YAML del documento:
-
-```yaml
-header-includes:
-  - |
-      \usepackage{chngcntr}
-      \counterwithout{footnote}{chapter}
-```
-
 ### correcciones-notas.lua
 
 `correcciones-notas.lua` aplica dos correcciones tipográficas dentro de las notas al pie, normalizando convenciones del español que Citeproc no gestiona.
@@ -240,14 +238,12 @@ filters:
 
 [`zotero.lua`](https://retorque.re/zotero-better-bibtex/exporting/pandoc/) es un filtro de Emiliano Heyns. Convierte la sintaxis de citas de Pandoc (`[@clave]`) a campos de cita activos de Zotero en archivos `.odt` y `.docx`, equivalentes a los que inserta la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration). El resultado es un documento de ofimática con citas vinculadas a la biblioteca de Zotero, que el usuario puede seguir editando desde Writer o Word con el complemento de Zotero instalado.
 
-Se usa exclusivamente en el flujo de salida hacia `.odt`, declarado en `odt.yaml`. Zotero se tiene que estar ejecutando cuando el documento se compila. No es compatible con Citeproc en el mismo pipeline: cuando se usa `zotero.lua`, Citeproc no debe declararse en `filters`.
+Se usa exclusivamente en el flujo de salida hacia `.odt`, declarado en `odt.yaml`, ya que LibreOffice Writer tiene un *bug* con las citas en los `.docx`[^2]. Zotero se tiene que estar ejecutando cuando el documento se compila. No es compatible con Citeproc en el mismo pipeline: cuando se usa `zotero.lua`, Citeproc no debe declararse en `filters`.
+
+[^2]: LibreOffice Writer tiene, [como indica Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations) un *bug* que impide reconocer las citas en archivos `.docx` generados con este filtro, por lo que en ese entorno hay que exportar a `.odt`. Microsoft Word no tiene este problema y admite los `.docx` sin restricciones.
 
 ```yaml
 filters:
   - include-files.lua
   - zotero.lua
 ```
-
-LibreOffice Writer tiene un *bug* que impide reconocer las citas en archivos `.docx` generados con este filtro, por lo que en ese entorno hay que exportar a `.odt`. Microsoft Word no tiene este problema y admite los `.docx` sin restricciones.[^1]
-
-[^1]: Véase la [documentación de Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations) para más detalles sobre este comportamiento.
