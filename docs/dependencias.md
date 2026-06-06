@@ -1,3 +1,8 @@
+---
+author: Carlos Llamedo
+date: 2026-05
+---
+
 # Dependencias
 
 ## ¿Qué es Pandoc?

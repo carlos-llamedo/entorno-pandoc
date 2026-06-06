@@ -29,7 +29,7 @@ El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa 
 
 El repositorio incluye también los archivos XML para construir `memoir.odt`, una plantilla para documentos ODT con aspecto parecido al de los PDF generados por `memoir.tex`. Los formatos `.odt` y `.docx` son archivos XML comprimidos; el directorio [`odt/`](templates/odt/) contiene esos archivos, que hay que empaquetar manualmente en `memoir.odt` y colocar en [`templates/`](templates/). El archivo construido **no se incluye en el repositorio** por ser un binario.
 
-### Filtros
+### Filtros Lua
 
 El directorio [`filters/`](filters/) contiene los filtros Lua que transforman el documento durante la compilación. [`referencias`](docs/referencias.md) incluye dónde buscar la documentación exhaustiva de los filtros de terceros, aunque una guía de uso básica, tanto de los propios como de los ajenos, se da en [`filtros`](docs/filtros.md).
 
@@ -79,7 +79,7 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
     - `correcciones-notas.lua`
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`.
-- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha.
+- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
 - [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía.
 
 ```bash

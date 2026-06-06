@@ -22,13 +22,14 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-1. "párr." → "§"
-   Sustituye el abreviado castellano de párrafo por el símbolo bibliográfico.
+1. "párr.", "sec." y "secs." → "§"
+   Sustituye el abreviado castellano de párrafo y de sección por el 
+   símbolo ortográfico.
 
 2. Semirraya → guion en rangos numéricos tras §.
    Después de §, las semirrayas (–) que separan rangos de páginas o
    párrafos se normalizan a guion simple para seguir la convención
-   tipográfica habitual en referencias académicas.
+   tipográfica española.
    Ejemplo: § 12–15 → § 12-15.
 
 Las dos correcciones comparten el mismo recorrido de inlines y el estado

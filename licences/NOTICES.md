@@ -1,3 +1,8 @@
+---
+author: Carlos Llamedo
+date: 2026-05-22
+---
+
 # Avisos de licencia
 
 Este archivo recopila los términos de uso y procedencia de todos los componentes del flujo de trabajo documentado en este repositorio, tanto los incluidos directamente como los externos. Los elementos marcados con `*` están incluidos en el repositorio y cuentan con el texto completo de su licencia en este mismo directorio. No se incluye la licencia de archivos que están incluidos como submódulos.

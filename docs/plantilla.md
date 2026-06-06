@@ -1,3 +1,8 @@
+---
+author: Carlos Llamedo
+date: 2026-05
+---
+
 # Variables de la plantilla `memoir.tex`
 
 Referencia completa de todas las variables YAML que acepta la plantilla. Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla.
@@ -19,7 +24,7 @@ Si `pdfstandard` está declarado, la plantilla emite `\DocumentMetadata{…}` co
 
 ## Clase y página
 
-| Variable | Tipo | Defecto | Origen |
+| Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
 | `fontsize` | string | `12pt` | pandoc |
 | `papersize` | string | `a4paper` | pandoc |
@@ -47,7 +52,7 @@ geometry:
 
 Las fuentes toman el nombre del sistema tal como lo reconoce fontspec. Las variantes (`Bold`, `Italic`, `BoldItalic`) se resuelven automáticamente desde los metadatos OpenType. Si una fuente usa nombres no estándar (p. ej., `Semibold` en lugar de `Bold`), declararlos en las opciones correspondientes.
 
-| Variable | Tipo | Defecto | Origen |
+| Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
 | `mainfont` | string | `Arno Pro` | pandoc |
 | `mainfontoptions` | lista | — | pandoc |
@@ -91,7 +96,7 @@ Las opciones de ligaduras deben declararse como entradas separadas de la lista; 
 
 ## Tipografía del cuerpo
 
-| Variable | Tipo | Defecto | Origen |
+| Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
 | `linestretch` | número | `1.5` | pandoc |
 | `parindent` | medida LaTeX | `1cm` | propio |
@@ -118,7 +123,7 @@ smallsize: \tiny         # 6 pt
 smallsize: \scriptsize   # 8 pt
 smallsize: \footnotesize # 10 pt
 smallsize: \small        # 10.95 pt
-smallsize: \normalsize   # 12 pt — defecto; uniforme con el cuerpo
+smallsize: \normalsize   # 12 pt — valor por defecto; uniforme con el cuerpo
 smallsize: \large        # 14.4 pt — desaconsejado para elementos secundarios
 ```
 
@@ -128,7 +133,7 @@ smallsize: \large        # 14.4 pt — desaconsejado para elementos secundarios
 
 ## Numeración y estructura
 
-| Variable | Tipo | Defecto | Origen |
+| Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
 | `numbersections` | booleano | — | pandoc |
 | `secnumdepth` | entero | `5` | pandoc |
@@ -198,15 +203,6 @@ Por defecto el filete aparece solo en páginas donde una nota continúa desde la
 
 La sangría de las notas al pie sigue el valor de `parindent` cuando el documento usa sangría de primera línea. En modo `noindent` las notas van sin sangría.
 
-Hay una interacción conocida entre `pandoc-crossref` y `multibib.lua` que obliga al contador de numeración de notas al pie a reiniciarse en cada capítulo. Si se quiere evitar este comportamiento, hay que añadir un bloque `header-includes` en el YAML del documento:
-
-```yaml
-header-includes:
-  - |
-      \usepackage{chngcntr}
-      \counterwithout{footnote}{chapter}
-```
-
 * * *
 
 ## Citas exentas
@@ -231,7 +227,7 @@ Por defecto los números romanos de las páginas preliminares van en versalitas 
 
 ## Hipervínculos
 
-| Variable | Tipo | Defecto | Origen |
+| Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
 | `colorlinks` | booleano | — | pandoc |
 | `linkcolor` | color xcolor | `purpleblue` (RGB 72, 61, 139) | pandoc |

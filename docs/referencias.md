@@ -1,6 +1,6 @@
 ---
 author: Carlos Llamedo
-date: 2026-05-07
+date: 2026-05
 ---
 
 # Referencias y documentación del flujo de trabajo
@@ -45,9 +45,7 @@ Además de eso, en el repositorio de GitHub hay:
 
 #### Citeproc
 
-[Citeproc](https://github.com/jgm/citeproc) es una librería Haskell escrita por John McFarlane. Es una reescritura de `pandoc-citeproc`, que a su vez era una derivación de la librería `citeproc-hs` de Andrea Rossato. En su repositorio GitHub [se puede consultar el manual completo](https://github.com/jgm/citeproc/blob/master/man/).
-
-En cualquier caso, la sección [«Citations»](https://pandoc.org/MANUAL.html#citations) y [«Citation syntax»](https://pandoc.org/MANUAL.html#citation-syntax) del manual de Pandoc cubren bastante bien el uso de la librería.
+[Citeproc](https://github.com/jgm/citeproc) es una librería Haskell en cuyo repositorio GitHub [se puede consultar el manual completo](https://github.com/jgm/citeproc/blob/master/man/). En cualquier caso, la sección [«Citations»](https://pandoc.org/MANUAL.html#citations) y [«Citation syntax»](https://pandoc.org/MANUAL.html#citation-syntax) del manual de Pandoc cubren bastante bien el uso de la librería.
 
 **Sin conexión:** `man citeproc`
 

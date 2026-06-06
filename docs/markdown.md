@@ -1,3 +1,8 @@
+---
+author: Carlos Llamedo
+date: 2026-05
+---
+
 # El Markdown de Pandoc
 
 ## Extensiones predeterminadas
