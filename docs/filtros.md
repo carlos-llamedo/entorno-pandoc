@@ -124,8 +124,6 @@ metadata:
 
 [`include-files.lua`](https://github.com/pandoc-ext/include-files) es un filtro de Albert Krewinkel. Permite componer un documento a partir de múltiples archivos Markdown, incluyendo unos dentro de otros mediante bloques de código de clase `include`. Es el mecanismo central para estructurar trabajos extensos en capítulos independientes.
 
-#### Sintaxis básica
-
 Un bloque de código con la clase `include` lista los archivos a incluir, uno por línea. Las rutas son relativas al archivo que contiene el bloque. No tiene problema con rutas que contengan caracteres especiales, como letras acentuadas.
 
 ````markdown
@@ -146,8 +144,6 @@ capítulos/introducción.md
 ```
 ````
 
-#### Control de niveles de encabezado
-
 Por defecto, los encabezados de los archivos incluidos se insertan con su nivel original. El atributo `shift-heading-level-by` permite desplazarlos para que encajen en la jerarquía del documento principal. Un valor positivo sube el nivel (un `# Título` pasa a `## Título`); uno negativo lo baja:
 
 ````markdown
@@ -163,8 +159,6 @@ El modo automático, activado con `include-auto: true` en el bloque de metadatos
 include-auto: true
 ---
 ```
-
-#### Rutas relativas
 
 El filtro ajusta automáticamente las rutas relativas de enlaces e imágenes dentro de los archivos incluidos, de modo que se resuelven correctamente desde la ubicación del archivo incluido, no desde el documento principal.
 
