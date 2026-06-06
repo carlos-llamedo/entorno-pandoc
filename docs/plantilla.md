@@ -5,7 +5,9 @@ date: 2026-05
 
 # Variables de la plantilla `memoir.tex`
 
-Referencia completa de todas las variables YAML que acepta la plantilla. Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla.
+Referencia completa de todas las variables YAML propias de la plantilla. Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla.
+
+Algunas variables de comportamiento que se declaran en los metadatos las gestiona un filtro, no la plantilla, y por tanto están documentadas en [`filtros`](filtros.md).
 
 * * *
 
@@ -14,7 +16,7 @@ Referencia completa de todas las variables YAML que acepta la plantilla. Las var
 | Variable | Tipo | Origen |
 |---|---|---|
 | `pdfstandard` | mapa | pandoc |
-| `pdfstandard.version` | string | pandoc |
+| `pdfstandard.version` | cadena | pandoc |
 | `pdfstandard.standards` | lista | pandoc |
 | `pdfstandard.tagging` | booleano | pandoc |
 
@@ -26,8 +28,8 @@ Si `pdfstandard` está declarado, la plantilla emite `\DocumentMetadata{…}` co
 
 | Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
-| `fontsize` | string | `12pt` | pandoc |
-| `papersize` | string | `a4paper` | pandoc |
+| `fontsize` | cadena | `12pt` | pandoc |
+| `papersize` | cadena | `a4paper` | pandoc |
 | `classoption` | lista | `twoside, openany` | pandoc |
 | `geometry` | lista | véase abajo | pandoc |
 
@@ -54,15 +56,15 @@ Las fuentes toman el nombre del sistema tal como lo reconoce fontspec. Las varia
 
 | Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
-| `mainfont` | string | `Arno Pro` | pandoc |
+| `mainfont` | cadena | `Arno Pro` | pandoc |
 | `mainfontoptions` | lista | — | pandoc |
-| `sansfont` | string | `Myriad Pro` | pandoc |
+| `sansfont` | cadena | `Myriad Pro` | pandoc |
 | `sansfontoptions` | lista | — | pandoc |
-| `monofont` | string | `Source Code Pro` | pandoc |
+| `monofont` | cadena | `Source Code Pro` | pandoc |
 | `monofontoptions` | lista | — | pandoc |
-| `mathfont` | string | `IBM Plex Math` | pandoc |
+| `mathfont` | cadena | `IBM Plex Math` | pandoc |
 | `mathfontoptions` | lista | — | pandoc |
-| `titlefont` | string | — | propio |
+| `titlefont` | cadena | — | propio |
 | `titlefontoptions` | lista | — | propio |
 | `titlesans` | booleano | — | propio |
 | `bodysans` | booleano | — | propio |
@@ -138,7 +140,7 @@ smallsize: \large        # 14.4 pt — desaconsejado para elementos secundarios
 | `numbersections` | booleano | — | pandoc |
 | `secnumdepth` | entero | `5` | pandoc |
 | `toc` | booleano | — | pandoc |
-| `toc-title` | string | `Índice` | pandoc |
+| `toc-title` | cadena | `Índice` | pandoc |
 | `toc-depth` | entero | `2` | pandoc |
 | `lof` | booleano | — | pandoc |
 | `lot` | booleano | — | pandoc |
@@ -162,20 +164,20 @@ Por defecto el encabezado verso lleva el nombre del autor en cursiva (o el títu
 
 | Variable | Tipo | Origen |
 |---|---|---|
-| `title` | string | pandoc |
-| `title-meta` | string | pandoc |
-| `subtitle` | string | pandoc |
-| `author` | string o lista | pandoc |
-| `author-meta` | string | pandoc |
-| `date` | string | pandoc |
-| `thanks` | string | pandoc |
-| `abstract` | string | pandoc |
+| `title` | cadena | pandoc |
+| `title-meta` | cadena | pandoc |
+| `subtitle` | cadena | pandoc |
+| `author` | cadena o lista | pandoc |
+| `author-meta` | cadena | pandoc |
+| `date` | cadena | pandoc |
+| `thanks` | cadena | pandoc |
+| `abstract` | cadena | pandoc |
 | `keywords` | lista | pandoc |
 | `maketitle` | booleano | propio |
-| `dedication` | string | propio |
-| `epigraphtext` | string | propio |
-| `epigraphauthor` | string | propio |
-| `epigraphwork` | string | propio |
+| `dedication` | cadena | propio |
+| `epigraphtext` | cadena | propio |
+| `epigraphauthor` | cadena | propio |
+| `epigraphwork` | cadena | propio |
 
 `title`, `subtitle` y `author` se usan tanto para los metadatos del PDF como para la portada cuando `maketitle: true`. En los metadatos, el subtítulo se añade al título separado por punto y espacio. Para un valor distinto en los metadatos (sin formato LaTeX, sin notas al pie), declarar `title-meta` y `author-meta` explícitamente; en ese caso `subtitle` no se añade al `pdftitle` automáticamente.
 
@@ -237,10 +239,10 @@ Por defecto los números romanos de las páginas preliminares van en versalitas 
 | `toccolor` | color xcolor | `black` | pandoc |
 | `boxlinks` | booleano | — | pandoc |
 | `links-as-notes` | booleano | — | pandoc |
-| `urlstyle` | string | `same` | pandoc |
+| `urlstyle` | cadena | `same` | pandoc |
 | `verbatim-in-note` | booleano | — | pandoc |
-| `lang` | string | `es-ES` | pandoc |
-| `subject` | string | — | pandoc |
+| `lang` | cadena | `es-ES` | pandoc |
+| `subject` | cadena | — | pandoc |
 | `hyperrefoptions` | lista | — | pandoc |
 
 Si `colorlinks` no está declarado y `boxlinks` tampoco, los enlaces se ocultan con `hidelinks` (sin color ni recuadro, pero siguen siendo clicables). `boxlinks: true` activa los recuadros de hyperref sin color.

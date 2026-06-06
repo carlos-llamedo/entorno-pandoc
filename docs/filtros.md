@@ -46,7 +46,7 @@ Las variables que controlan el comportamiento de la bibliografía y las citas se
 
 | Variable | Tipo | Efecto |
 |---|---|---|
-| `reference-section-title` | string | Título de la sección de bibliografía |
+| `reference-section-title` | cadena | Título de la sección de bibliografía |
 | `suppress-bibliography` | booleano (`false`) | Suprime la generación de la bibliografía |
 | `link-citations` | booleano (`false`) | Añade hipervínculos de las citas a sus entradas en la bibliografía (solo en estilos autor-fecha y numéricos) |
 | `link-bibliography` | booleano (`true`) | Convierte en hipervínculos los DOI, URL y similares de las entradas de la bibliografía |
