@@ -5,9 +5,10 @@ authors:
   given-names: Carlos
   email: carlosllamedo@protonmail.com
   orcid: https://orcid.org/0009-0009-2819-5157
-title: "Directorio de datos de Pandoc"
-abstract: "Directorio personal de datos de Pandoc: plantillas, filtros, defaults y recursos CSL para escritura académica en Markdown."
+title: "Escritura en texto plano con Pandoc"
+abstract: "Plantillas y filtros de Pandoc para escribir y citar en Markdown."
 date-released: 2026-04
 license: MIT
 license-url: https://mit-license.org
+url: https://github.com/carlos-llamedo/entorno-pandoc
 repository-code: https://github.com/carlos-llamedo/entorno-pandoc

@@ -22,21 +22,8 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Sintaxis en el Markdown:
-  ::: {.noindent}
-  Párrafo sin sangría de primera línea.
-  :::
-
-Se usa {\parindent0pt … } en lugar de \noindent porque \noindent solo 
-actúa sobre el párrafo inmediatamente siguiente.
-
-Si el div contuviera varios párrafos, 
-los sucesivos recuperarían la sangría normal,lo que 
-produciría un comportamiento inesperado.
-
 Inspirado en el trabajo de Thomas J. Duck:
 https://github.com/tomduck/pandoc-latex-extensions/blob/master/pandoclatexextensions/plugins/noindent.py
-
 ]]
 
 function Div(el)

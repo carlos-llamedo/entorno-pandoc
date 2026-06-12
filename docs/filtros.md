@@ -50,7 +50,7 @@ Las variables que controlan el comportamiento de la bibliografía y las citas se
 | `suppress-bibliography` | booleano (`false`) | Suprime la generación de la bibliografía |
 | `link-citations` | booleano (`false`) | Añade hipervínculos de las citas a sus entradas en la bibliografía (solo en estilos autor-fecha y numéricos) |
 | `link-bibliography` | booleano (`true`) | Convierte en hipervínculos los DOI, URL y similares de las entradas de la bibliografía |
-| `notes-after-punctuation` | booleano (`true`) | En estilos de nota, mueve la llamada de nota al pie tras el signo de puntuación siguiente |
+| `notes-after-punctuation` | booleano (`true`) | En estilos de nota, mueve la llamada de nota al pie tras el signo de puntuación |
 | `nocite` | lista de claves | Incluye entradas en la bibliografía sin que aparezcan citadas en el texto. `@*` incluye toda la bibliografía |
 | `lang` | etiqueta BCP 47 | Idioma para la localización del estilo CSL |
 

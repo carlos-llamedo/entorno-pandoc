@@ -1,24 +1,113 @@
 ---
-title: Entorno de datos de Pandoc
+title: Escritura en texto plano con Pandoc
 author: Carlos Llamedo
 date: 2026-04
 ---
 
-# Entorno de datos de Pandoc
+# Escritura en texto plano con Pandoc
 
-Este repositorio contiene los datos y elementos necesarios para escribir en texto plano y producir a partir de estos archivos documentos en otros formatos, como PDF.
+Herramientas y configuración para escribir en Markdown —un lenguaje de marcado sencillo para texto plano— y convertirlo a PDF, Word, LaTeX, etc. mediante Pandoc generando documentos tipográficamente bien compuestos.
+
+\[*TODO diagrama del flujo de trabajo*]
 
 ## Dependencias externas
 
-El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las que nada funciona, y que hay que instalar. Qué son estos programas y cómo se relacionan con las demás herramientas que intervienen en el flujo de trabajo —incluyendo las recomendadas para gestión bibliográfica y escritura— se explica con más detalle en [la documentación de las dependencias](docs/dependencias.md).
+El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las que nada funciona, y que hay que instalar. Una relación exhaustiva de las herramientas usadas se hace en [`herramientas`](docs/herramientas.md).
 
 - [`pandoc`](https://pandoc.org/installing.html) con [`citeproc`](https://github.com/jgm/citeproc) (vienen empaquetados juntos)
 - [`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref/releases/latest)
 - Una distribución [`TeX`](https://ctan.org/starter) que incluya [`LuaTeX`](https://www.luatex.org/download.html)
+- Las siguientes fuentes[^1]:
+    1. *Serif*: [Arno Pro](https://fonts.adobe.com/fonts/arno) o [Source Serif 4](https://github.com/adobe-fonts/source-serif)
+    2. *Sans*: [Myriad Pro](https://fonts.adobe.com/fonts/myriad) o [Source Sans 3](https://github.com/adobe-fonts/source-sans)
+    3. Monoespaciada: [Source Code Pro](https://github.com/adobe-fonts/source-code-pro)
+    4. Matemática: [IBM Plex Math](https://github.com/IBM/plex/releases/tag/%40ibm%2Fplex-math%401.1.0)
 
-En el caso de `pandoc` y `pandoc-crossref`, es importante que ambos estén compilados para la misma versión. Los paquetes de algunos gestores van por detrás de las versiones oficiales; en caso de error o de duda, la [documentación de dependencias](docs/dependencias.md) ofrece más información.
+[^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de `memoir.tex`.
 
-## Organización del repositorio
+## Guía de uso rápido
+
+\[*TODO Guía de uso rápido*]
+
+## ¿Por qué existe este proyecto?
+
+Si escribes con regularidad (para tus alumnos, para tus clientes, para ti mismo) probablemente uses Word. Seguramente, además, no se te ocurran muchas otras formas de escribir un texto a ordenador y tener al final un documento presentable. Este estándar *de facto* tiene difícil justificación técnica. Es cierto que otras alternativas son más complejas —o, por lo menos, lo parecen en primera instancia—. Pero tal vez valga la pena preguntarse por qué Word nos resulta tan familiar y sus alternativas tan extrañas, y si la forma en que compone documentos es realmente la única posible o la mejor.
+
+### Los procesadores de texto son estúpidos e ineficientes
+
+Lo que hace Word es dar solución a la práctica generalizada de la autoedición. Todos creamos nuestros propios documentos, en principio, listos para imprimir —ya sea como `.docx` o exportándose a PDF—. La inmensa mayoría de lo que escribimos no pasa —ni de nuestra mano ni de la de un tercero— por *software* especializado de maquetación, que queda relegado únicamente a la edición profesional[^2]. Nuestros procesadores de texto, con cincuenta años de historia de desarrollo[^3], son suficientemente sofisticados como para que consideremos que nuestras necesidades tipográficas están, en general, cubiertas. Pero propiciar una cultura de autoedición digital masiva requería herramientas al alcance de cualquier persona. Herramientas donde la pantalla imitase a la página, y donde el escritor viese en todo momento cómo iba a quedar el documento. En nuestros documentos Word estamos escribiendo y maquetando al mismo tiempo: el paradigma que describe este modelo es que *lo que ves es lo que hay* (o, como se conoce por su acrónimo en inglés, WYSIWYG, *What You See Is What You Get*).
+
+[^2]: Fundamentalmente mediante Adobe InCopy e InDesign, y, anteriormente, QuarkXPress.
+
+[^3]: En 1976 se lanzó Electric Pencil. También fueron populares en esa época WordStar (1978), en el que [George R. R. Martin sigue escribiendo en su MS-DOS](https://www.youtube.com/watch?v=X5REM-3nWHg), y WordPerfect (1979).
+
+Empecemos por evaluar las *bondades* del principio WYSIWYG. Se ha hecho ya referencia a su accesibilidad: no requiere aprender sintaxis de ningún lenguaje de marcado y la interfaz es reconocible porque es algo que todos conocen —una hoja de papel—. Al ver el resultado mientras se trabaja, se pueden tomar decisiones sobre la marcha y detectar problemas de presentación inmediatamente —aunque, como argumentaré, esto puede ser algo negativo—. Y, desde luego, para un tipo de documento *ad hoc* que no se va a reutilizar (como una carta o un *curriculum*), un programa WYSIWYG es la solución más eficiente. Hay un argumento que no es técnico, sino social, y seguramente sea el que tiene más peso: el de popularidad. Todo el mundo usa Word y el formato `.docx`, es lo que espera poder enviar y, desde luego, recibir; y también es la herramienta estándar para colaborar en línea sobre un mismo documento con herramientas como Word en Web o Google Docs.
+
+Hablemos ahora de lo que Allin Cottrell, en su artículo *Word Processors: Stupid and Inefficient* (que da nombre a esta sección) llama las *maldades* de WYSIWYG[^4]. *Maquetar* y *escribir* son dos actividades intelectualmente distintas: un texto tiene *forma* y *contenido*; *presentación* por un lado y *estructura* y *formato* (lo que podríamos llamar *elementos funcionales*[^5]) por el otro. Un programa WYSIWYG como Word elimina completamente esta división, invitando a tratar al documento como una página digital donde forma y contenido son lo mismo. Anima al autor a mezclar función textual («esto es un título de sección») y aspecto visual («los títulos de sección deberían ir en negrita»), lo que distrae y tiene riesgos reales, como el paradigmático «síndrome del índice manual en Word» que describe Cottrell.
+
+[^4]: Allin Cottrell, *Word Processors: Stupid and Inefficient*, 1999, <http://cda.psych.uiuc.edu/latex_class_material/wp.html>.
+
+[^5]: En el ámbito del marcado de documentos y HTML, estos elementos se denominan habitualmente *semánticos*, por oposición a los elementos meramente *presentacionales*.
+
+Pongamos que tienes un escrito y quieres señalar que algo es el título de una sección. Tienes bastante claro que tiene que destacar, y, dado que estás en un programa WYSIWYG, asumes que función semántica y aspecto visual son lo mismo (tratas el documento como un papel digital), y simplemente le aplicas *formato directo*: seleccionas el texto, lo pones en negrita y lo haces algo más grande. Haces esto con varios títulos, porque es un documento largo. Y, al final del todo, cuando le das los retoques de formato finales, quieres añadir un índice. No hay nada en tu documento que identifique funcionalmente a los títulos, solo visualmente, por lo que el índice no se puede construir automáticamente. Así que recurres a hacer un índice manual, una tarea tediosa y cuyo resultado nunca es del todo consistente. Tampoco podrías, de manera sencilla, cambiar el formato a todos los títulos a la vez, o numerarlos automáticamente. Hay una manera fácil de hacer esto en Word, que es usando los distintos estilos de texto que sí dan información funcional al texto, y no solamente visual. Pero como *lo que ves es lo que hay*, mucha gente asume que eso es *todo lo que hay*, y el sistema de estilos resulta contraintuitivo.
+
+Produce, además, documentos peor maquetados por varios motivos. El primero es que se delegan decisiones de maquetación al escritor, algo sobre lo que no tiene por qué tener conocimiento alguno. Es común, por ejemplo, ver documentos donde se usan, a la vez, sangrías en primera línea en los párrafos y espaciado entre los mismos. Son dos soluciones distintas a un mismo problema tipográfico: cómo señalar visualmente dónde termina un párrafo y empieza el siguiente; usar las dos a la vez es redundante, e indica que quien tomó la decisión no entendía para qué sirve ninguna de las dos. Los documentos generados por un programa WYSIWYG también son peores a un nivel técnico de composición tipográfica. Word tiene que componer texto en tiempo real, lo que le obliga a hacer cálculos de composición con algoritmos rápidos —lo suficiente como para recalcular el párrafo en cada pulsación de tecla—, no necesariamente mejores. Tiene que usar algoritmos de composición de línea relativamente simples por este motivo, que generan muchos más ríos que, por ejemplo, el algoritmo Knuth-Plass que usa TeX.
+
+El propio tipo de archivo que generan estos programas tiene sus problemas. El antiguo `.doc` de Word, por ejemplo, era un formato binario privativo de Microsoft (nunca documentado públicamente), dependiente de *software* específico para recuperar su contenido[^6]. A partir de 2007, con el formato `.docx` (y su equivalente abierto `.odt`), los documentos pasan a ser unos cuantos archivos marcados con XML y empaquetados juntos. Eso hace que, en principio, cualquier programa de descompresión los pueda extraer y leer, pero el fichero resultante es bastante verboso y conseguir solamente el texto es una tarea costosa. Además, aunque `.docx` está publicado como estándar ISO, la especificación es tan compleja y depende tanto de comportamientos propios de Word que ningún otro programa lo implementa por completo. No es exactamente que tus documentos sean una caja negra, completamente inusables sin usar Word, pero desde luego están tras una barrera de *software* relativamente compleja, lo que introduce cierta dependencia del proveedor[^7].
+
+[^6]: Era, además, bastante proclive a corrupción, e implicaba aquellos infames problemas de legibilidad entre versiones de Word.
+
+[^7]: Este fenómeno se conoce mejor por su forma inglesa, *vendor lock-in*. En él, un usuario u organización depende de un proveedor concreto (en este caso, Microsoft) para acceder a sus propios datos o continuar usando un servicio, con un elevado coste de cambio a la alternativa.
+
+\[*TODO poner texto de ejemplo y cómo se ve el contenido marcado en XML*]
+
+Sin perjuicio de lo anterior, quiero reiterar que no pienso ni que los procesadores de texto sean mal *software*, ni que deberíamos evitar usarlos a toda cosa —dada su popularidad, por otro lado, sería imposible—. Hay situaciones, como ya hemos discutido, donde son simplemente la mejor opción. Y hay una (reducida) selección de procesadores competentes: Word, Pages, Google Docs, y Writer (de LibreOffice y OpenOffice) cubren, en general, cualquier necesidad. Scrivener es una solución híbrida que merece una mención aparte. La cuestión no es, como señala Kieran Healy[^8], si puedes o no llevar a cabo trabajo sostenible y de buena calidad con otras herramientas —eso se puede hacer hasta en una máquina de escribir—, sino que merece la pena dedicarse, aunque sea mínimamente, a pensar en cómo llevas a cabo tu trabajo.
+
+[^8]: Kieran Healy, *The Plain Person’s Guide to Plain Text Social Science*, 4 de octubre de 2019, <https://plain-text.co/>.
+
+### Hay mundo más allá de Word
+
+A pesar de todo, sí hay alternativa al procesador de texto. Para encontrarla habría que retroceder en la historia de la computación más allá de Word, más allá de las interfaces gráficas, más allá incluso de los ordenadores personales. La codificación de caracteres en un fichero, la informática en su forma más elemental: el texto plano.
+
+Un archivo de «texto simple» o «texto plano»[^9] es una secuencia de caracteres codificados según una convención común. A diferencia de un archivo binario —un `.docx`, un PDF—, no requiere de un programa para leerse; cualquier persona con una máquina que entienda la codificación es capaz de ello. Esa codificación está estandarizada desde 1963: primero con ASCII, limitado al inglés, y a lo largo de los años 90, con Unicode, que amplió el repertorio a prácticamente todas las lenguas manteniendo la retrocompatibilidad. El resultado es que un archivo de texto plano escrito hoy en UTF-8 será perfectamente legible dentro de sesenta años, igual que lo es hoy uno escrito en ASCII en un IBM PC del 83.
+
+[^9]: Esta forma, calco del inglés *plain text*, es preferible frente a «texto simple», que es más ambigua al poder confundirse con «texto sin complejidad».
+
+![Archivo Markdown UTF-8 leído con `more` en [DOSBox](https://www.dosbox.com/) emulando un IBM PC con DOS. Los caracteres fuera del rango ASCII se muestran como *mojibake* (glifos CP437); el resto es perfectamente legible.](examples/DOS.png)
+
+El texto plano resuelve el problema de la dependencia del *software*, pero no el de los *elementos funcionales* del texto. Uno podría abrir el Bloc de notas de Windows y ponerse a escribir, y se daría cuenta rápidamente de que necesita indicar *estructura* y *formato* de alguna forma. Qué es un párrafo y qué no. Qué marca la cursiva, o una lista. Cómo convertirlo, en definitiva, en *texto plano formateado*; en un *documento estructurado*, donde *lo que ves* no es *lo que hay*, sino *lo que quieres decir* (WYSIWYM, *What You See Is What You Mean*). Nada impide inventarse sobre la marcha una convención propia, pero hay ventajas en aprender una que ya existe. Suelen estar bien diseñadas, cubren prácticamente todos los casos imaginables y, sobre todo, son interoperables con otras herramientas.
+
+Los primeros que se enfrentaron a este problema y que dieron una respuesta fueron los miembros de la comunidad científico-técnica. Los procesadores de texto de la época eran bastante aparatosos a la hora de representar fórmulas matemáticas complejas (lo siguen siendo a día de hoy), y la solución fue la creación de los *lenguajes de marcado*. TeX, creado por Donald Knuth en 1978, y su derivado LaTeX, de Leslie Lamport en 1984, llevan décadas siendo el estándar en matemáticas, física e ingeniería. HTML, publicado por Tim Berners-Lee en 1991, es la sintaxis sobre la que está construida la web. Ambos son potentes, pero algo tediosos de escribir y difíciles de leer sin renderizar. Por ese motivo John Gruber se propuso en 2004 crear un *lenguaje de marcado ligero* con el objetivo declarado de evitar esa verbosidad, que recogiera las convenciones informales que ya circulaban en Internet —el uso de asteriscos para enfatizar, de guiones para listar, de almohadillas para encabezar— y las formalizara en una sintaxis que fuera legible directamente. El resultado fue **Markdown**. Sencillo de escribir y de leer, el archivo fuente se parece al resultado, y es más que suficiente para la inmensa mayoría de lo que se escribe en un procesador de texto.
+
+|  ![LaTeX](examples/LaTeX.png) |  ![HTML](examples/HTML.png) |  ![Markdown](examples/Markdown.png) |
+|---|---|---|
+
+### Las virtudes de Markdown
+
+Escribir en Markdown es la alternativa que hace el trabajo más sostenible, reproducible y duradero, y la que, en última instancia, devuelve el control al autor. La sencillez y racionalidad del sistema permite a programas como Pandoc convertir los documentos a cualquier otro formato —PDF, Word, HTML, LaTeX— desde el mismo archivo fuente. Las decisiones de maquetación quedan delegadas a una plantilla y las referencias bibliográficas a un procesador de citas, lo que tiende a producir resultados tipográficamente mejores y permite cambiar el estilo visual del documento o el formato de las citas de forma trivial. El sistema escala además cuando hace falta: el Markdown de Pandoc[^10], junto con filtros como pandoc-crossref, cubre prácticamente cualquier necesidad de escritura, y donde no llega —una fórmula matemática, una tabla particularmente compleja—, siempre es posible introducir LaTeX directamente.
+
+[^10]: El Markdown de Pandoc es uno de los dialectos más capaces del formato. A diferencia del Markdown original de Gruber, pensado principalmente para generar HTML, el de Pandoc está diseñado para producir cualquier tipo de documento: admite notas al pie, citas bibliográficas con sintaxis `[@cita]` procesadas por Citeproc, listas de definiciones, bloques de metadatos YAML, y *divs* y *spans* con atributos arbitrarios que permiten pasar información a los filtros o a la plantilla de salida.
+
+Hay dos ventajas más que conviene señalar explícitamente, porque no son evidentes. La primera es la independencia del trabajo respecto de la herramienta. Con un archivo Markdown puedes trabajar desde Zettlr, Obsidian, Emacs o el Bloc de notas de Windows. No hay dependencia de ningún programa concreto, y cambiar de herramienta no implica cambiar de formato ni perder nada. Todas las herramientas de este sistema son además gratuitas y de código abierto. No hay coste de acceso, funcionan en todos los sistemas operativos principales y, al estar mantenidas por comunidades activas, ofrecen garantías a largo plazo. Esto refuerza también la segunda virtud, que es la conservación y la archivística digital. Kepano, el fundador de Obsidian, [sugirió una vez](https://obsidian.md/blog/new-obsidian-icon) que, si quieres que tus archivos se puedan leer en 2060 o en 2160, tal vez convenga empezar a pensar en archivos que se podrían leer en 1960. Lo que se crea son documentos ligeros, consistentes, portátiles y legibles sin ningún *software* específico[^11]. Paradójicamente, una vez configurado es bastante más sencillo de usar que navegar por infinitos submenús en Word. Tal vez nunca ha sido verdad que *hic sunt leones*.
+
+[^11]: Para quien trabaje con control de versiones, el texto plano se integra de manera natural con herramientas como Git.
+
+|  ![Zettlr](examples/Zettlr.png) |  ![PDF](examples/PDF.png) |
+|---|---|
+
+Dicho todo esto, sería deshonesto, si no directamente inescrupuloso, no mencionar los inconvenientes de este enfoque. Evidentemente, requiere aprender una forma de tratar el texto distinta de a la que Word nos tiene acostumbrados —el coste de cambio es, al fin y al cabo, una característica del oligopolio—. Guardar y organizar archivos requiere de un conocimiento del ordenador y de una disciplina de la que no todo el mundo dispone. Las imágenes, a diferencia de en un `.docx`, no están incrustadas en Markdown, sino referenciadas desde un directorio. Y los casos más complicados, que exigen por ejemplo recurrir a LaTeX crudo, rompen el agnosticismo que permite al documento convertirse a otro formato de forma limpia. No son cuestiones triviales, pero tampoco lo son las ventajas —control, durabilidad, portabilidad y calidad tipográfica difícilmente alcanzables con un procesador de texto—.
+
+## Organización del proyecto
+
+### Documentación
+
+El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
+
+- [`referencias`](docs/referencias.md). Dónde está la documentación oficial de cada componente.
+- [`herramientas`](docs/herramientas.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
+- [`plantilla`](docs/plantilla.md). Qué variables variables YAML contempla `memoir.tex`.
+- [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
+- [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
 
 ### Plantillas
 
@@ -33,13 +122,13 @@ El repositorio incluye también los archivos XML para construir `memoir.odt`, un
 
 El directorio [`filters/`](filters/) contiene los filtros Lua que transforman el documento durante la compilación. [`referencias`](docs/referencias.md) incluye dónde buscar la documentación exhaustiva de los filtros de terceros, aunque una guía de uso básica, tanto de los propios como de los ajenos, se da en [`filtros`](docs/filtros.md).
 
-- [`include-files.lua`](filters/include-files.lua). Permite incluir un archivo Markdown dentro de otro, lo que facilita dividir textos largos en varios archivos. De Albert Krewinkel.
-- [`multibib.lua`](filters/multibib.lua). Genera bibliografías múltiples y separadas en lugar de una única en un documento Markdown. De Albert Krewinkel.
+- [`include-files.lua`](filters/include-files.lua). Permite [transcluir](https://es.wikipedia.org/wiki/Transclusi%C3%B3n) archivos Markdown, lo que facilita dividir textos largos en varios archivos. De [Albert Krewinkel](https://github.com/pandoc-ext/include-files).
+- [`multibib.lua`](filters/multibib.lua). Genera bibliografías múltiples y separadas en lugar de una única en un documento Markdown. De [Albert Krewinkel](https://github.com/pandoc-ext/multibib).
 - [`noindent.lua`](filters/noindent.lua). Convierte *divs* con clase `.noindent` en bloques LaTeX sin sangría de primera línea. Útil para indicar cuándo un párrafo tras una lista o una cita exenta es continuación del anterior, y no uno nuevo.
-- [`correcciones-notas.lua`](filters/correcciones-notas.lua). Aplica correcciones tipográficas del español dentro de las notas al pie construidas por `citeproc`: sustituye `párr.` y `sec.` por `§` para conservar el símbolo y normaliza las semirrayas (anglicismo ortográfico) en rangos numéricos, convirtiéndolas a guiones.
-- [`zotero.lua`](filters/zotero.lua). Permite convertir la [sintaxis de la extensión `citations` de Pandoc](https://pandoc.org/MANUAL.html#citation-syntax) a campos de cita de Zotero en archivos `.odt` y `.docx`, tal y como si se hubieran insertado con la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration)[^1]. De Emiliano Heyns.
+- [`correcciones-notas.lua`](filters/correcciones-notas.lua). Aplica correcciones tipográficas del español dentro de las notas al pie construidas por `citeproc`: sustituye `párr.`, `sec.` y `secs.` por `§` para conservar el signo ortográfico y normaliza las semirrayas (anglicismo ortográfico) en rangos numéricos, convirtiéndolas a guiones.
+- [`zotero.lua`](filters/zotero.lua). Permite convertir la [sintaxis de la extensión `citations` de Pandoc](https://pandoc.org/MANUAL.html#citation-syntax) a campos de cita de Zotero en archivos `.odt` y `.docx`, tal y como si se hubieran insertado con la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration)[^12]. De [Emiliano Heyns](https://github.com/retorquere/zotero-better-bibtex/blob/master/site/content/exporting/zotero.lua).
 
-[^1]: Tal como [documenta Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations), LibreOffice Writer tiene un *bug* que impide reconocer las citas en archivos `.docx`, por lo que hay que usar `.odt`. Si se usa Microsoft Word, no hay ningún problema con las citas en los `.docx`.
+[^12]: Tal como [documenta Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations), LibreOffice Writer tiene un *bug* que impide reconocer las citas en archivos `.docx`, por lo que hay que usar `.odt`. Si se usa Microsoft Word, no hay ningún problema con las citas en los `.docx`.
 
 ### Referencias bibliográficas
 
@@ -47,7 +136,7 @@ En lugar de formatear manualmente las citas, `citeproc` es capaz de generar refe
 
 #### Archivo de bibliografía
 
-La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunas preconfiguraciones —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`dependencias`](docs/dependencias.md).
+La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunas preconfiguraciones —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`herramientas`](docs/herramientas.md).
 
 El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuario tienen que crear su propia exportación** en el directorio de datos de Pandoc.
 
@@ -55,9 +144,9 @@ El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuari
 
 El directorio [`csl/`](csl/) contiene los estilos de citación y el directorio [`locales/`](locales/) los archivos de localización (léase «traducción»).
 
-Ambos forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias. Este repositorio incluye los [estilos](https://github.com/citation-style-language/styles) más habituales en humanidades y ciencias sociales[^2].
+Ambos forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias. Se toman del [repositorio oficial](https://github.com/citation-style-language/styles) los más habituales en humanidades y ciencias sociales[^13].
 
-[^2]: Se pueden encontrar más fácilmente en <https://www.zotero.org/styles>.
+[^13]: Se pueden encontrar más fácilmente en <https://www.zotero.org/styles>.
 
 Las [localizaciones](https://github.com/citation-style-language/locales) adaptan los estilos al idioma del documento: traducen cadenas fijas como «ed.», «vol.» o «et al.» y aplican las convenciones tipográficas propias de cada lengua. Sin el archivo de localización correspondiente, `citeproc` recurre al inglés estadounidense por defecto.
 
@@ -69,9 +158,9 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
-- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^3].
+- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^14].
 
-[^3]: Escribir en la consola
+[^14]: Escribir en la consola
     ```bash
     pandoc -d notas.yaml <<< "[@Ward-Perkins2005]"
     ```
@@ -99,16 +188,6 @@ El directorio [`scripts/`](scripts/) contiene utilidades de mantenimiento y actu
 - [`actualizar-csl.sh`](scripts/actualizar-csl.sh). Descarga las versiones más recientes de los estilos CSL incluidos en el repositorio desde el repositorio oficial de Citation Style Language.
 - [`actualizar-locales.sh`](scripts/actualizar-locales.sh). Hace lo propio con los archivos de localización.
 
-### Documentación
-
-El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
-
-- [`dependencias`](docs/dependencias.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
-- [`plantilla`](docs/plantilla.md). Qué variables variables YAML contempla `memoir.tex`.
-- [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
-- [`referencias`](docs/referencias.md). Dónde está la documentación oficial de cada componente.
-- [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
-
 ## Proyectos similares
 
 - [`pandoc-templates`](https://github.com/jgm/pandoc-templates), el propio repositorio de las plantillas que usa Pandoc. Se incluye [como submódulo](templates/pandoc-templates/).
@@ -117,43 +196,11 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 - [`phd_thesis_markdown`](https://github.com/tompollard/phd_thesis_markdown) de Tom Pollard.
 - [`pandoc-scholar`](https://github.com/pandoc-scholar/pandoc-scholar) de Albert Krewinkel.
 
-## Justificación teórica
-
-En su polémico artículo *Word Processors: Stupid and Inefficient*[^4], Cottrell 
-
-[^4]: Allin Cottrell, *Word Processors: Stupid and Inefficient*, 1999, <http://cda.psych.uiuc.edu/latex_class_material/wp.html>.
-
-vale. antes de hacer el diagrama, que ya veré cómo lo hago, voy a escribir la parte argumentativa. para mí, el README del documento se debería estructurar así
-
-1. Header y brevísima descripción de qué es este proyecto.
-2. Justificación teórica. Qué sentido tiene este proyecto, a qué necesidades responde, qué ventajas presenta y qué limitaciones.
-3. Cómo ponerlo en marcha con lo mínimo. Dependencias externas
-4. Ahora mismo tengo una explicación de los submódulos. Seguramente esto se debería encuadrar en una explicación un poco más amplia de cómo está organizado el repositorio.
-5. Derechos
-
-El punto 2 es el más argumentativo de todos. Aquí va una serie de elementos, no ordenados, de cosas que querría decir para acordarme y organizarlo
-
-- Notar el poco cuidado que, en general, se tiene por cómo se componen textos cuando hay gente que se dedica profesionalmente a ello. Omnipotencia de Microsoft Word.
-- Hacer explícito lo implícito. Diferencia entre procesadores de texto (edición tipo WYSIWYG) y editores de texto. Hacer breve recorrido histórico por la historia de los procesadores de texto. Electric Pencil, WordStar, WordPerfect, Microsoft Word, Adobe InCopy, Pages, Google Docs, Scrivener, OpenOffice Writer y LibreOffice Writer.
-- Poner anécdota de que en 2014 George R. R. Martin dijo en el programa de Conan O'Brien que escribía en WordStar en un MS-DOS.
-- El texto plano como documento básico. No se requieren herramientas específicas para procesarlo más allá de que se entienda Unicode. Explicar Unicode, su origen histórico. Explicar un archivo DOCX o incluso uno abierto ODT como empaquetamientos de archivos XML, bastante difícilmente legibles sin el software específico. Eso abre la puerta a obsolescencia y a paywalls mediante software privativo que es lo único que te permite leer tus documentos.
-- Explicar la lógica de la autoedición a la que nos ha avocado la revolución tecnológica y la omnipresencia de PC. Todos escribimos y editamos nuestros propios textos. Son dos tareas distintas que los procesadores juntan constantemente. Una tarea distrae de la otra. El diseño, el typesetting, se debería hacer en otro momento (incluso antes), pero formatos como Word hacen que hacer plantillas sea un dolor. LaTeX es mucho más directo (que no sencillo) a la hora de hacer plantillas. Racionalización: escritura por un lado, composición por el otro.
-- Portabilidad máxima del texto plano. El texto plano lo lee cualquier cosa, y eso hace que se pueda transformar fácilmente en cualquier otra cosa. Herramientas como Pandoc pueden funcionar, en otros formatos es mucho más raro. En un mundo donde todo el mundo te pide documentos Word, puedes pasar de texto plano a Word sin ningún problema. Al revés es bastante más difícil. Al ser texto plano es, paradójicamente, agnóstico de formato.
-- Archivística digital!! Un markdown unicode en texto plano lo podría leer un IBM PC sin mucho problema (esto es un triple, hacer fact-check). Son archivos pequeños que viven en tu ordenador. Kepano, el CEO de Obsidian, escribió una vez (https://obsidian.md/blog/new-obsidian-icon/) que si queríamos que nuestros ficheros se pudieran leer en 2060 o en 2160, a lo mejor teníamos que empezar a pensar en ficheros que se podrían leer en 1960. Permite además versionarlo fácilmente con herramientas como git, aunque es algo técnico y avanzado.
-- Todo ello se puede hacer fácilmente con herramientas que son gratuitas y fácilmente reemplazables. Nada de vendor-lock nunca más. ¿No te gusta Obsidian? Bájate Zettlr. O Logseq. Configura Emacs o Neovim a tu gusto y úsalos. Usa el bloc de notas de Windows, por qué no. Si dedicas horas de tu vida a escribir, merece la pena asegurarse de que tu flujo de trabajo es consistente, portable, reproducible y fiable.
-- Hemos establecido por qué texto plano. Pero si coges el bloc de notas de Windows y te pones a escribir, te vas a dar cuenta rápido de dos problemas: ¿cómo jerarquizo la información? Antes hablábamos de cómo diferenciar la tarea de escribir de la de editar. Pero hay edición que se tiene que hacer inline, según escribes, que no se puede automatizar. No solo el uso de mayúsculas y la puntuación. Cursiva, versalitas, saltos de párrafo, listas. ¿Cómo indicamos todo eso? Podríamos inventarnos nuestra propia sintaxis, pero si aprendemos una sintaxis ya hecha, que está bien diseñada, es simple, es legible tal cual fácilmente y está muy reconocida por otras herramientas, va a ser mucho más fácil todo. Markdown. Historia y filosofía elemental. Los dialectos de Markdown y el Markdown de Pandoc como solución a todos los casos necesarios.
-- La superioridad de la sintaxis de markdown frente a otras de texto plano, como HTML o LaTeX. Sencillez y legibilidad.
-- Paradójicamente, una vez configurado y conociendo el flujo, es bastante más sencillo de usar que navegar por infinitos submenús en Word. Hacer un índice en Word es notoriamente un dolor y la gente aún no sabe cómo hacerlo, porque tienes que jerarquizar el texto mediante estilos, que es algo bastante contraintuitivo, y luego insertar los índices. Y formatearlos es un dolor.
-- Escala cuando lo necesitas. ¿Necesitas hacer una tabla bastante compleja? Mete un bloque de LaTeX sin problema. ¿A mitad de escritura ves que para un proyecto concreto va a ser mejor usar Word? Hazlo sin problema, la conversión es trivial.
-- Como el output se gestiona mediante plantillas con todo explícitamente declarado, en principio, si están bien pensadas, hacer cambios es bastante trivial. Experimenta poniéndole a todo el texto otra tipografía sin problema.
-- Jamás habrá crasheos que destruyen la última hora de trabajo.
-- Contras fundamentales. Requiere aprender cosas nuevas, es nadar contra la corriente de Word que todos hemos aprendido. La sintaxis de markdown puede ser antiintuitiva si no se conoce. Los casos más complicados, que requieran por ejemplo introducir LaTeX, rompen el agnosticismo que permite al documento convertirse fácilmente en cualquier otra cosa. Requiere tener un conocimiento más profundo de tu ordenador. Hay varias herramientas, y todo ello es trabajo y cuidado, aunque acabe mereciendo la pena. Hay que tener clara una organización de los archivos que no todo el mundo tiene. En Word, pegas una imagen en el documento y ya está. En Markdown invocas una imagen que vive en un directorio relativo al propio archivo, no está incrustado. Eso es más organización y más puntos de fallo. Hacer retoques manuales en secciones es más difícil (requiere por ejemplo compilar primero a TeX, tocar eso manualmente y luego compilar a PDF), aunque en principio si las plantillas y el flujo están bien pensados no debería ocurrir mucho.
-
 ## Derechos
 
-Este repositorio está bajo una [licencia MIT](LICENCE.md).
+Este repositorio está bajo una [licencia MIT](LICENCE.md), Copyright © 2026 Carlos Llamedo.
 
-El archivo [`NOTICES`](licences/NOTICES.md) hace un inventario completo de los derechos que aplican a cada uno de los elementos que intervienen en el flujo de trabajo, que son libres y abiertos. De ellos, sin embargo, hay que señalar los que se incluyen directamente en este repositorio, y que tienen su texto legal en [`licences/`](licences/):
+El archivo [`NOTICES`](licences/NOTICES.md) hace un inventario completo de los derechos que aplican a cada uno de las herramientas del flujo de trabajo, que son libres y abiertas. De ellas, sin embargo, hay que señalar las que se incluyen directamente en este repositorio, y que tienen su texto legal en [`licences/`](licences/):
 
 |  Archivo |  Autor |  Licencia |
 |---|---|---|

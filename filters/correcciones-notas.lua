@@ -21,20 +21,6 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
-
-1. "párr.", "sec." y "secs." → "§"
-   Sustituye el abreviado castellano de párrafo y de sección por el 
-   símbolo ortográfico.
-
-2. Semirraya → guion en rangos numéricos tras §.
-   Después de §, las semirrayas (–) que separan rangos de páginas o
-   párrafos se normalizan a guion simple para seguir la convención
-   tipográfica española.
-   Ejemplo: § 12–15 → § 12-15.
-
-Las dos correcciones comparten el mismo recorrido de inlines y el estado
-"after_section", por lo que se procesan en un único pase.
-
 ]]
 
 local function fix_inlines(inlines)
