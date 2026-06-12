@@ -27,7 +27,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
 ## Guía de uso rápido
 
-1. **Coloca el repositorio en el directorio de datos de Pandoc.** La ubicación depende del sistema: en macOs y Linux es `~/.local/share/pandoc/` o `~/.pandoc/`; en Windows, `%APPDATA%\pandoc\`. Clónalo directamente en esa ruta:
+1. **Coloca el repositorio en el directorio de datos de Pandoc.** La ubicación depende del sistema: en macOS y Linux es `~/.local/share/pandoc/` o `~/.pandoc/`; en Windows, `%APPDATA%\pandoc\`. Clónalo directamente en esa ruta:
 
     ```sh
     git clone --recurse-submodules https://github.com/carlos-llamedo/entorno-pandoc "$HOME/.local/share/pandoc"
@@ -41,7 +41,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
     incluye una línea «User data directory: …» con la ruta desde la que Pandoc lee. Debe coincidir con la del paso anterior.
 
-3. **Crea un archivo de bibliografía con Zotero.** Las preconfiguraciones `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo con [Better BibTeX](https://retorque.re/zotero-better-bibtex/) configurado para mantenerlo actualizado automáticamente, como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar las preconfiguraciones que lo usan o crear un `biblioteca.json` vacío.
+3. **Crea un archivo de bibliografía con Zotero.** Las preconfiguraciones `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar las preconfiguraciones que lo usan o crear un `biblioteca.json` vacío.
 4. **Genera un documento a partir de un archivo Markdown.**
 
     ```sh
