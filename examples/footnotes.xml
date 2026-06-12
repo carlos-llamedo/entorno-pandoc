@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:footnotes xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:cx="http://schemas.microsoft.com/office/drawing/2014/chartex" xmlns:cx1="http://schemas.microsoft.com/office/drawing/2015/9/8/chartex" xmlns:cx2="http://schemas.microsoft.com/office/drawing/2015/10/21/chartex" xmlns:cx3="http://schemas.microsoft.com/office/drawing/2016/5/9/chartex" xmlns:cx4="http://schemas.microsoft.com/office/drawing/2016/5/10/chartex" xmlns:cx5="http://schemas.microsoft.com/office/drawing/2016/5/11/chartex" xmlns:cx6="http://schemas.microsoft.com/office/drawing/2016/5/12/chartex" xmlns:cx7="http://schemas.microsoft.com/office/drawing/2016/5/13/chartex" xmlns:cx8="http://schemas.microsoft.com/office/drawing/2016/5/14/chartex" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:aink="http://schemas.microsoft.com/office/drawing/2016/ink" xmlns:am3d="http://schemas.microsoft.com/office/drawing/2017/model3d" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:oel="http://schemas.microsoft.com/office/2019/extlst" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w16cex="http://schemas.microsoft.com/office/word/2018/wordml/cex" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid" xmlns:w16="http://schemas.microsoft.com/office/word/2018/wordml" xmlns:w16du="http://schemas.microsoft.com/office/word/2023/wordml/word16du" xmlns:w16sdtdh="http://schemas.microsoft.com/office/word/2020/wordml/sdtdatahash" xmlns:w16sdtfl="http://schemas.microsoft.com/office/word/2024/wordml/sdtformatlock" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 w16se w16cid w16 w16cex w16sdtdh w16sdtfl w16du wp14">
+  <w:footnote w:type="separator" w:id="-1">
+    <w:p w14:paraId="00A71E4B" w14:textId="77777777" w:rsidR="006577BB" w:rsidRDefault="006577BB" w:rsidP="0035556C">
+      <w:pPr>
+        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+      </w:pPr>
+      <w:r>
+        <w:separator/>
+      </w:r>
+    </w:p>
+  </w:footnote>
+  <w:footnote w:type="continuationSeparator" w:id="0">
+    <w:p w14:paraId="47DFBCFB" w14:textId="77777777" w:rsidR="006577BB" w:rsidRDefault="006577BB" w:rsidP="0035556C">
+      <w:pPr>
+        <w:spacing w:after="0" w:line="240" w:lineRule="auto"/>
+      </w:pPr>
+      <w:r>
+        <w:continuationSeparator/>
+      </w:r>
+    </w:p>
+  </w:footnote>
+  <w:footnote w:id="1">
+    <w:p w14:paraId="7D84FBF7" w14:textId="5AFDB78F" w:rsidR="00A60149" w:rsidRDefault="00A60149">
+      <w:pPr>
+        <w:pStyle w:val="Textonotapie"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="Refdenotaalpie"/>
+        </w:rPr>
+        <w:footnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r>
+        <w:fldChar w:fldCharType="begin"/>
+      </w:r>
+      <w:r>
+        <w:instrText xml:space="preserve"> ADDIN ZOTERO_ITEM CSL_CITATION {"citationID":"X0YiYtR1","properties":{"formattedCitation":"Rafael Altamira y Crevea, {\\i{}La ense\\uc0\\u241{}anza de la historia}, 2.\\super a\\nosupersub{} ed. (Madrid, 1895).","plainCitation":"Rafael Altamira y Crevea, La enseñanza de la historia, 2.a ed. (Madrid, 1895).","noteIndex":1},"citationItems":[{"id":18,"uris":["http://zotero.org/users/local/ZqfrYAdz/items/FRFP7I36"],"itemData":{"id":18,"type":"book","edition":"2","publisher-place":"Madrid","title":"La enseñanza de la historia","author":[{"family":"Altamira y Crevea","given":"Rafael"}],"issued":{"date-parts":[["1895"]]}}}],"schema":"https://github.com/citation-style-language/schema/raw/master/csl-citation.json"} </w:instrText>
+      </w:r>
+      <w:r>
+        <w:fldChar w:fldCharType="separate"/>
+      </w:r>
+      <w:r w:rsidRPr="00A60149">
+        <w:rPr>
+          <w:rFonts w:ascii="Aptos" w:hAnsi="Aptos" w:cs="Times New Roman"/>
+          <w:kern w:val="0"/>
+        </w:rPr>
+        <w:t xml:space="preserve">Rafael Altamira y Crevea, </w:t>
+      </w:r>
+      <w:r w:rsidRPr="00A60149">
+        <w:rPr>
+          <w:rFonts w:ascii="Aptos" w:hAnsi="Aptos" w:cs="Times New Roman"/>
+          <w:i/>
+          <w:iCs/>
+          <w:kern w:val="0"/>
+        </w:rPr>
+        <w:t>La enseñanza de la historia</w:t>
+      </w:r>
+      <w:r w:rsidRPr="00A60149">
+        <w:rPr>
+          <w:rFonts w:ascii="Aptos" w:hAnsi="Aptos" w:cs="Times New Roman"/>
+          <w:kern w:val="0"/>
+        </w:rPr>
+        <w:t>, 2.</w:t>
+      </w:r>
+      <w:r w:rsidRPr="00A60149">
+        <w:rPr>
+          <w:rFonts w:ascii="Aptos" w:hAnsi="Aptos" w:cs="Times New Roman"/>
+          <w:kern w:val="0"/>
+          <w:vertAlign w:val="superscript"/>
+        </w:rPr>
+        <w:t>a</w:t>
+      </w:r>
+      <w:r w:rsidRPr="00A60149">
+        <w:rPr>
+          <w:rFonts w:ascii="Aptos" w:hAnsi="Aptos" w:cs="Times New Roman"/>
+          <w:kern w:val="0"/>
+        </w:rPr>
+        <w:t xml:space="preserve"> ed. (Madrid, 1895).</w:t>
+      </w:r>
+      <w:r>
+        <w:fldChar w:fldCharType="end"/>
+      </w:r>
+    </w:p>
+  </w:footnote>
+  <w:footnote w:id="2">
+    <w:p w14:paraId="163BD04B" w14:textId="6D2580D2" w:rsidR="0035556C" w:rsidRDefault="0035556C">
+      <w:pPr>
+        <w:pStyle w:val="Textonotapie"/>
+      </w:pPr>
+      <w:r>
+        <w:rPr>
+          <w:rStyle w:val="Refdenotaalpie"/>
+        </w:rPr>
+        <w:footnoteRef/>
+      </w:r>
+      <w:r>
+        <w:t xml:space="preserve"> </w:t>
+      </w:r>
+      <w:r w:rsidRPr="0035556C">
+        <w:t xml:space="preserve">La </w:t>
+      </w:r>
+      <w:r w:rsidRPr="0035556C">
+        <w:rPr>
+          <w:i/>
+          <w:iCs/>
+        </w:rPr>
+        <w:t>Historia general de España</w:t>
+      </w:r>
+      <w:r w:rsidRPr="0035556C">
+        <w:t xml:space="preserve"> de Modesto Lafuente, disponible en la </w:t>
+      </w:r>
+      <w:hyperlink r:id="rId1" w:history="1">
+        <w:r w:rsidRPr="0035556C">
+          <w:rPr>
+            <w:rStyle w:val="Hipervnculo"/>
+          </w:rPr>
+          <w:t>Biblioteca Nacional de España</w:t>
+        </w:r>
+      </w:hyperlink>
+      <w:r w:rsidRPr="0035556C">
+        <w:t xml:space="preserve">, se publicó entre 1850 y 1867 en 30 volúmenes, y es obra de referencia ineludible en la erudición española del siglo </w:t>
+      </w:r>
+      <w:proofErr w:type="spellStart"/>
+      <w:r w:rsidRPr="0035556C">
+        <w:rPr>
+          <w:smallCaps/>
+        </w:rPr>
+        <w:t>xix</w:t>
+      </w:r>
+      <w:proofErr w:type="spellEnd"/>
+      <w:r w:rsidRPr="0035556C">
+        <w:t>. Altamira la cita como ejemplo paradigmático de una historia que, pese a incluir capítulos sobre la civilización, mantiene la política como eje narrativo central.</w:t>
+      </w:r>
+    </w:p>
+  </w:footnote>
+</w:footnotes>
