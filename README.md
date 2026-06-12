@@ -18,9 +18,9 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 - [`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref/releases/latest)
 - Una distribución [`TeX`](https://ctan.org/starter) que incluya [`LuaTeX`](https://www.luatex.org/download.html)
 - Las siguientes fuentes[^1]:
-    1. *Serif*: [Arno Pro](https://fonts.adobe.com/fonts/arno) o [Source Serif 4](https://github.com/adobe-fonts/source-serif)
-    2. *Sans*: [Myriad Pro](https://fonts.adobe.com/fonts/myriad) o [Source Sans 3](https://github.com/adobe-fonts/source-sans)
-    3. Monoespaciada: [Source Code Pro](https://github.com/adobe-fonts/source-code-pro)
+    1. *Serif*: [Arno Pro](https://fonts.adobe.com/fonts/arno) o [Source Serif 4](https://github.com/adobe-fonts/source-serif/releases/latest)
+    2. *Sans*: [Myriad Pro](https://fonts.adobe.com/fonts/myriad) o [Source Sans 3](https://github.com/adobe-fonts/source-sans/releases/latest)
+    3. Monoespaciada: [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/releases/latest)
     4. Matemática: [IBM Plex Math](https://github.com/IBM/plex/releases/tag/%40ibm%2Fplex-math%401.1.0)
 
 [^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de `memoir.tex`.
