@@ -80,10 +80,14 @@ El propio tipo de archivo que generan estos programas tiene sus problemas. El an
 
 [^7]: Este fenómeno se conoce mejor por su forma inglesa, *vendor lock-in*. En él, un usuario u organización depende de un proveedor concreto (en este caso, Microsoft) para acceder a sus propios datos o continuar usando un servicio, con un elevado coste de cambio a la alternativa.
 
+* * *
+
 |  ![Captura de VSCode con el archivo `document.xml` extraído de un `.docx`. El cuerpo del documento en OOXML, con un párrafo dividido en numerosos elementos `w:r` según los cambios de formato, y una referencia a una nota al pie.](<examples/Word cuerpo.png>) |  ![Captura de VSCode con el archivo `footnotes.xml` del mismo `.docx`. Las notas al pie en un archivo aparte, incluyendo las notas de separador que Word genera automáticamente y el registro bibliográfico completo en JSON que Zotero incrusta dentro del campo de cita.](<examples/Word notas.png>) |
 |---|---|
 
-**Figuras 2.1 y 2.2** Tres párrafos de contenido en un archivo `.docx` desempaquetado (los archivos `word/document.xml` y `word/footnotes.xml`, respectivamente). El texto de ejemplo es un fragmento del prefacio a la primera edición de la *Historia de España y de la civilización española* de Rafael Altamira (4 vols., Barcelona, 1900-1911). Word almacena el cuerpo del texto y las notas al pie en archivos XML separados. El contenido es difícilmente legible, y el formato aún más.
+**Figuras 2.1-2** Tres párrafos de contenido en un archivo `.docx` desempaquetado (los archivos [`word/document.xml`](examples/document.xml) y [`word/footnotes.xml`](examples/footnotes.xml), respectivamente). El texto de ejemplo es un fragmento del prefacio a la primera edición de la *Historia de España y de la civilización española* de Rafael Altamira (4 vols., Barcelona, 1900-1911). Word almacena el cuerpo del texto y las notas al pie en archivos XML separados. El contenido es difícilmente legible, y el formato aún más.
+
+* * *
 
 Sin perjuicio de lo anterior, quiero reiterar que no pienso ni que los procesadores de texto sean mal *software*, ni que deberíamos evitar usarlos a toda cosa —dada su popularidad, por otro lado, sería imposible—. Hay situaciones, como ya hemos discutido, donde son simplemente la mejor opción. Y hay una (reducida) selección de procesadores competentes: Word, Pages, Google Docs, y Writer (de LibreOffice y OpenOffice) cubren, en general, cualquier necesidad. Scrivener es una solución híbrida que merece una mención aparte. La cuestión no es, como señala Kieran Healy[^8], si puedes o no llevar a cabo trabajo sostenible y de buena calidad con otras herramientas —eso se puede hacer hasta en una máquina de escribir—, sino que merece la pena dedicarse, aunque sea mínimamente, a pensar en cómo llevas a cabo tu trabajo.
 
@@ -97,17 +101,25 @@ Un archivo de «texto simple» o «texto plano»[^9] es una secuencia de caracte
 
 [^9]: Esta forma, calco del inglés *plain text*, es preferible frente a «texto simple», que es más ambigua al poder confundirse con «texto sin complejidad».
 
+* * *
+
 ![Captura de una terminal de DOSBox ejecutando MORE.COM sobre el archivo ALTAMIRA.MD. El texto es legible, pero las tildes y la eñe aparecen como caracteres de sustitución de la página de códigos 437, el mojibake típico al leer UTF-8 en DOS](examples/DOS.png)
 **Figura 3** El texto de ejemplo en un Markdown UTF-8 leído con `more` en [DOSBox](https://www.dosbox.com/) emulando un IBM PC con DOS. Los caracteres fuera del rango ASCII se muestran como *mojibake* (glifos CP437); el resto es perfectamente legible.
+
+* * *
 
 El texto plano resuelve el problema de la dependencia del *software*, pero no el de los *elementos funcionales* del texto. Uno podría abrir el Bloc de notas de Windows y ponerse a escribir, y se daría cuenta rápidamente de que necesita indicar *estructura* y *formato* de alguna forma. Qué es un párrafo y qué no. Qué marca la cursiva, o una lista. Cómo convertirlo, en definitiva, en *texto plano formateado*; en un *documento estructurado*, donde *lo que ves* no es *lo que hay*, sino *lo que quieres decir* (WYSIWYM, *What You See Is What You Mean*). Nada impide inventarse sobre la marcha una convención propia, pero hay ventajas en aprender una que ya existe. Suelen estar bien diseñadas, cubren prácticamente todos los casos imaginables y, sobre todo, son interoperables con otras herramientas.
 
 Los primeros que se enfrentaron a este problema y que dieron una respuesta fueron los miembros de la comunidad científico-técnica. Los procesadores de texto de la época eran bastante aparatosos a la hora de representar fórmulas matemáticas complejas (lo siguen siendo a día de hoy), y la solución fue la creación de los *lenguajes de marcado*. TeX, creado por Donald Knuth en 1978, y su derivado LaTeX, de Leslie Lamport en 1984, llevan décadas siendo el estándar en matemáticas, física e ingeniería. HTML, publicado por Tim Berners-Lee en 1991, es la sintaxis sobre la que está construida la web. Ambos son potentes, pero algo tediosos de escribir y difíciles de leer sin renderizar. Por ese motivo John Gruber se propuso en 2004 crear un *lenguaje de marcado ligero* con el objetivo declarado de evitar esa verbosidad, que recogiera las convenciones informales que ya circulaban en Internet —el uso de asteriscos para enfatizar, de guiones para listar, de almohadillas para encabezar— y las formalizara en una sintaxis que fuera legible directamente. El resultado fue **Markdown**. Sencillo de escribir y de leer, el archivo fuente se parece al resultado, y es más que suficiente para la inmensa mayoría de lo que se escribe en un procesador de texto.
 
+* * *
+
 |  ![Captura de VSCode con el archivo `altamira.tex`. El texto convertido a LaTeX por Pandoc, con los comandos `\section`, `\emph`, `\footnote`, `\textsc` y `\href`.](examples/LaTeX.png) |  ![Captura de VSCode con el archivo `altamira.html`: el mismo texto convertido a HTML por Pandoc, con etiquetas `h1`, `p` y `em`, enlaces de nota al pie y la sección de notas al final del documento.](examples/HTML.png) |  ![Captura de VSCode con el archivo `altamira.md`. El texto fuente en Markdown, con un encabezado, cursivas marcadas con asteriscos, una cita en sintaxis [@clave], un *span* con versalitas y una nota al pie con un hipervínculo.](examples/Markdown.png) |
 |---|---|---|
 
-**Figuras 4.1-3** Comparativa del mismo fragmento marcado con LaTeX, HTML y Markdown, respectivamente.
+**Figuras 4.1-3** Comparativa del mismo fragmento marcado con [LaTeX](examples/altamira.tex), [HTML](examples/altamira.html) y [Markdown](examples/altamira.md), respectivamente.
+
+* * *
 
 ### Las virtudes de Markdown
 
@@ -115,15 +127,23 @@ Escribir en Markdown es la alternativa que hace el trabajo más sostenible, repr
 
 [^10]: El Markdown de Pandoc es uno de los dialectos más capaces del formato. A diferencia del Markdown original de Gruber, pensado principalmente para generar HTML, el de Pandoc está diseñado para producir cualquier tipo de documento: admite notas al pie, citas bibliográficas con sintaxis `[@cita]` procesadas por Citeproc, listas de definiciones, bloques de metadatos YAML, y *divs* y *spans* con atributos arbitrarios que permiten pasar información a los filtros o a la plantilla de salida.
 
+* * *
+
 ![Captura a doble página del PDF generado con la plantilla `memoir.tex`, mostrando los encabezados de página con el título del capítulo, los números de página, dos notas al pie numeradas, texto en versalitas y un hipervínculo en color.](examples/PDF.png)
-**Figura 5** PDF generado a partir del texto de ejemplo con la plantilla `memoir.tex`. Encabezados a página par e impar, números de página con cifras elzevirianas, notas al pie numeradas, versalitas e hipervínculos en color sin que el autor haya tomado una sola decisión de maquetación.
+**Figura 5** [PDF](examples/altamira.pdf) generado a partir del texto de ejemplo con la plantilla `memoir.tex`. Encabezados a página par e impar, números de página con cifras elzevirianas, notas al pie numeradas, versalitas e hipervínculos en color sin que el autor haya tomado una sola decisión de maquetación.
+
+* * *
 
 Hay dos ventajas más que conviene señalar explícitamente, porque no son evidentes. La primera es la independencia del trabajo respecto de la herramienta. Con un archivo Markdown puedes trabajar desde Zettlr, Obsidian, Emacs o el Bloc de notas de Windows. No hay dependencia de ningún programa concreto, y cambiar de herramienta no implica cambiar de formato ni perder nada. Todas las herramientas de este sistema son además gratuitas y de código abierto. No hay coste de acceso, funcionan en todos los sistemas operativos principales y, al estar mantenidas por comunidades activas, ofrecen garantías a largo plazo. Esto refuerza también la segunda virtud, que es la conservación y la archivística digital. Kepano, el fundador de Obsidian, [sugirió una vez](https://obsidian.md/blog/new-obsidian-icon) que, si quieres que tus archivos se puedan leer en 2060 o en 2160, tal vez convenga empezar a pensar en archivos que se podrían leer en 1960. Lo que se crea son documentos ligeros, consistentes, portátiles y legibles sin ningún *software* específico[^11]. Paradójicamente, una vez configurado es bastante más sencillo de usar que navegar por infinitos submenús en Word. Tal vez nunca ha sido verdad que *hic sunt leones*.
 
 [^11]: Para quien trabaje con control de versiones, el texto plano se integra de manera natural con herramientas como Git.
 
+* * *
+
 ![Captura de Zettlr mostrando el mismo documento en su vista de edición con previsualización en línea. El encabezado y las cursivas aparecen ya formateados, y la cita [@clave] se renderiza como «(Altamira y Crevea 1895)».](examples/Zettlr.png)
 **Figura 6** El mismo texto de ejemplo abierto en Zettlr, un editor de Markdown. El formato se renderiza en la propia vista de edición —incluida la cita, ya formateada— sin que el texto deje en ningún momento de ser un archivo de texto plano.
+
+* * *
 
 Dicho todo esto, sería deshonesto, si no directamente inescrupuloso, no mencionar los inconvenientes de este enfoque. Evidentemente, requiere aprender una forma de tratar el texto distinta de a la que Word nos tiene acostumbrados —el coste de cambio es, al fin y al cabo, una característica del oligopolio—. Guardar y organizar archivos requiere de un conocimiento del ordenador y de una disciplina de la que no todo el mundo dispone. Las imágenes, a diferencia de en un `.docx`, no están incrustadas en Markdown, sino referenciadas desde un directorio. Y los casos más complicados, que exigen por ejemplo recurrir a LaTeX crudo, rompen el agnosticismo que permite al documento convertirse a otro formato de forma limpia. No son cuestiones triviales, pero tampoco lo son las ventajas —control, durabilidad, portabilidad y calidad tipográfica difícilmente alcanzables con un procesador de texto—.
 
