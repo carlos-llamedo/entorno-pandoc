@@ -1,0 +1,170 @@
+direction: right
+
+vars: {
+  d2-config: {
+    sketch: true
+  }
+}
+
+classes: {
+  real: {
+    style: {
+      fill: "#d0ebff"
+      stroke: "#1971c2"
+    }
+  }
+  software: {
+    style: {
+      fill: "#b2f2bb"
+      stroke: "#2f9e44"
+    }
+  }
+  oculto: {
+    style: {
+      fill: "#b2f2bb"
+      stroke: "#2f9e44"
+      stroke-dash: 4
+    }
+  }
+  generado: {
+    style: {
+      fill: "#fcc2d7"
+      stroke: "#e64980"
+    }
+  }
+  salida: {
+    style: {
+      fill: "#ffffff"
+      stroke: "#1a1a1a"
+    }
+  }
+  principal: {
+    style: {
+      font-size: 20
+      bold: true
+      stroke-width: 3
+    }
+  }
+  secundario: {
+    style: {
+      font-size: 13
+      opacity: 0.8
+      stroke-width: 1
+    }
+  }
+  titulo-grande: {
+    style: {
+      bold: true
+      font-size: 18
+    }
+  }
+  titulo-pequeno: {
+    style: {
+      bold: true
+      font-size: 14
+    }
+  }
+  detalle: {
+    style: {
+      font-size: 12
+      font-color: "#495057"
+    }
+  }
+}
+
+# --- Flujo principal ---------------------------------------------------------
+
+editor: "" {
+  shape: rectangle
+  grid-rows: 2
+  class: [software; secundario]
+  titulo: "Editor de Markdown" { shape: text; class: titulo-pequeno }
+  detalle: "Zettlr, Obsidian, Typora…" { shape: text; class: detalle }
+}
+
+documento_md: "" {
+  shape: rectangle
+  grid-rows: 2
+  class: [real; principal]
+  titulo: "documento.md" { shape: text; class: titulo-grande }
+  detalle: "texto, citas, remisiones\ninternas, código" { shape: text; class: detalle }
+}
+
+pandoc: "Pandoc" {
+  class: [software; principal]
+  citeproc: "Citeproc" { class: [oculto; secundario] }
+  crossref: "pandoc-crossref" { class: [oculto; secundario] }
+  lua: "Filtros Lua" { class: [oculto; secundario] }
+}
+
+documento_tex: "documento.tex" {
+  class: [generado; principal]
+}
+
+luatex: "LuaTeX" {
+  class: [software; principal]
+}
+
+documento_pdf: "documento.pdf" {
+  class: [salida; principal]
+}
+
+# --- Entradas secundarias -----------------------------------------------------
+
+imagenes: "" {
+  shape: rectangle
+  grid-rows: 2
+  class: [real; secundario]
+  titulo: "imagen.png" { shape: text; class: titulo-pequeno }
+}
+
+plantillas: "" {
+  shape: rectangle
+  grid-rows: 2
+  class: [real; secundario]
+  titulo: "Plantillas" { shape: text; class: titulo-pequeno }
+}
+
+zotero: "Zotero +\nBetterBibTeX" {
+  shape: cylinder
+  class: [software; secundario]
+}
+
+bibliografia: "bibliografía.json" {
+  class: [real; secundario]
+}
+
+
+# --- Salidas secundarias --------------------------------------------------------
+
+documento_docx: "documento.docx" {
+  class: [salida; secundario]
+}
+
+documento_html: "documento.html" {
+  class: [salida; secundario]
+}
+
+# --- Conexiones --------------------------------------------------------------
+
+editor -> documento_md
+zotero -> bibliografia
+documento_md -> pandoc
+imagenes -> pandoc
+bibliografia -> pandoc
+plantillas -> pandoc
+pandoc -> documento_tex -> luatex -> documento_pdf
+pandoc -> documento_docx
+pandoc -> documento_html
+
+# --- Leyenda -------------------------------------------------------------------
+
+leyenda: "Leyenda" {
+  near: bottom-center
+  grid-columns: 5
+  l1: "archivo del proyecto" { class: real }
+  l2: "software" { class: software }
+  l3: "software entre bastidores" { class: oculto }
+  l4: "generado durante el proceso" { class: generado }
+  l5: "salida final" { class: salida }
+}

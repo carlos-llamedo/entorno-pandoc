@@ -8,7 +8,8 @@ date: 2026-04
 
 Herramientas y configuración para escribir en Markdown —un lenguaje de marcado sencillo para texto plano— y convertirlo a PDF, Word, LaTeX, etc. mediante Pandoc generando documentos tipográficamente bien compuestos.
 
-\[*TODO diagrama del flujo de trabajo*]
+![Diagrama que explica todo el flujo de trabajo. En el centro de la composición está Pandoc, con filtros dentro. A él entran `documento.md` (texto, citas, remisiones internas, código) creado con un editor de Markdown (Zettlr, Obsidian, Typora, etc.), imágenes, el archivo JSON de bibliografía y las plantillas. A partir de ello, Pandoc es capaz de generar un `.docx`, un `.html` o un `.tex`; y este último se convierte a PDF usando LuaTeX.](examples/diagrama.svg)
+**Figura 1** Diagrama del sistema propuesto en este proyecto
 
 ## Dependencias externas
 
@@ -29,13 +30,13 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
 1. **Coloca el repositorio en el directorio de datos de Pandoc.** La ubicación depende del sistema: en macOS y Linux es `~/.local/share/pandoc/` o `~/.pandoc/`; en Windows, `%APPDATA%\pandoc\`. Clónalo directamente en esa ruta:
 
-    ```sh
+    ```bash
     git clone --recurse-submodules https://github.com/carlos-llamedo/entorno-pandoc "$HOME/.local/share/pandoc"
     ```
 
 2. **Comprueba que Pandoc lo está usando.** La salida del comando
 
-    ```sh
+    ```bash
     pandoc --version
     ```
 
@@ -44,7 +45,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 3. **Crea un archivo de bibliografía con Zotero.** Las preconfiguraciones `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar las preconfiguraciones que lo usan o crear un `biblioteca.json` vacío.
 4. **Genera un documento a partir de un archivo Markdown.**
 
-    ```sh
+    ```bash
     pandoc -d memoria "Documento.md" -o "Documento.pdf"
     ```
 
@@ -85,21 +86,23 @@ El propio tipo de archivo que generan estos programas tiene sus problemas. El an
 |  ![Captura de VSCode con el archivo `document.xml` extraído de un `.docx`. El cuerpo del documento en OOXML, con un párrafo dividido en numerosos elementos `w:r` según los cambios de formato, y una referencia a una nota al pie.](<examples/Word cuerpo.png>) |  ![Captura de VSCode con el archivo `footnotes.xml` del mismo `.docx`. Las notas al pie en un archivo aparte, incluyendo las notas de separador que Word genera automáticamente y el registro bibliográfico completo en JSON que Zotero incrusta dentro del campo de cita.](<examples/Word notas.png>) |
 |---|---|
 
-**Figuras 2.1-2** Tres párrafos de contenido en un archivo `.docx` desempaquetado (los archivos [`word/document.xml`](examples/document.xml) y [`word/footnotes.xml`](examples/footnotes.xml), respectivamente). El texto de ejemplo es un fragmento del prefacio a la primera edición de la *Historia de España y de la civilización española* de Rafael Altamira (4 vols., Barcelona, 1900-1911). Word almacena el cuerpo del texto y las notas al pie en archivos XML separados. El contenido es difícilmente legible, y el formato aún más.
+**Figuras 2.1-2** Tres párrafos de contenido en un archivo `.docx` desempaquetado (los archivos [`word/document.xml`](examples/document.xml) y [`word/footnotes.xml`](examples/footnotes.xml), respectivamente)[^8]. Word almacena el cuerpo del texto y las notas al pie en archivos XML separados. El contenido es difícilmente legible, y el formato aún más.
+
+[^8]: El texto de ejemplo es un fragmento del prefacio a la primera edición de la *Historia de España y de la civilización española* de Rafael Altamira (4 vols., Barcelona, 1900-1911).
 
 * * *
 
-Sin perjuicio de lo anterior, quiero reiterar que no pienso ni que los procesadores de texto sean mal *software*, ni que deberíamos evitar usarlos a toda cosa —dada su popularidad, por otro lado, sería imposible—. Hay situaciones, como ya hemos discutido, donde son simplemente la mejor opción. Y hay una (reducida) selección de procesadores competentes: Word, Pages, Google Docs, y Writer (de LibreOffice y OpenOffice) cubren, en general, cualquier necesidad. Scrivener es una solución híbrida que merece una mención aparte. La cuestión no es, como señala Kieran Healy[^8], si puedes o no llevar a cabo trabajo sostenible y de buena calidad con otras herramientas —eso se puede hacer hasta en una máquina de escribir—, sino que merece la pena dedicarse, aunque sea mínimamente, a pensar en cómo llevas a cabo tu trabajo.
+Sin perjuicio de lo anterior, quiero reiterar que no pienso ni que los procesadores de texto sean mal *software*, ni que deberíamos evitar usarlos a toda cosa —dada su popularidad, por otro lado, sería imposible—. Hay situaciones, como ya hemos discutido, donde son simplemente la mejor opción. Y hay una (reducida) selección de procesadores competentes: Word, Pages, Google Docs, y Writer (de LibreOffice y OpenOffice) cubren, en general, cualquier necesidad. Scrivener es una solución híbrida que merece una mención aparte. La cuestión no es, como señala Kieran Healy[^9], si puedes o no llevar a cabo trabajo sostenible y de buena calidad con otras herramientas —eso se puede hacer hasta en una máquina de escribir—, sino que merece la pena dedicarse, aunque sea mínimamente, a pensar en cómo llevas a cabo tu trabajo.
 
-[^8]: Kieran Healy, *The Plain Person’s Guide to Plain Text Social Science*, 4 de octubre de 2019, <https://plain-text.co/>.
+[^9]: Kieran Healy, *The Plain Person’s Guide to Plain Text Social Science*, 4 de octubre de 2019, <https://plain-text.co/>.
 
 ### Hay mundo más allá de Word
 
 A pesar de todo, sí hay alternativa al procesador de texto. Para encontrarla habría que retroceder en la historia de la computación más allá de Word, más allá de las interfaces gráficas, más allá incluso de los ordenadores personales. La codificación de caracteres en un fichero, la informática en su forma más elemental: el texto plano.
 
-Un archivo de «texto simple» o «texto plano»[^9] es una secuencia de caracteres codificados según una convención común. A diferencia de un archivo binario —un `.docx`, un PDF—, no requiere de un programa para leerse; cualquier persona con una máquina que entienda la codificación es capaz de ello. Esa codificación está estandarizada desde 1963: primero con ASCII, limitado al inglés, y a lo largo de los años 90, con Unicode, que amplió el repertorio a prácticamente todas las lenguas manteniendo la retrocompatibilidad. El resultado es que un archivo de texto plano escrito hoy en UTF-8 será perfectamente legible dentro de sesenta años, igual que lo es hoy uno escrito en ASCII en un IBM PC del 83.
+Un archivo de «texto simple» o «texto plano»[^10] es una secuencia de caracteres codificados según una convención común. A diferencia de un archivo binario —un `.docx`, un PDF—, no requiere de un programa para leerse; cualquier persona con una máquina que entienda la codificación es capaz de ello. Esa codificación está estandarizada desde 1963: primero con ASCII, limitado al inglés, y a lo largo de los años 90, con Unicode, que amplió el repertorio a prácticamente todas las lenguas manteniendo la retrocompatibilidad. El resultado es que un archivo de texto plano escrito hoy en UTF-8 será perfectamente legible dentro de sesenta años, igual que lo es hoy uno escrito en ASCII en un IBM PC del 83.
 
-[^9]: Esta forma, calco del inglés *plain text*, es preferible frente a «texto simple», que es más ambigua al poder confundirse con «texto sin complejidad».
+[^10]: Esta forma, calco del inglés *plain text*, es preferible frente a «texto simple», que es más ambigua al poder confundirse con «texto sin complejidad».
 
 * * *
 
@@ -123,9 +126,9 @@ Los primeros que se enfrentaron a este problema y que dieron una respuesta fuero
 
 ### Las virtudes de Markdown
 
-Escribir en Markdown es la alternativa que hace el trabajo más sostenible, reproducible y duradero, y la que, en última instancia, devuelve el control al autor. La sencillez y racionalidad del sistema permite a programas como Pandoc convertir los documentos a cualquier otro formato —PDF, Word, HTML, LaTeX— desde el mismo archivo fuente. Las decisiones de maquetación quedan delegadas a una plantilla y las referencias bibliográficas a un procesador de citas, lo que tiende a producir resultados tipográficamente mejores y permite cambiar el estilo visual del documento o el formato de las citas de forma trivial. El sistema escala además cuando hace falta: el Markdown de Pandoc[^10], junto con filtros como pandoc-crossref, cubre prácticamente cualquier necesidad de escritura, y donde no llega —una fórmula matemática, una tabla particularmente compleja—, siempre es posible introducir LaTeX directamente.
+Escribir en Markdown es la alternativa que hace el trabajo más sostenible, reproducible y duradero, y la que, en última instancia, devuelve el control al autor. La sencillez y racionalidad del sistema permite a programas como Pandoc convertir los documentos a cualquier otro formato —PDF, Word, HTML, LaTeX— desde el mismo archivo fuente. Las decisiones de maquetación quedan delegadas a una plantilla y las referencias bibliográficas a un procesador de citas, lo que tiende a producir resultados tipográficamente mejores y permite cambiar el estilo visual del documento o el formato de las citas de forma trivial. El sistema escala además cuando hace falta: el Markdown de Pandoc[^11], junto con filtros como pandoc-crossref, cubre prácticamente cualquier necesidad de escritura, y donde no llega —una fórmula matemática, una tabla particularmente compleja—, siempre es posible introducir LaTeX directamente.
 
-[^10]: El Markdown de Pandoc es uno de los dialectos más capaces del formato. A diferencia del Markdown original de Gruber, pensado principalmente para generar HTML, el de Pandoc está diseñado para producir cualquier tipo de documento: admite notas al pie, citas bibliográficas con sintaxis `[@cita]` procesadas por Citeproc, listas de definiciones, bloques de metadatos YAML, y *divs* y *spans* con atributos arbitrarios que permiten pasar información a los filtros o a la plantilla de salida.
+[^11]: El Markdown de Pandoc es uno de los dialectos más capaces del formato. A diferencia del Markdown original de Gruber, pensado principalmente para generar HTML, el de Pandoc está diseñado para producir cualquier tipo de documento: admite notas al pie, citas bibliográficas con sintaxis `[@cita]` procesadas por Citeproc, listas de definiciones, bloques de metadatos YAML, y *divs* y *spans* con atributos arbitrarios que permiten pasar información a los filtros o a la plantilla de salida.
 
 * * *
 
@@ -134,9 +137,9 @@ Escribir en Markdown es la alternativa que hace el trabajo más sostenible, repr
 
 * * *
 
-Hay dos ventajas más que conviene señalar explícitamente, porque no son evidentes. La primera es la independencia del trabajo respecto de la herramienta. Con un archivo Markdown puedes trabajar desde Zettlr, Obsidian, Emacs o el Bloc de notas de Windows. No hay dependencia de ningún programa concreto, y cambiar de herramienta no implica cambiar de formato ni perder nada. Todas las herramientas de este sistema son además gratuitas y de código abierto. No hay coste de acceso, funcionan en todos los sistemas operativos principales y, al estar mantenidas por comunidades activas, ofrecen garantías a largo plazo. Esto refuerza también la segunda virtud, que es la conservación y la archivística digital. Kepano, el fundador de Obsidian, [sugirió una vez](https://obsidian.md/blog/new-obsidian-icon) que, si quieres que tus archivos se puedan leer en 2060 o en 2160, tal vez convenga empezar a pensar en archivos que se podrían leer en 1960. Lo que se crea son documentos ligeros, consistentes, portátiles y legibles sin ningún *software* específico[^11]. Paradójicamente, una vez configurado es bastante más sencillo de usar que navegar por infinitos submenús en Word. Tal vez nunca ha sido verdad que *hic sunt leones*.
+Hay dos ventajas más que conviene señalar explícitamente, porque no son evidentes. La primera es la independencia del trabajo respecto de la herramienta. Con un archivo Markdown puedes trabajar desde Zettlr, Obsidian, Emacs o el Bloc de notas de Windows. No hay dependencia de ningún programa concreto, y cambiar de herramienta no implica cambiar de formato ni perder nada. Todas las herramientas de este sistema son además gratuitas y de código abierto. No hay coste de acceso, funcionan en todos los sistemas operativos principales y, al estar mantenidas por comunidades activas, ofrecen garantías a largo plazo. Esto refuerza también la segunda virtud, que es la conservación y la archivística digital. Kepano, el fundador de Obsidian, [sugirió una vez](https://obsidian.md/blog/new-obsidian-icon) que, si quieres que tus archivos se puedan leer en 2060 o en 2160, tal vez convenga empezar a pensar en archivos que se podrían leer en 1960. Lo que se crea son documentos ligeros, consistentes, portátiles y legibles sin ningún *software* específico[^12]. Paradójicamente, una vez configurado es bastante más sencillo de usar que navegar por infinitos submenús en Word. Tal vez nunca ha sido verdad que *hic sunt leones*.
 
-[^11]: Para quien trabaje con control de versiones, el texto plano se integra de manera natural con herramientas como Git.
+[^12]: Para quien trabaje con control de versiones, el texto plano se integra de manera natural con herramientas como Git.
 
 * * *
 
@@ -176,9 +179,9 @@ El directorio [`filters/`](filters/) contiene los filtros Lua que transforman el
 - [`multibib.lua`](filters/multibib.lua). Genera bibliografías múltiples y separadas en lugar de una única en un documento Markdown. De [Albert Krewinkel](https://github.com/pandoc-ext/multibib).
 - [`noindent.lua`](filters/noindent.lua). Convierte *divs* con clase `.noindent` en bloques LaTeX sin sangría de primera línea. Útil para indicar cuándo un párrafo tras una lista o una cita exenta es continuación del anterior, y no uno nuevo.
 - [`correcciones-notas.lua`](filters/correcciones-notas.lua). Aplica correcciones tipográficas del español dentro de las notas al pie construidas por `citeproc`: sustituye `párr.`, `sec.` y `secs.` por `§` para conservar el signo ortográfico y normaliza las semirrayas (anglicismo ortográfico) en rangos numéricos, convirtiéndolas a guiones.
-- [`zotero.lua`](filters/zotero.lua). Permite convertir la [sintaxis de la extensión `citations` de Pandoc](https://pandoc.org/MANUAL.html#citation-syntax) a campos de cita de Zotero en archivos `.odt` y `.docx`, tal y como si se hubieran insertado con la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration)[^12]. De [Emiliano Heyns](https://github.com/retorquere/zotero-better-bibtex/blob/master/site/content/exporting/zotero.lua).
+- [`zotero.lua`](filters/zotero.lua). Permite convertir la [sintaxis de la extensión `citations` de Pandoc](https://pandoc.org/MANUAL.html#citation-syntax) a campos de cita de Zotero en archivos `.odt` y `.docx`, tal y como si se hubieran insertado con la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration)[^13]. De [Emiliano Heyns](https://github.com/retorquere/zotero-better-bibtex/blob/master/site/content/exporting/zotero.lua).
 
-[^12]: Tal como [documenta Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations), LibreOffice Writer tiene un *bug* que impide reconocer las citas en archivos `.docx`, por lo que hay que usar `.odt`. Si se usa Microsoft Word, no hay ningún problema con las citas en los `.docx`.
+[^13]: Tal como [documenta Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations), LibreOffice Writer tiene un *bug* que impide reconocer las citas en archivos `.docx`, por lo que hay que usar `.odt`. Si se usa Microsoft Word, no hay ningún problema con las citas en los `.docx`.
 
 ### Referencias bibliográficas
 
@@ -194,9 +197,9 @@ El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuari
 
 El directorio [`csl/`](csl/) contiene los estilos de citación y el directorio [`locales/`](locales/) los archivos de localización (léase «traducción»).
 
-Ambos forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias. Se toman del [repositorio oficial](https://github.com/citation-style-language/styles) los más habituales en humanidades y ciencias sociales[^13].
+Ambos forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias. Se toman del [repositorio oficial](https://github.com/citation-style-language/styles) los más habituales en humanidades y ciencias sociales[^14].
 
-[^13]: Se pueden encontrar más fácilmente en <https://www.zotero.org/styles>.
+[^14]: Se pueden encontrar más fácilmente en <https://www.zotero.org/styles>.
 
 Las [localizaciones](https://github.com/citation-style-language/locales) adaptan los estilos al idioma del documento: traducen cadenas fijas como «ed.», «vol.» o «et al.» y aplican las convenciones tipográficas propias de cada lengua. Sin el archivo de localización correspondiente, `citeproc` recurre al inglés estadounidense por defecto.
 
@@ -208,9 +211,9 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
-- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^14].
+- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^15].
 
-[^14]: Escribir en la consola
+[^15]: Escribir en la consola
     ```bash
     pandoc -d notas.yaml <<< "[@Ward-Perkins2005]"
     ```

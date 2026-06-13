@@ -191,7 +191,7 @@ Sustituye a Citeproc cuando el documento requiere separar las referencias en sec
           \counterwithout{footnote}{chapter}
     ```
 
-Las bibliografías se declaran en el bloque de metadatos del documento como un mapa, donde cada clave es un nombre que identificará la sección y cada valor es la ruta al archivo de bibliografía correspondiente:
+Las bibliografías se declaran en el bloque de metadatos del documento como un mapa, donde cada clave es un nombre que identificará la sección y cada valor es la ruta al archivo de bibliografía correspondiente. **No funciona con archivos cuya ruta contenga caracteres no ASCII, como letras acentuadas**.
 
 ```yaml
 bibliography:
