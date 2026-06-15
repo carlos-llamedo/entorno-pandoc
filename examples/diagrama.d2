@@ -72,7 +72,7 @@ classes: {
   }
 }
 
-# --- Flujo principal ---------------------------------------------------------
+# ── Flujo principal ─────────────────────────────────────────────────────────
 
 editor: "" {
   shape: rectangle
@@ -109,7 +109,7 @@ documento_pdf: "documento.pdf" {
   class: [salida; principal]
 }
 
-# --- Entradas secundarias -----------------------------------------------------
+# ── Entradas secundarias ────────────────────────────────────────────────────
 
 imagenes: "" {
   shape: rectangle
@@ -134,8 +134,7 @@ bibliografia: "bibliografía.json" {
   class: [real; secundario]
 }
 
-
-# --- Salidas secundarias --------------------------------------------------------
+# ── Salidas secundarias ─────────────────────────────────────────────────────
 
 documento_docx: "documento.docx" {
   class: [salida; secundario]
@@ -145,7 +144,7 @@ documento_html: "documento.html" {
   class: [salida; secundario]
 }
 
-# --- Conexiones --------------------------------------------------------------
+# ── Conexiones ──────────────────────────────────────────────────────────────
 
 editor -> documento_md
 zotero -> bibliografia
@@ -157,7 +156,7 @@ pandoc -> documento_tex -> luatex -> documento_pdf
 pandoc -> documento_docx
 pandoc -> documento_html
 
-# --- Leyenda -------------------------------------------------------------------
+# ── Leyenda ─────────────────────────────────────────────────────────────────
 
 leyenda: "Leyenda" {
   near: bottom-center
