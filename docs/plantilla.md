@@ -5,7 +5,7 @@ date: 2026-05
 
 # Variables de la plantilla `memoir.tex`
 
-Referencia completa de todas las variables YAML propias de la plantilla. Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla.
+Referencia completa de todas las variables YAML propias de la plantilla. Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla. El manual de Pandoc incluye [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) que detalla cómo declarar estas opciones, así como casos más complejos.
 
 Algunas variables de comportamiento que se declaran en los metadatos las gestiona un filtro, no la plantilla, y por tanto están documentadas en [`filtros`](filtros.md).
 

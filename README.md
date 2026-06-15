@@ -42,14 +42,29 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
     incluye una línea «User data directory: …» con la ruta desde la que Pandoc lee. Debe coincidir con la del paso anterior.
 
-3. **Crea un archivo de bibliografía con Zotero.** Las preconfiguraciones `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar las preconfiguraciones que lo usan o crear un `biblioteca.json` vacío.
+3. **Crea un archivo de bibliografía con Zotero.** Los preajustes `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar los preajustes que lo usan o crear un `biblioteca.json` vacío.
 4. **Genera un documento a partir de un archivo Markdown.**
 
     ```bash
     pandoc -d memoria "Documento.md" -o "Documento.pdf"
     ```
 
-   `-d memoria` carga [`memoria.yaml`](defaults/memoria.yaml), que activa la plantilla, los filtros y la bibliografía. El resto de preconfiguraciones y su propósito se explican en [la sección correspondiente](#preconfiguraciones).
+   `-d memoria` carga [`memoria.yaml`](defaults/memoria.yaml), que activa la plantilla, los filtros y la bibliografía. El resto de preajustes y su propósito se explican en [su sección correspondiente](#preajustes).
+
+Con esto se genera un documento básico, pero lo normal es que se quiera ajustar el aspecto del resultado. Lo que se declara en los preajustes que se cargan es inamovible, tiene preferencia sobre todo lo demás, por lo que están pensados para cubrir el mínimo necesario. Hay que consultar las opciones que ofrecen los [filtros](docs/filtros.md) y la [plantilla](docs/plantilla.md), y declarar las que se quieran cambiar al principio del documento, entre dos líneas que solo contengan `---`. El manual de Pandoc contiene [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) en la que se explica más en detalle esto, pero vamos a poner aquí un breve ejemplo.
+
+Quieres usar Times New Roman como fuente del documento, que los enlaces destaquen con un color distinto, que en los metadatos aparezca tu nombre y que las llamadas a nota al pie de las referencias se sitúen antes de los signos de puntuación (sistema francés). Estas opciones se corresponden con las variables `mainfont`, `colorlinks`, `author` y `notes-after-punctuation`. `colorlinks` y `notes-after-punctuation` son variables booleanas, por lo que solo se puede activar (`true`) o desactivar (`false`). `mainfont` y `author` esperan cadenas de caracteres, por lo que hay que escribir exactamente lo que se quiere con ellas. Lo metemos todo entre dos líneas que contengan los caracteres `---` y este sería el resultado:
+
+```markdown
+---
+mainfont: Times New Roman
+colorlinks: true
+author: Carlos Llamedo
+notes-after-punctuation: false
+---
+
+Aquí empieza el texto normal del documento.
+```
 
 ## ¿Por qué existe este proyecto?
 
@@ -166,7 +181,7 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
 El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa para generar los documentos.
 
-- [`memoir.tex`](templates/memoir.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todas las preconfiguraciones que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`plantilla`](docs/plantilla.md).
+- [`memoir.tex`](templates/memoir.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todos los preajustes que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`plantilla`](docs/plantilla.md).
 - [`dunning.tex`](templates/dunning.tex) es una plantilla ligera basada en la clase `tufte-handout`, útil para documentos breves con notas al margen. Obra de Andrew Dunning.
 
 El repositorio incluye también los archivos XML para construir `memoir.odt`, una plantilla para documentos ODT con aspecto parecido al de los PDF generados por `memoir.tex`. Los formatos `.odt` y `.docx` son archivos XML comprimidos; el directorio [`odt/`](templates/odt/) contiene esos archivos, que hay que empaquetar manualmente en `memoir.odt` y colocar en [`templates/`](templates/). El archivo construido **no se incluye en el repositorio** por ser un binario.
@@ -189,7 +204,7 @@ En lugar de formatear manualmente las citas, `citeproc` es capaz de generar refe
 
 #### Archivo de bibliografía
 
-La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunas preconfiguraciones —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`herramientas`](docs/herramientas.md).
+La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunos preajustes —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`herramientas`](docs/herramientas.md).
 
 El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuario tienen que crear su propia exportación** en el directorio de datos de Pandoc.
 
@@ -203,7 +218,7 @@ Ambos forman parte del estándar [Citation Style Language](https://citationstyle
 
 Las [localizaciones](https://github.com/citation-style-language/locales) adaptan los estilos al idioma del documento: traducen cadenas fijas como «ed.», «vol.» o «et al.» y aplican las convenciones tipográficas propias de cada lengua. Sin el archivo de localización correspondiente, `citeproc` recurre al inglés estadounidense por defecto.
 
-### Preconfiguraciones
+### Preajustes
 
 El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para tareas específicas.
 
@@ -211,7 +226,7 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
-- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Esta preconfiguración no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^15].
+- [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Este preajuste no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^15].
 
 [^15]: Escribir en la consola
     ```bash
