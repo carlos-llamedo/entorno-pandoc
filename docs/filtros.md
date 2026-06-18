@@ -162,9 +162,9 @@ include-auto: true
 
 El filtro ajusta automáticamente las rutas relativas de enlaces e imágenes dentro de los archivos incluidos, de modo que se resuelven correctamente desde la ubicación del archivo incluido, no desde el documento principal.
 
-### noindent.lua
+### custom-divs.lua
 
-`noindent.lua` convierte divs con la clase `noindent` a un grupo LaTeX sin sangría de primera línea. Útil para párrafos que siguen a elementos no textuales (listas, tablas, figuras, citas exentas) y que, por convención tipográfica, no deben llevar sangría aunque el documento use sangría por defecto.
+`custom-divs.lua` convierte divs con la clase `noindent` a un grupo LaTeX sin sangría de primera línea. Útil para párrafos que siguen a elementos no textuales (listas, tablas, figuras, citas exentas) y que, por convención tipográfica, no deben llevar sangría aunque el documento use sangría por defecto.
 
 El filtro solo actúa en la salida LaTeX; en otros formatos el div se ignora sin generar código adicional.
 

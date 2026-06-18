@@ -12,11 +12,11 @@ bibliography: biblioteca.json
 filters:
   - include-files.lua
   - pandoc-crossref
-  - noindent.lua
+  - custom-divs.lua
   - citeproc
   - correcciones-notas.lua
 
-template: memoir.tex
+template: pandoc.tex
 top-level-division: chapter
 
 metadata:

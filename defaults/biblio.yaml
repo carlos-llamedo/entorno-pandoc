@@ -10,7 +10,7 @@ filters:
 
 csl: chicago-author-date
 
-template: memoir.tex
+template: pandoc.tex
 top-level-division: chapter
 
 metadata:

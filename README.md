@@ -24,7 +24,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
     3. Monoespaciada: [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/releases/latest)
     4. Matemática: [IBM Plex Math](https://github.com/IBM/plex/releases/tag/%40ibm%2Fplex-math%401.1.0)
 
-[^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de `memoir.tex`.
+[^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de `pandoc.tex`.
 
 ## Guía de uso rápido
 
@@ -147,8 +147,8 @@ Escribir en Markdown es la alternativa que hace el trabajo más sostenible, repr
 
 * * *
 
-![Captura a doble página del PDF generado con la plantilla `memoir.tex`, mostrando los encabezados de página con el título del capítulo, los números de página, dos notas al pie numeradas, texto en versalitas y un hipervínculo en color.](examples/PDF.png)
-**Figura 5** [PDF](examples/altamira.pdf) generado a partir del texto de ejemplo con la plantilla `memoir.tex`. Encabezados a página par e impar, números de página con cifras elzevirianas, notas al pie numeradas, versalitas e hipervínculos en color sin que el autor haya tomado una sola decisión de maquetación.
+![Captura a doble página del PDF generado con la plantilla `pandoc.tex`, mostrando los encabezados de página con el título del capítulo, los números de página, dos notas al pie numeradas, texto en versalitas y un hipervínculo en color.](examples/PDF.png)
+**Figura 5** [PDF](examples/altamira.pdf) generado a partir del texto de ejemplo con la plantilla `pandoc.tex`. Encabezados a página par e impar, números de página con cifras elzevirianas, notas al pie numeradas, versalitas e hipervínculos en color sin que el autor haya tomado una sola decisión de maquetación.
 
 * * *
 
@@ -173,7 +173,7 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
 - [`referencias`](docs/referencias.md). Dónde está la documentación oficial de cada componente.
 - [`herramientas`](docs/herramientas.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
-- [`plantilla`](docs/plantilla.md). Qué variables variables YAML contempla `memoir.tex`.
+- [`plantilla`](docs/plantilla.md). Qué variables variables YAML contempla `pandoc.tex`.
 - [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
 - [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
 
@@ -181,10 +181,10 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
 El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa para generar los documentos.
 
-- [`memoir.tex`](templates/memoir.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todos los preajustes que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`plantilla`](docs/plantilla.md).
+- [`pandoc.tex`](templates/pandoc.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todos los preajustes que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`plantilla`](docs/plantilla.md).
 - [`dunning.tex`](templates/dunning.tex) es una plantilla ligera basada en la clase `tufte-handout`, útil para documentos breves con notas al margen. Obra de Andrew Dunning.
 
-El repositorio incluye también los archivos XML para construir `memoir.odt`, una plantilla para documentos ODT con aspecto parecido al de los PDF generados por `memoir.tex`. Los formatos `.odt` y `.docx` son archivos XML comprimidos; el directorio [`odt/`](templates/odt/) contiene esos archivos, que hay que empaquetar manualmente en `memoir.odt` y colocar en [`templates/`](templates/). El archivo construido **no se incluye en el repositorio** por ser un binario.
+El repositorio incluye también los archivos XML para construir `memoir.odt`, una plantilla para documentos ODT con aspecto parecido al de los PDF generados por `pandoc.tex`. Los formatos `.odt` y `.docx` son archivos XML comprimidos; el directorio [`odt/`](templates/odt/) contiene esos archivos, que hay que empaquetar manualmente en `memoir.odt` y colocar en [`templates/`](templates/). El archivo construido **no se incluye en el repositorio** por ser un binario.
 
 ### Filtros Lua
 
@@ -192,7 +192,7 @@ El directorio [`filters/`](filters/) contiene los filtros Lua que transforman el
 
 - [`include-files.lua`](filters/include-files.lua). Permite [transcluir](https://es.wikipedia.org/wiki/Transclusi%C3%B3n) archivos Markdown, lo que facilita dividir textos largos en varios archivos. De [Albert Krewinkel](https://github.com/pandoc-ext/include-files).
 - [`multibib.lua`](filters/multibib.lua). Genera bibliografías múltiples y separadas en lugar de una única en un documento Markdown. De [Albert Krewinkel](https://github.com/pandoc-ext/multibib).
-- [`noindent.lua`](filters/noindent.lua). Convierte *divs* con clase `.noindent` en bloques LaTeX sin sangría de primera línea. Útil para indicar cuándo un párrafo tras una lista o una cita exenta es continuación del anterior, y no uno nuevo.
+- [`custom-divs.lua`](filters/custom-divs.lua). Convierte *divs* con clase `.noindent` en bloques LaTeX sin sangría de primera línea. Útil para indicar cuándo un párrafo tras una lista o una cita exenta es continuación del anterior, y no uno nuevo.
 - [`correcciones-notas.lua`](filters/correcciones-notas.lua). Aplica correcciones tipográficas del español dentro de las notas al pie construidas por `citeproc`: sustituye `párr.`, `sec.` y `secs.` por `§` para conservar el signo ortográfico y normaliza las semirrayas (anglicismo ortográfico) en rangos numéricos, convirtiéndolas a guiones.
 - [`zotero.lua`](filters/zotero.lua). Permite convertir la [sintaxis de la extensión `citations` de Pandoc](https://pandoc.org/MANUAL.html#citation-syntax) a campos de cita de Zotero en archivos `.odt` y `.docx`, tal y como si se hubieran insertado con la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration)[^13]. De [Emiliano Heyns](https://github.com/retorquere/zotero-better-bibtex/blob/master/site/content/exporting/zotero.lua).
 
@@ -224,8 +224,8 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 
 - [`memoria.yaml`](defaults/memoria.yaml). La opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF.
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
-- [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `memoir.tex`.
-- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `memoir.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
+- [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `pandoc.tex`.
+- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
 - [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Este preajuste no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^15].
 
 [^15]: Escribir en la consola

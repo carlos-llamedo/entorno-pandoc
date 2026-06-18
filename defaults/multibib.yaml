@@ -10,11 +10,11 @@ resource-path:
 filters:
   - include-files.lua
   - pandoc-crossref
-  - noindent.lua
+  - custom-divs.lua
   - multibib.lua
   - correcciones-notas.lua
 
-template: memoir.tex
+template: pandoc.tex
 top-level-division: chapter
 
 metadata:
