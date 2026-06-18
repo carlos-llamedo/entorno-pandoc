@@ -1,5 +1,5 @@
 --[[
-noindent – Convierte divs con clase "noindent" en un grupo LaTeX sin sangría.
+custom-divs – Convierte divs con clases concretas a grupos LaTeX.
 
 Copyright © 2026 Carlos Llamedo
 https://github.com/carlos-llamedo/entorno-pandoc
