@@ -37,11 +37,11 @@ instalar_pandoc() {
   local binario="$_dir_bin/pandoc"
 
   if [[ -x "$binario" ]] && "$binario" --version 2>/dev/null | grep -qF "$version"; then
-    printf "${BOLD_CYN}Pandoc %s ${CYN}ya está instalado.${NC}\n" "$version"
+    printf "${BOLD_CYN}Pandoc $version ${CYN}ya está instalado.${NC}\n"
     return
   fi
 
-  printf "${CYN}Instalando ${BOLD_CYN}Pandoc %s${CYN}…${NC}" "$version"
+  printf "${CYN}Instalando ${BOLD_CYN}Pandoc $version${CYN}…${NC}"
 
   local url="https://github.com/jgm/pandoc/releases/download/${version}/pandoc-${version}-linux-amd64.tar.gz"
   local tmp
@@ -77,11 +77,11 @@ instalar_pandoc_crossref() {
   local binario="$_dir_bin/pandoc-crossref"
 
   if [[ -x "$binario" ]] && "$binario" --version 2>/dev/null | grep -qF "${version%%[a-z]*}"; then
-    printf "${BOLD_CYN}pandoc-crossref %s ${CYN}ya está instalado.${NC}\n" "$version"
+    printf "${BOLD_CYN}pandoc-crossref $version ${CYN}ya está instalado.${NC}\n"
     return
   fi
 
-  printf "${CYN}Instalando ${BOLD_CYN}pandoc-crossref %s${CYN}…${NC}\n" "$version"
+  printf "${CYN}Instalando ${BOLD_CYN}pandoc-crossref $version${CYN}…${NC}\n"
 
   local url="https://github.com/lierdakil/pandoc-crossref/releases/download/${version}/pandoc-crossref-Linux-X64.tar.xz"
   local tmp

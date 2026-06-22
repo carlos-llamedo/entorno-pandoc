@@ -255,7 +255,7 @@ El directorio [`scripts/`](scripts/) contiene utilidades de mantenimiento y actu
 
 - [`actualizar-csl.sh`](scripts/actualizar-csl.sh). Descarga las versiones más recientes de los estilos CSL incluidos en el repositorio desde el repositorio oficial de Citation Style Language.
 - [`actualizar-locales.sh`](scripts/actualizar-locales.sh). Hace lo propio con los archivos de localización.
-- [`instala-pandoc.sh`](scripts/instala-pandoc.sh). Solo para macOS y Linux. Declara la versión de Pandoc y de pandoc-crossref (tienen que ser compatibles), los descarga y los coloca en el `$PATH`.
+- [`instalar-pandoc.sh`](scripts/instalar-pandoc.sh). Solo para macOS y Linux. Declara la versión de Pandoc y de pandoc-crossref (tienen que ser compatibles), los descarga y los coloca en el `$PATH`.
 
 ## Proyectos similares
 
