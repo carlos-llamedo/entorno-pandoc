@@ -104,35 +104,14 @@ $endif$
 
 \usepackage{luaotfload}
 
-$if(mainfont)$
-\setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
-$else$
 \directlua{luaotfload.add_fallback("mainfontfallback",{"Source Serif 4:mode=harf"})}
-\setmainfont[
-  RawFeature={fallback=mainfontfallback}$for(mainfontoptions)$,$mainfontoptions$$endfor$
-]{Arno Pro}
-$endif$
-
-$if(sansfont)$
-\setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
-$else$
 \directlua{luaotfload.add_fallback("sansfontfallback",{"Source Sans 3:mode=harf"})}
-\setsansfont[
-  RawFeature={fallback=sansfontfallback}
-]{Myriad Pro}
-$endif$
+\directlua{luaotfload.add_fallback("monofontfallback",{"Source Code Pro:mode=harf"})}
 
-$if(monofont)$
-\setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$]{$monofont$}
-$else$
-\setmonofont{Source Code Pro}
-$endif$
-
-$if(mathfont)$
-\setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-$else$
-\setmathfont{IBM Plex Math}
-$endif$
+\setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$,RawFeature={fallback=mainfontfallback}]{$if(mainfont)$$mainfont$$else$Arno Pro$endif$}
+\setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$,RawFeature={fallback=sansfontfallback}]{$if(sansfont)$$sansfont$$else$Myriad Pro$endif$}
+\setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$,RawFeature={fallback=monofontfallback}]{$if(monofont)$$monofont$$else$Source Code Pro$endif$}
+\setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$if(mathfont)$$mathfont$$else$STIX Two Math$endif$}
 
 \usepackage[$if(microtypeoptions)$$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$$else$protrusion=true$endif$]{microtype}
 \UseMicrotypeSet[protrusion]{basicmath}
@@ -158,6 +137,14 @@ $if(bodysans)$
 $if(titlefont)$$else$
 \renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
 \renewcommand{\capsfont}{\sffamily\upshape}
+$endif$
+$endif$
+
+$if(bodymono)$
+\renewcommand{\familydefault}{\ttdefault}
+$if(titlefont)$$else$
+\renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
+\renewcommand{\capsfont}{\ttfamily\upshape}
 $endif$
 $endif$
 
@@ -287,7 +274,7 @@ $endif$
   labelfont       = captionfont,
   labelsep        = enspace,
   labelformat     = displaylabel,
-  singlelinecheck = false,
+  singlelinecheck = true,
   justification   = justified,
 }
 \renewcommand{\captionfont}{\textsmall}
@@ -321,11 +308,7 @@ $endif$
 
 \setlength{\skip\footins}{0.5\baselineskip plus 2pt minus 2pt}
 
-$if(colorlinks)$
 \renewcommand{\thefootnote}{\textcolor{black}{\arabic{footnote}}}
-$else$
-\renewcommand{\thefootnote}{\arabic{footnote}}
-$endif$
 
 % Formato del texto de la nota.
 \makeatletter
@@ -592,9 +575,9 @@ $if(keywords)$
 $endif$
 $if(colorlinks)$
   colorlinks=true,
-  linkcolor={$if(linkcolor)$$linkcolor$$else$purpleblue$endif$},
-  urlcolor={$if(urlcolor)$$urlcolor$$else$purpleblue$endif$},
-  citecolor={$if(citecolor)$$citecolor$$else$purpleblue$endif$},
+  linkcolor={$if(linkcolor)$$linkcolor$$else$DarkSlateBlue$endif$},
+  urlcolor={$if(urlcolor)$$urlcolor$$else$DarkSlateBlue$endif$},
+  citecolor={$if(citecolor)$$citecolor$$else$DarkSlateBlue$endif$},
   filecolor={$if(filecolor)$$filecolor$$else$black$endif$},
 $else$
 $if(boxlinks)$
@@ -602,7 +585,7 @@ $else$
   hidelinks,
 $endif$
 $endif$
-  pdfcreator={LaTeX via pandoc}
+  pdfcreator={LaTeX via Pandoc}
 }
 
 \usepackage{etoolbox}

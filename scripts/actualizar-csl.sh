@@ -12,6 +12,7 @@ RST="$NC"
 RED=$'\033[0;31m'
 CYN=$'\033[0;36m'
 BOLD_GRN=$'\033[1;32m'
+BOLD_CYN=$'\033[1;36m'
 
 fatal() {
   echo -e "${RED}[fatal]${RST} $@" >&2
@@ -47,13 +48,13 @@ estilos=(
 
 actualizar_csl() {
   mkdir -p "$dir_csl"
-  printf '%s%s%s\n' "$CYN" "Actualizando estilos CSL…" "$NC"
+  printf "${CYN}Actualizando ${BOLD_CYN}estilos CSL${CYN}…${NC}\n"
 
   for estilo in "${estilos[@]}"; do
     local archivo="${estilo}.csl"
     curl -sSL "$url_base/$archivo" -o "$dir_csl/$archivo" \
       || fatal "no se pudo descargar $archivo"
-    printf '%s%s%s\n' "$CYN" "  ✓ $archivo" "$NC"
+    printf "${CYN}  ✓ ${BOLD_CYN}%s${NC}\n" "$archivo"
   done
 }
 
@@ -61,4 +62,4 @@ actualizar_csl() {
 
 actualizar_csl
 
-printf '%s%s%s\n' "$BOLD_GRN" "Estilos CSL actualizados correctamente." "$NC"
+printf "${BOLD_GRN}Estilos CSL actualizados correctamente.${NC}\n"

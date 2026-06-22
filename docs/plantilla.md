@@ -62,37 +62,69 @@ Las fuentes toman el nombre del sistema tal como lo reconoce fontspec. Las varia
 | `sansfontoptions` | lista | — | pandoc |
 | `monofont` | cadena | `Source Code Pro` | pandoc |
 | `monofontoptions` | lista | — | pandoc |
-| `mathfont` | cadena | `IBM Plex Math` | pandoc |
+| `mathfont` | cadena | `STIX Two Math` | pandoc |
 | `mathfontoptions` | lista | — | pandoc |
 | `titlefont` | cadena | — | propio |
 | `titlefontoptions` | lista | — | propio |
 | `titlesans` | booleano | — | propio |
 | `bodysans` | booleano | — | propio |
+| `bodymono` | booleano | — | propio |
 | `microtypeoptions` | lista | `protrusion=true` | pandoc |
 
 `titlefont` define una familia tipográfica alternativa para títulos, encabezados, folios e índice. Permite combinar dos serifs distintas (p. ej., `titlefont: Bodoni MT` con `mainfont: Arno Pro`). Tiene prioridad sobre `titlesans`.
 
 `titlesans` activa la familia sans-serif en esos mismos elementos. Si ninguna de las dos está declarada, los títulos van en la misma familia que el cuerpo.
 
-`bodysans` conmuta la familia por defecto del documento entero a sans-serif.
+`bodysans` conmuta la familia por defecto del documento entero a sans-serif; `bodymono` hace lo propio con la monoespaciada.
 
 Los fallbacks de glifos están definidos en el preámbulo: `Source Serif 4` para la serif y `Source Sans 3` para la sans. Para modificarlos usar `header-includes`.
 
-`microtypeoptions` permite pasar opciones al paquete `microtype`. Por defecto solo se activa la protrusión.
+`microtypeoptions` permite pasar opciones al paquete [`microtype`](https://ctan.org/tex-archive/macros/latex/contrib/microtype). Por defecto solo se activa la protrusión.
 
-Ejemplo con variantes no estándar y ligaduras adicionales:
+Las variables `fontoptions` controlan cómo [`fontspec`](https://ctan.org/tex-archive/macros/unicodetex/latex/fontspec) procesa las fuentes. Los usos más frecuentes son:
 
-```yaml
-mainfont: Warnock Pro
-mainfontoptions:
-  - BoldFont=Warnock Pro Semibold
-  - BoldItalicFont=Warnock Pro Semibold Italic
-  - Ligatures=TeX              # ligaduras estándar (ff, fi, fl…); declarar primero
-  - Ligatures=Historic         # ligaduras históricas (ſt, ſi…)
-  - Ligatures=Discretionary    # ligaduras discrecionales (Th, ct…)
-```
+- Nombres y variantes de fuentes no estándar
 
-Las opciones de ligaduras deben declararse como entradas separadas de la lista; `Ligatures=TeX,Discretionary` en una sola cadena no funciona con fontspec. `Ligatures=TeX` activa las ligaduras estándar de metal (ff, fi, fl, ffi, ffl) y es el punto de partida habitual. `Ligatures=Discretionary` añade las que el diseñador marcó como opcionales (Th, ct, st…) y depende de cada fuente; es una adición razonable para texto académico. `Ligatures=Historic` activa formas con s larga (ſt, ſi…) y solo tiene sentido en ediciones de fuentes antiguas o reproducciones paleográficas: declarar las tres a la vez es poco habitual. Otras opciones OpenType frecuentes son `Numbers=OldStyle` para cifras elzevirianos, `Numbers=Lining` para cifras de caja alta, y `RawFeature=+hist` para activar características OpenType arbitrarias.
+  ```yaml
+  mainfont: Warnock Pro
+  mainfontoptions:
+    - BoldFont=Warnock Pro Semibold
+    - BoldItalicFont=Warnock Pro Semibold Italic
+  ```
+
+- Ligaduras adicionales (deben declararse como entradas separadas, `Ligatures=TeX,Discretionary` en una sola cadena no funciona). 
+
+  ```yaml
+  mainfontoptions:
+    - Ligatures=TeX              # ligaduras estándar (ff, fi, fl…); punto de partida habitual, declarar primero
+    - Ligatures=Discretionary    # ligaduras marcadas como opcionales (Th, ct…); depende de la fuente
+    - Ligatures=Historic         # ligaduras históricas (ſt, ſi…)
+  ```
+
+- Numerales
+
+  ```yaml
+  mainfontoptions:
+    - Numbers=OldStyle           # cifras elzevirianas; recomendable en cuerpo de texto
+    - Numbers=Lining             # cifras de caja alta; para tablas o contextos técnicos
+    - Numbers=Monospaced         # anchura fija; útil en monoespaciadas con variantes de dígito
+  ```
+
+- Escala
+
+  ```yaml
+  monofontoptions:
+    - Scale=0.8
+    # o bien
+    - Scale=MatchLowercase      # fontspec mide y ajusta automáticamente
+
+- Características OpenType arbitrarias
+
+  ```yaml
+  mainfontoptions:
+  - RawFeature=+onum            # cifras elzevirianas vía tag OpenType directo
+  - RawFeature=+hist            # formas históricas
+  ```
 
 * * *
 

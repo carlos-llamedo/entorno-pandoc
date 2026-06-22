@@ -8,6 +8,7 @@ RST="$NC"
 RED=$'\033[0;31m'
 CYN=$'\033[0;36m'
 BOLD_GRN=$'\033[1;32m'
+BOLD_CYN=$'\033[1;36m'
 
 fatal() {
   echo -e "${RED}[fatal]${RST} $@" >&2
@@ -36,11 +37,11 @@ instalar_pandoc() {
   local binario="$_dir_bin/pandoc"
 
   if [[ -x "$binario" ]] && "$binario" --version 2>/dev/null | grep -qF "$version"; then
-    printf '%s%s%s\n' "$CYN" "Pandoc $version ya está instalado." "$NC"
+    printf "${BOLD_CYN}Pandoc %s ${CYN}ya está instalado.${NC}\n" "$version"
     return
   fi
 
-  printf '%s%s%s\n' "$CYN" "Instalando Pandoc $version…" "$NC"
+  printf "${CYN}Instalando ${BOLD_CYN}Pandoc %s${CYN}…${NC}" "$version"
 
   local url="https://github.com/jgm/pandoc/releases/download/${version}/pandoc-${version}-linux-amd64.tar.gz"
   local tmp
@@ -61,11 +62,11 @@ instalar_citeproc_man() {
   local destino="$_dir_man/citeproc.1.gz"
 
   if [[ -f "$destino" ]]; then
-    printf '%s%s%s\n' "$CYN" "La página de manual de citeproc ya está instalada." "$NC"
+    printf "${CYN}La ${BOLD_CYN}página de manual de citeproc${CYN} ya está instalada.${NC}\n"
     return
   fi
 
-  printf '%s%s%s\n' "$CYN" "Instalando página de manual de citeproc…" "$NC"
+  printf "${CYN}Instalando la ${BOLD_CYN}página de manual de citeproc${CYN}…${NC}\n"
 
   local url="https://raw.githubusercontent.com/jgm/citeproc/master/man/citeproc.1"
   curl -fL# "$url" | gzip > "$destino"
@@ -76,11 +77,11 @@ instalar_pandoc_crossref() {
   local binario="$_dir_bin/pandoc-crossref"
 
   if [[ -x "$binario" ]] && "$binario" --version 2>/dev/null | grep -qF "${version%%[a-z]*}"; then
-    printf '%s%s%s\n' "$CYN" "pandoc-crossref $version ya está instalado." "$NC"
+    printf "${BOLD_CYN}pandoc-crossref %s ${CYN}ya está instalado.${NC}\n" "$version"
     return
   fi
 
-  printf '%s%s%s\n' "$CYN" "Instalando pandoc-crossref $version…" "$NC"
+  printf "${CYN}Instalando ${BOLD_CYN}pandoc-crossref %s${CYN}…${NC}\n" "$version"
 
   local url="https://github.com/lierdakil/pandoc-crossref/releases/download/${version}/pandoc-crossref-Linux-X64.tar.xz"
   local tmp

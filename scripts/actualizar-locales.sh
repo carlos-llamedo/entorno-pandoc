@@ -13,6 +13,7 @@ RST="$NC"
 RED=$'\033[0;31m'
 CYN=$'\033[0;36m'
 BOLD_GRN=$'\033[1;32m'
+BOLD_CYN=$'\033[1;36m'
 
 fatal() {
   echo -e "${RED}[fatal]${RST} $@" >&2
@@ -45,13 +46,13 @@ locales=(
 
 actualizar_locales() {
   mkdir -p "$dir_locales"
-  printf '%s%s%s\n' "$CYN" "Actualizando locales CSL…" "$NC"
+  printf "${CYN}Actualizando ${BOLD_CYN}locales CSL${CYN}…${NC}\n"
 
   for locale in "${locales[@]}"; do
     local archivo="locales-${locale}.xml"
     curl -sSL "$url_base/$archivo" -o "$dir_locales/$archivo" \
       || fatal "no se pudo descargar $archivo"
-    printf '%s%s%s\n' "$CYN" "  ✓ $archivo" "$NC"
+    printf "${CYN}  ✓ ${BOLD_CYN}%s${NC}\n" "$archivo"
   done
 }
 
@@ -59,4 +60,4 @@ actualizar_locales() {
 
 actualizar_locales
 
-printf '%s%s%s\n' "$BOLD_GRN" "Locales CSL actualizados correctamente." "$NC"
+printf "${BOLD_GRN}Locales CSL actualizados correctamente.${NC}\n"
