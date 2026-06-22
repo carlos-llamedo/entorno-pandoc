@@ -22,7 +22,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
     1. *Serif*: [Arno Pro](https://fonts.adobe.com/fonts/arno) o [Source Serif 4](https://github.com/adobe-fonts/source-serif/releases/latest)
     2. *Sans*: [Myriad Pro](https://fonts.adobe.com/fonts/myriad) o [Source Sans 3](https://github.com/adobe-fonts/source-sans/releases/latest)
     3. Monoespaciada: [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/releases/latest)
-    4. Matemática: [STIX Two math](https://github.com/stipub/stixfonts/releases/tag/v2.13b171)
+    4. Matemática: [STIX Two math](https://github.com/stipub/stixfonts/releases/latest)
 
 [^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de `pandoc.tex`.
 
