@@ -266,18 +266,19 @@ $endif$
 \setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
 \setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
 
-\DeclareCaptionFont{captionfont}{\capsfont}
+\DeclareCaptionFont{captiontext}{ \textsmall\metafont}
+\DeclareCaptionFont{captionlabel}{\capsfont}
 \DeclareCaptionLabelFormat{displaylabel}{\metacaps{#1}~#2}
 \DeclareCaptionLabelSeparator{enspace}{\enspace}
 
 \captionsetup{
-  labelfont       = captionfont,
+  font            = captiontext,
+  labelfont       = captionlabel,
   labelsep        = enspace,
   labelformat     = displaylabel,
   singlelinecheck = true,
   justification   = justified,
 }
-\renewcommand{\captionfont}{\textsmall}
 \captionsetup[figure]{position = below}
 \captionsetup[table]{position = above, skip = 4pt}
 
@@ -308,10 +309,12 @@ $endif$
 
 \setlength{\skip\footins}{0.5\baselineskip plus 2pt minus 2pt}
 
-\renewcommand{\thefootnote}{\textcolor{black}{\arabic{footnote}}}
+\renewcommand{\thefootnote}{\arabic{footnote}}
 
-% Formato del texto de la nota.
 \makeatletter
+% Formato de la llamada a la nota.
+\renewcommand{\@makefnmark}{\textsuperscript{\@thefnmark}}
+% Formato del texto de la nota.
 \renewcommand{\@makefntext}[1]{%
   \textsmall
   \parindent=\ParIndent
@@ -732,6 +735,10 @@ $body$
 
 $if(nocite-ids)$
 \nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+
+$if(refs)$
+$refs$
 $endif$
 
 $for(include-after)$

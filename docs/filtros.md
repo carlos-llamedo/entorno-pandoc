@@ -54,11 +54,19 @@ Las variables que controlan el comportamiento de la bibliografía y las citas se
 | `nocite` | lista de claves | Incluye entradas en la bibliografía sin que aparezcan citadas en el texto. `@*` incluye toda la bibliografía |
 | `lang` | etiqueta BCP 47 | Idioma para la localización del estilo CSL |
 
-La bibliografía se inserta por defecto al final del documento. Para controlar su posición, se puede usar un div con el identificador `refs`:
+La bibliografía se inserta por defecto al final del documento. Para controlar su posición, se puede usar un *div* con el identificador `refs`:
 
 ```markdown
 ::: {#refs}
 :::
+```
+
+Para colocar esta sección fuera del cuerpo del documento (en las páginas finales, por ejemplo), se puede poner el *div* en una variable arbitraria (llamémosla *refs*), y usar esta en la plantilla:
+
+```yaml
+refs: |
+  ::: {#refs}
+  :::
 ```
 
 ### pandoc-crossref

@@ -297,6 +297,7 @@ El color de los enlaces del índice se controla mediante `toccolor`; si no está
 
 | Variable | Tipo | Efecto | Origen |
 |---|---|---|---|
+| `refs` | cadena | Lleva la bibliografía a las páginas finales en vez de al final del cuerpo | propia |
 | `nocite-ids` | lista | Incluye referencias en la bibliografía sin citarlas en el texto | pandoc |
 
 `nocite-ids` se coloca en el `\backmatter`, antes de los elementos finales. Equivale a `\nocite{clave1, clave2, …}`.
