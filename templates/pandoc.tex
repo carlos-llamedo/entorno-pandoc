@@ -246,6 +246,7 @@ $endif$
 \babelprovide[main, import, hyphenrules=spanish]{spanish}
 \babelprovide[import]{french}
 \babelprovide[import]{british}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
 \usepackage{selnolig}
 
 % ── Tablas y flotantes ────────────────────────────────────────────────────────
@@ -393,110 +394,67 @@ $endif$
 }
 \makeatother
 
-% ── Capítulo ──────────────────────────────────────────────────────────────────
+\titleformat{\chapter}[display]{\metafont\fontsize{16}{20}\selectfont}{}{0pt}{}
+\titlespacing*{\chapter}{0pt}{0pt}{2\baselineskip}
 
-\titleformat{\chapter}[display]
-  {\metafont\fontsize{16}{20}\selectfont}
-  {}
-  {0pt}
-  {}
-\titlespacing*{\chapter}
-  {0pt}{0pt}{2\baselineskip}
-
-% ── Sección y subsecciones ────────────────────────────────────────────────────
-
-\titleformat{\section}
-  {\metafont\fontsize{14}{18}\selectfont}
-  {\thesection}{1em}{}
-
-\titleformat{\subsection}
-  {\metafont\normalsize\bfseries}
-  {\thesubsection}{1em}{}
-
-\titleformat{\subsubsection}
-  {\metafont\normalsize\bfseries\itshape}
-  {\thesubsubsection}{1em}{}
-
-\titleformat{\paragraph}[hang]
-  {\metafont\normalsize\itshape}
-  {\theparagraph}{1em}{}
-
-\titleformat{\subparagraph}[hang]
-  {\metafont\normalsize}
-  {\thesubparagraph}{1em}{}
+\titleformat{\section}{\metafont\fontsize{14}{18}\selectfont}{\thesection}{1em}{}
+\titleformat{\subsection}{\metafont\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\metafont\normalsize\bfseries\itshape}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}[hang]{\metafont\normalsize\itshape}{\theparagraph}{1em}{}
+\titleformat{\subparagraph}[hang]{\metafont\normalsize}{\thesubparagraph}{1em}{}
 
 % ── Formato de los índices ───────────────────────────────────────────────────
 
+\PassOptionsToPackage{titles}{tocloft}
+\usepackage{tocloft}
+
 \makeatletter
 
-\newlength{\tocsubindent}
-\setlength{\tocsubindent}{0.5\ParIndent}
+\newlength{\tocpnumwidth}
+\settowidth{\tocpnumwidth}{999}
+\cftsetpnumwidth{\tocpnumwidth}
 
-\newcommand{\toc@line}[4]{%
-  \begingroup
-    \metafont
-    \leftskip=#1\relax
-    \hangindent=\tocsubindent
-    \parindent=\z@
-    \leavevmode
-    #2{#3}\if\relax\detokenize{#4}\relax\else\nobreak{\upshape\enspace\textperiodcentered\enspace#4}\fi%
-    \par
-  \endgroup
+\newlength{\tocchapextra}\settowidth{\tocchapextra}{0}
+\newlength{\mychapnumwidth}\settowidth{\mychapnumwidth}{1\enspace}
+\newlength{\mysecnumwidth}\settowidth{\mysecnumwidth}{1.1\enspace}
+\newlength{\mysubsecnumwidth}\settowidth{\mysubsecnumwidth}{1.1.1\enspace}
+\newlength{\mysubsubsecnumwidth}\settowidth{\mysubsubsecnumwidth}{1.1.1.1\enspace}
+
+\cftsetindents{chapter}{0em}{\mychapnumwidth}
+\cftsetindents{section}{\mychapnumwidth}{\mysecnumwidth}
+\cftsetindents{subsection}{\dimexpr\mychapnumwidth+\mysecnumwidth\relax}{\mysubsecnumwidth}
+\cftsetindents{subsubsection}{\dimexpr\mychapnumwidth+\mysecnumwidth+\mysubsecnumwidth\relax}{\mysubsubsecnumwidth}
+
+\renewcommand{\cftfigpresnum}{\figurename~}
+\renewcommand{\cfttabpresnum}{\tablename~}
+\DeclareRobustCommand*{\deactivateaddvspace}{\let\addvspace\@gobble}
+
+\AtBeginDocument{%
+  \newlength{\figlabelwidth}%
+  \settowidth{\figlabelwidth}{\cftfigpresnum~999}%
+  \addtolength{\figlabelwidth}{2.5em}%
+  \cftsetindents{figure}{0em}{\figlabelwidth}%
+  \cftsetindents{table}{0em}{\figlabelwidth}%
+  \addtocontents{lof}{\protect\deactivateaddvspace}%
+  \addtocontents{lot}{\protect\deactivateaddvspace}%
 }
 
-% Capítulo: versalitas.
-\renewcommand*{\l@chapter}[2]{%
-  \ifnum\c@tocdepth>\m@ne
-    \addpenalty{-\@highpenalty}%
-    \addvspace{0.2\baselineskip}%
-    \begingroup
-      \def\numberline##1{}%
-      \toc@line{0pt}{\MakeUppercase}{#1}{}%
-    \endgroup
-  \fi}
+\renewcommand{\cftchapleader}{\hspace{1.5em}}       \renewcommand{\cftchapafterpnum}{\cftparfillskip}
+\renewcommand{\cftsecleader}{\hspace{1.5em}}        \renewcommand{\cftsecafterpnum}{\cftparfillskip}
+\renewcommand{\cftsubsecleader}{\hspace{1.5em}}     \renewcommand{\cftsubsecafterpnum}{\cftparfillskip}
+\renewcommand{\cftsubsubsecleader}{\hspace{1.5em}}  \renewcommand{\cftsubsubsecafterpnum}{\cftparfillskip}
+\renewcommand{\cftfigleader}{\hspace{1.5em}}        \renewcommand{\cftfigafterpnum}{\cftparfillskip}
+\renewcommand{\cfttableader}{\hspace{1.5em}}        \renewcommand{\cfttabafterpnum}{\cftparfillskip}
 
-% Sección: redonda.
-\renewcommand*{\l@section}[2]{%
-  \ifnum\c@tocdepth>\z@
-    \begingroup
-      \def\numberline##1{}%
-      \toc@line{\tocsubindent}{\upshape}{#1}{#2}%
-    \endgroup
-  \fi}
+\renewcommand{\cftchapfont}{\metafont\capsfont}     \renewcommand{\cftchappagefont}{\metafont}
+\renewcommand{\cftsecfont}{\metafont}               \renewcommand{\cftsecpagefont}{\metafont}
+\renewcommand{\cftsubsecfont}{\metafont}            \renewcommand{\cftsubsecpagefont}{\metafont}
+\renewcommand{\cftsubsubsecfont}{\metafont}         \renewcommand{\cftsubsubsecpagefont}{\metafont}
+\renewcommand{\cftfigfont}{\metafont}               \renewcommand{\cftfigpagefont}{\metafont}
+\renewcommand{\cfttabfont}{\metafont}               \renewcommand{\cfttabpagefont}{\metafont}
 
-% Subsección: cursiva.
-\renewcommand*{\l@subsection}[2]{%
-  \ifnum\c@tocdepth>\@ne
-    \begingroup
-      \def\numberline##1{}%
-      \toc@line{2\tocsubindent}{\itshape}{#1}{#2}%
-    \endgroup
-  \fi}
-
-% Subsubsección: cursiva, más sangrada.
-\renewcommand*{\l@subsubsection}[2]{%
-  \ifnum\c@tocdepth>\tw@
-    \begingroup
-      \def\numberline##1{}%
-      \toc@line{3\tocsubindent}{\itshape}{#1}{#2}%
-    \endgroup
-  \fi}
-
-% Lista de figuras: redonda, sin sangrado.
-\renewcommand*{\l@figure}[2]{%
-  \begingroup
-    \def\numberline##1{##1\enspace}%
-    \toc@line{0pt}{\upshape}{#1}{#2}%
-  \endgroup
-}
-
-% Lista de tablas: redonda, sin sangrado.
-\renewcommand*{\l@table}[2]{%
-  \begingroup
-    \def\numberline##1{##1\enspace}%
-    \toc@line{0pt}{\upshape}{#1}{#2}%
-  \endgroup
-}
+\patchcmd{\l@chapter}{#1}{\metacaps{#1}}{}{}
+\setlength{\cftbeforechapskip}{0.1em}
 
 \makeatother
 
