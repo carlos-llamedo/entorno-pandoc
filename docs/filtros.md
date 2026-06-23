@@ -61,12 +61,22 @@ La bibliografía se inserta por defecto al final del documento. Para controlar s
 :::
 ```
 
-Para colocar esta sección fuera del cuerpo del documento (en las páginas finales, por ejemplo), se puede poner el *div* en una variable arbitraria (llamémosla *refs*), y usar esta en la plantilla:
+Para colocar esta sección fuera del cuerpo del documento (en las páginas finales, por ejemplo), se puede poner el *div* en una variable arbitraria (llamémosla *refs*)
 
 ```yaml
 refs: |
   ::: {#refs}
   :::
+```
+
+y usar esta en la plantilla
+
+```tex
+\backmatter
+
+$if(refs)$
+$refs$
+$endif$
 ```
 
 ### pandoc-crossref
