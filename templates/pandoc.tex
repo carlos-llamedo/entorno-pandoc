@@ -119,8 +119,10 @@ $endif$
 % Familia de display
 $if(titlesans)$
 \newcommand{\metafont}{\sffamily}
-\newcommand{\metacaps}[1]{\MakeUppercase{#1}}
-\newcommand{\capsfont}{\sffamily\upshape}
+%\newcommand{\metacaps}[1]{\MakeUppercase{#1}}
+%\newcommand{\capsfont}{\sffamily\upshape}
+\newcommand{\metacaps}[1]{\textsc{\MakeLowercase{#1}}}
+\newcommand{\capsfont}{\sffamily\scshape}
 $elseif(titlefont)$
 \newfontfamily\displayfamily[Numbers=OldStyle, $for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
 \newcommand{\metafont}{\displayfamily}
@@ -267,7 +269,7 @@ $endif$
 \setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
 \setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
 
-\DeclareCaptionFont{captiontext}{ \textsmall\metafont}
+\DeclareCaptionFont{captiontext}{\textsmall\metafont}
 \DeclareCaptionFont{captionlabel}{\capsfont}
 \DeclareCaptionLabelFormat{displaylabel}{\metacaps{#1}~#2}
 \DeclareCaptionLabelSeparator{enspace}{\enspace}
@@ -591,14 +593,16 @@ $endif$
 
 $if(abstract)$
 \clearpage
+\phantomsection
+\pdfbookmark[1]{Resumen}{resumen}
 \thispagestyle{empty}
 \newenvironment{abstract}{%
-  \normalsize\noindent\textbf{Resumen}\par\noindent\ignorespaces
+  \normalsize\noindent\metafont\textbf{Resumen}\par\noindent\normalfont\ignorespaces
 }{\par}
 \begin{abstract}
 $abstract$
 $if(keywords)$
-\par\noindent\textbf{Palabras clave:} $for(keywords)$$keywords$$sep$, $endfor$
+\par\noindent\metafont\textbf{Palabras clave:} \normalfont $for(keywords)$$keywords$$sep$, $endfor$
 $endif$
 \end{abstract}
 $endif$
@@ -671,6 +675,8 @@ $endif$
 
 $if(thanks)$
 \clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Agradecimientos}
 \chapter*{Agradecimientos}
 $thanks$
 $endif$
