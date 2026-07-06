@@ -64,6 +64,7 @@ Las fuentes toman el nombre del sistema tal como lo reconoce fontspec. Las varia
 | `monofontoptions` | lista | — | pandoc |
 | `mathfont` | cadena | `STIX Two Math` | pandoc |
 | `mathfontoptions` | lista | — | pandoc |
+| `sanssc` | booleano | — | propio |
 | `titlefont` | cadena | — | propio |
 | `titlefontoptions` | lista | — | propio |
 | `titlesans` | booleano | — | propio |
@@ -72,6 +73,8 @@ Las fuentes toman el nombre del sistema tal como lo reconoce fontspec. Las varia
 | `microtypeoptions` | lista | `protrusion=true` | pandoc |
 
 `titlefont` define una familia tipográfica alternativa para títulos, encabezados, folios e índice. Permite combinar dos serifs distintas (p. ej., `titlefont: Bodoni MT` con `mainfont: Arno Pro`). Tiene prioridad sobre `titlesans`.
+
+`sanssc` se debe declarar cuando se trabaje con una fuente sans-serif que tenga versalitas. De lo contrario, se le aplicarán mayúsculas.
 
 `titlesans` activa la familia sans-serif en esos mismos elementos. Si ninguna de las dos está declarada, los títulos van en la misma familia que el cuerpo.
 

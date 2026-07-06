@@ -116,37 +116,46 @@ $endif$
 \usepackage[$if(microtypeoptions)$$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$$else$protrusion=true$endif$]{microtype}
 \UseMicrotypeSet[protrusion]{basicmath}
 
+\newcommand{\definecapsfor}[1]{%
+  $if(sanssc)$
+  \renewcommand{\metacaps}[##1]{\textsc{\MakeLowercase{##1}}}%
+  \renewcommand{\capsfont}{#1\scshape}%
+  $else$
+  \renewcommand{\metacaps}[1]{\MakeUppercase{##1}}%
+  \renewcommand{\capsfont}{#1\upshape}%
+  $endif$
+}
+
 % Familia de display
 $if(titlesans)$
 \newcommand{\metafont}{\sffamily}
-%\newcommand{\metacaps}[1]{\MakeUppercase{#1}}
-%\newcommand{\capsfont}{\sffamily\upshape}
-\newcommand{\metacaps}[1]{\textsc{\MakeLowercase{#1}}}
-\newcommand{\capsfont}{\sffamily\scshape}
+\newcommand{\metacaps}[1]{}
+\newcommand{\capsfont}{}
+\definecapsfor{\sffamily}
 $elseif(titlefont)$
 \newfontfamily\displayfamily[Numbers=OldStyle, $for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
 \newcommand{\metafont}{\displayfamily}
-\newcommand{\metacaps}[1]{\textsc{\MakeLowercase{#1}}}
-\newcommand{\capsfont}{\displayfamily\scshape}
+\newcommand{\metacaps}[1]{}
+\newcommand{\capsfont}{}
+\definecapsfor{\displayfamily}
 $else$
 \newcommand{\metafont}{\normalfont}
-\newcommand{\metacaps}[1]{\textsc{\MakeLowercase{#1}}}
-\newcommand{\capsfont}{\scshape}
+\newcommand{\metacaps}[1]{}
+\newcommand{\capsfont}{}
+\definecapsfor{\normalfont}
 $endif$
 
 $if(bodysans)$
 \renewcommand{\familydefault}{\sfdefault}
 $if(titlefont)$$else$
-\renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
-\renewcommand{\capsfont}{\sffamily\upshape}
+\definecapsfor{\sffamily}
 $endif$
 $endif$
 
 $if(bodymono)$
 \renewcommand{\familydefault}{\ttdefault}
 $if(titlefont)$$else$
-\renewcommand{\metacaps}[1]{\MakeUppercase{#1}}
-\renewcommand{\capsfont}{\ttfamily\upshape}
+\definecapsfor{\ttfamily}
 $endif$
 $endif$
 
@@ -315,8 +324,9 @@ $endif$
 \renewcommand{\thefootnote}{\arabic{footnote}}
 
 \makeatletter
+\@removefromreset{footnote}{chapter}
 % Formato de la llamada a la nota.
-\renewcommand{\@makefnmark}{\textsuperscript{\@thefnmark}}
+\renewcommand{\@makefnmark}{\textcolor{black}{\textsuperscript{\@thefnmark}}}
 % Formato del texto de la nota.
 \renewcommand{\@makefntext}[1]{%
   \textsmall
