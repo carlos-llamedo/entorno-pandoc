@@ -79,6 +79,20 @@ $refs$
 $endif$
 ```
 
+Si se quieren incluir en la bibliografía referencias que, por lo que sea, no están citadas en el texto, se pueden poner en una variable arbitraria (llamémosla `nocite`)
+
+```yaml
+nocite: |
+  @item1, @item2
+```
+
+Para hacer esto con todas las referencias, se puede usar un comodín `@*`
+
+```yaml
+nocite: |
+  @*
+```
+
 ### pandoc-crossref
 
 [`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) es un filtro externo de Nikolay Yakimov para remisiones a figuras, tablas y ecuaciones. Asigna números correlativos a los elementos etiquetados y sustituye las referencias en el texto por los identificadores formateados.
