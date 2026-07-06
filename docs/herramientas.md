@@ -3,7 +3,7 @@ author: Carlos Llamedo
 date: 2026-07
 ---
 
-# Herramientass
+# Herramientas
 
 Cada apartado de este documento presenta al menos una herramienta gratuita y de código abierto capaz de cubrir esa función del flujo de trabajo; la única categoría donde esto no está garantizado es la de los editores de Markdown, en la que se incluyen también programas de pago por lo extendido de su uso.
 
@@ -67,6 +67,14 @@ A diferencia de un `.docx` o de un archivo Markdown, un PDF no es un formato edi
 
 ## La gestión de bibliografía
 
+### CSL
+
+El *Citation Style Language* es una especificación abierta, mantenida desde 2006 por un proyecto encabezado por Bruce D’Arcus y Simon Kornblith, este último además cofundador de Zotero, que define en XML cómo debe formatearse una referencia bibliográfica. Qué elementos incluir, en qué orden, con qué puntuación, y cómo debe construirse a partir de ellos tanto la cita en el cuerpo del texto como la entrada correspondiente en la bibliografía final.
+
+Su ventaja decisiva frente a soluciones anteriores, como los estilos de BibTeX, escritos en un lenguaje de macros propio y difícil de modificar, es que separa por completo los datos bibliográficos de las reglas de formato. Un mismo registro puede convertirse en una nota de Chicago, una referencia de la APA o una cita de la MLA sin tocar el dato, cambiando solamente el archivo de estilo.
+
+`citeproc`, el motor que usa Pandoc, es un intérprete de esa especificación, exactamente igual que Zotero. Los archivos de localización, mantenidos por el mismo proyecto, resuelven la parte que un estilo por sí solo no puede: qué cadenas fijas (ed., vol., y otros) y qué convenciones tipográficas, como el orden de los signos de puntuación o el uso del artículo, corresponden a cada idioma.
+
 ### Zotero y Better BibTeX
 
 Zotero es un gestor de referencias bibliográficas de código abierto, desarrollado desde 2006 por el Center for History and New Media de la Universidad George Mason. Nació como una extensión del navegador Firefox pensada para historiadores, con el propósito de capturar y organizar fuentes directamente desde la web sin depender de software comercial como EndNote o RefWorks, entonces dominantes en el mercado universitario. Hoy funciona como aplicación independiente y sigue ofreciéndose de forma gratuita, con almacenamiento en la nube limitado y planes de pago solo para quien necesite más espacio de sincronización. Su papel en este flujo de trabajo es el de base de datos bibliográfica. Es donde se acumulan y organizan las referencias, y desde donde se exportan al formato que Pandoc necesita para construir citas y bibliografía.
@@ -88,11 +96,3 @@ Generar el archivo de bibliografía para escribir es, seguramente, la parte que 
 Combinar el método 1 y el 3 ofrece lo mejor de ambos mundos, y es lo que este repositorio asume. Hay un archivo de exportación global que se mantiene actualizado, con el que se trabaja y se compila durante todas las fases del proyecto. Una vez el trabajo se da por finalizado, si el proyecto lo merece, se hace una exportación simple al directorio del proyecto para garantizar su reproducibilidad y autonomía. No se aprovecha el versionado del archivo de bibliografía, pero su historial no tiene un desarrollo intelectual que merezca ser rastreado.
 
 En cuanto al formato del archivo, `citeproc` admite BibLaTeX (`.bib`), BibTeX (`.bibtex`), CSL JSON (`.json`), CSL YAML (`.yaml`) y RIS (`.ris`). BibLaTeX es el formato más legible, pero la opción más sólida a nivel técnico, [como expone Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#use-csl-not-bibtex-with-pandoc), es CSL JSON. Tanto Zotero como `citeproc` usan internamente el motor CSL; exportar a BibLaTeX introduce una conversión intermedia con pérdidas innecesarias. Zotero almacena los títulos en minúsculas (como exige CSL) y los convierte a mayúsculas al exportar a BibTeX, conversión que `citeproc` deshace después mediante heurísticas necesariamente imperfectas. El modelo de datos de Zotero y el de BibTeX tampoco coinciden exactamente, y en la traducción se pueden perder campos o introducir ambigüedades. Exportar directamente a CSL evita todo este recorrido.
-
-### CSL
-
-El *Citation Style Language* es una especificación abierta, mantenida desde 2006 por un proyecto encabezado por Bruce D’Arcus y Simon Kornblith, este último además cofundador de Zotero, que define en XML cómo debe formatearse una referencia bibliográfica. Qué elementos incluir, en qué orden, con qué puntuación, y cómo debe construirse a partir de ellos tanto la cita en el cuerpo del texto como la entrada correspondiente en la bibliografía final.
-
-Su ventaja decisiva frente a soluciones anteriores, como los estilos de BibTeX, escritos en un lenguaje de macros propio y difícil de modificar, es que separa por completo los datos bibliográficos de las reglas de formato. Un mismo registro puede convertirse en una nota de Chicago, una referencia de la APA o una cita de la MLA sin tocar el dato, cambiando solamente el archivo de estilo.
-
-`citeproc`, el motor que usa Pandoc, es un intérprete de esa especificación, exactamente igual que Zotero. Los archivos de localización, mantenidos por el mismo proyecto, resuelven la parte que un estilo por sí solo no puede: qué cadenas fijas (ed., vol., y otros) y qué convenciones tipográficas, como el orden de los signos de puntuación o el uso del artículo, corresponden a cada idioma.
