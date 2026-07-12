@@ -227,7 +227,7 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 - [`memoria.yaml`](defaults/memoria.yaml). La opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF.
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `pandoc.tex`.
-- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es *Chicago* autor-fecha. Usa `zotero.lua`.
+- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es *Chicago* autor-fecha.
 - [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Este preajuste no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^16].
 
 [^16]: Escribir en la consola
