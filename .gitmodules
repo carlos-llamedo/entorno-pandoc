@@ -4,3 +4,9 @@
 [submodule "templates/kjhealy"]
 	path = templates/kjhealy
 	url = https://github.com/kjhealy/pandoc-templates.git
+[submodule "locales"]
+	path = locales
+	url = git@github.com:citation-style-language/locales.git
+[submodule "csl"]
+	path = csl
+	url = git@github.com:citation-style-language/styles.git

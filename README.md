@@ -212,11 +212,11 @@ El archivo `biblioteca.yaml` no se incluye en el repositorio, pero **cada usuari
 
 #### Archivos de estilo CSL y de localización
 
-El directorio [`csl/`](csl/) contiene los estilos de citación y el directorio [`locales/`](locales/) los archivos de localización (léase «traducción»).
+El directorio [`csl/`](csl/) contiene los estilos de citación y el directorio [`locales/`](locales/) los archivos de localización (léase «traducción»), ambos incluidos como submódulos.
 
-Ambos forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias. Se toman del [repositorio oficial](https://github.com/citation-style-language/styles) los más habituales en humanidades y ciencias sociales[^15].
+Forman parte del estándar [Citation Style Language](https://citationstyles.org/), que es el sistema que usa `citeproc` para formatear las referencias. Se toman del [repositorio oficial](https://github.com/citation-style-language/styles)[^15].
 
-[^15]: Se pueden encontrar más fácilmente en <https://www.zotero.org/styles>.
+[^15]: Se pueden explorar más fácilmente en <https://www.zotero.org/styles>.
 
 Las [localizaciones](https://github.com/citation-style-language/locales) adaptan los estilos al idioma del documento: traducen cadenas fijas como «ed.», «vol.» o «et al.» y aplican las convenciones tipográficas propias de cada lengua. Sin el archivo de localización correspondiente, `citeproc` recurre al inglés estadounidense por defecto.
 
@@ -251,14 +251,6 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
         (Oxford University Press, 2005).
     ```
 
-### *Scripts*
-
-El directorio [`scripts/`](scripts/) contiene utilidades de mantenimiento y actualización:
-
-- [`actualizar-csl.sh`](scripts/actualizar-csl.sh). Descarga las versiones más recientes de los estilos CSL incluidos en el repositorio desde el repositorio oficial de Citation Style Language.
-- [`actualizar-locales.sh`](scripts/actualizar-locales.sh). Hace lo propio con los archivos de localización.
-- [`instalar-pandoc.sh`](scripts/instalar-pandoc.sh). Solo para macOS y Linux. Declara la versión de Pandoc y de pandoc-crossref (tienen que ser compatibles), los descarga y los coloca en el `$PATH`.
-
 ## Proyectos similares
 
 - [`pandoc-templates`](https://github.com/jgm/pandoc-templates), el propio repositorio de las plantillas que usa Pandoc. Se incluye [como submódulo](templates/pandoc-templates/).
@@ -278,7 +270,5 @@ El archivo [`NOTICES`](licences/NOTICES.md) hace un inventario completo de los d
 |  `include-files.lua` |  Albert Krewinkel |  [MIT](licences/MIT.md) |
 |  `multibib.lua` |  Albert Krewinkel y contribuidores |  [MIT](licences/MIT.md) |
 |  `zotero.lua` |  Emiliano Heyns |  [MIT](licences/MIT.md) |
-|  `csl/` |  Citation Style Language |  [CC BY-SA 3.0 Unported](<licences/CC BY-SA 3.0 Unported.md>) |
-|  `locales/` |  Citation Style Language |  [CC BY-SA 3.0 Unported](<licences/CC BY-SA 3.0 Unported.md>) |
 
 Se trata de material de terceros con términos de uso propios, sobre el que este repositorio no reclama derechos.

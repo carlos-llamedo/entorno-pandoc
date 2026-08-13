@@ -5,7 +5,7 @@ date: 2026-05-22
 
 # Avisos de licencia
 
-Este archivo recopila los términos de uso y procedencia de todos los componentes del flujo de trabajo documentado en este repositorio, tanto los incluidos directamente como los externos. Los elementos marcados con `*` están incluidos en el repositorio y cuentan con el texto completo de su licencia en este mismo directorio. No se incluye la licencia de archivos que están incluidos como submódulos.
+Este archivo recopila los términos de uso y procedencia de todos los componentes del flujo de trabajo documentado en este repositorio, tanto los incluidos directamente (marcados con `*`) como los externos.
 
 ## Entorno Pandoc
 
@@ -19,7 +19,7 @@ Este archivo recopila los términos de uso y procedencia de todos los componente
 
 La librería [`citeproc`](https://github.com/jgm/citeproc), de John MacFarlane, está [bajo una licencia BSD 2-Clause “Simplified”](https://github.com/jgm/citeproc/blob/master/LICENSE).
 
-#### Citation Style Language\*
+#### Citation Style Language
 
 En el caso del [Citation Style Language](https://citationstyles.org/) (CSL), tenemos tres elementos distintos:
 
