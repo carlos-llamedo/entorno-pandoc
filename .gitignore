@@ -1,17 +1,12 @@
-# este es el archivo marcador de ignorados de git
-# cada línea se interpreta como un patrón a ignorar
+# Este es el archivo marcador de ignorados de Git.
+# Cada línea se interpreta como un patrón a ignorar.
 
-# el archivo biblioteca.bib es una exportación de
-# toda la biblioteca de Zotero a través de BetterBibTeX
-# se usa para citar, pero no se ha de versionar
+# El archivo de biblioteca es una exportación de
+# toda la biblioteca de Zotero a través de Better BibTeX.
+# Se usa para citar, pero no se ha de versionar.
+
 biblioteca.bib
 biblioteca.json
-
-filters/fusionar-citas.lua
-
-templates/legacy/*
-templates/completa.tex
-
-docs/TODO.md
+biblioteca.yaml
 
 templates/memoir.odt

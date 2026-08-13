@@ -42,7 +42,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
     incluye una línea «User data directory: …» con la ruta desde la que Pandoc lee. Debe coincidir con la del paso anterior.
 
-3. **Crea un archivo de bibliografía con Zotero.** Los preajustes `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar los preajustes que lo usan o crear un `biblioteca.json` vacío.
+3. **Crea un archivo de bibliografía con Zotero.** Los preajustes `memoria` y `notas` exigen un archivo `biblioteca.yaml` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar los preajustes que lo usan o crear un `biblioteca.yaml` vacío.
 4. **Genera un documento a partir de un archivo Markdown.**
 
     ```bash
@@ -206,9 +206,9 @@ En lugar de formatear manualmente las citas, `citeproc` es capaz de generar refe
 
 #### Archivo de bibliografía
 
-La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunos preajustes —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`herramientas`](docs/herramientas.md).
+La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.yaml`, una exportación global de toda la biblioteca en formato CSL YAML que algunos preajustes —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`herramientas`](docs/herramientas.md).
 
-El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuario tienen que crear su propia exportación** en el directorio de datos de Pandoc.
+El archivo `biblioteca.yaml` no se incluye en el repositorio, pero **cada usuario tienen que crear su propia exportación** en el directorio de datos de Pandoc.
 
 #### Archivos de estilo CSL y de localización
 
@@ -227,7 +227,7 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 - [`memoria.yaml`](defaults/memoria.yaml). La opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF.
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `pandoc.tex`.
-- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es *Chicago* autor-fecha.
+- [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL YAML, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es *Chicago* autor-fecha.
 - [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Este preajuste no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo *Chicago* notas-bibliografía[^16].
 
 [^16]: Escribir en la consola

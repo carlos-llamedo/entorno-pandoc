@@ -7,7 +7,7 @@ resource-path:
   - figuras
   - ${USERDATA}
 
-bibliography: biblioteca.json
+bibliography: biblioteca.yaml
 
 filters:
   - include-files.lua

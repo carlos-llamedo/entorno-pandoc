@@ -1,13 +1,24 @@
 cff-version: 1.2.0
-message: "Si usa este software, cítelo como se indica:"
+message: Si usa este software, cítelo como se indica
+title: Escritura en texto plano con Pandoc
 authors:
-- family-names: Llamedo Gutiérrez
-  given-names: Carlos
-  email: carlosllamedo@protonmail.com
-  orcid: https://orcid.org/0009-0009-2819-5157
-title: "Escritura en texto plano con Pandoc"
-abstract: "Plantillas y filtros de Pandoc para escribir y citar en Markdown."
+  - family-names: Llamedo Gutiérrez
+    given-names: Carlos
+    email: carlosllamedo@protonmail.com
+    orcid: https://orcid.org/0009-0009-2819-5157
 date-released: 2026-04
+abstract: Plantillas y filtros de Pandoc para escribir y citar en Markdown.
+keywords:
+  - pandoc
+  - markdown
+  - plaintext
+  - pandoc template
+  - pandoc-crossref
+  - citeproc
+  - latex
+  - luatex
+  - publishing
+  - typesetting
 license: MIT
 license-url: https://mit-license.org
 url: https://github.com/carlos-llamedo/entorno-pandoc

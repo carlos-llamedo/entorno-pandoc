@@ -9,7 +9,7 @@ filters:
   - citeproc
 
 csl: chicago-notes-bibliography
-bibliography: biblioteca.json
+bibliography: biblioteca.yaml
 
 metadata:
   lang: es-ES

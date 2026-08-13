@@ -31,12 +31,12 @@ filters:
   - citeproc
 ```
 
-Es importante que Citeproc vaya después de cualquier filtro que pueda generar o modificar citas, y antes de los filtros que operan sobre el texto ya resuelto (como `correcciones-notas.lua`). `multibib.lua` lo sustituye completamente, por lo que los dos son incompatibles juntos.
+Es importante que Citeproc vaya después de cualquier filtro que pueda generar o modificar citas, y antes de los filtros que operan sobre el texto ya resuelto. `multibib.lua` lo sustituye completamente, por lo que los dos son incompatibles juntos.
 
 La bibliografía se configura mediante las variables `bibliography` y `csl` del documento o del archivo de defaults:
 
 ```yaml
-bibliography: biblioteca.json
+bibliography: biblioteca.yaml
 csl: chicago-notes-bibliography
 ```
 
