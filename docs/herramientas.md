@@ -39,7 +39,7 @@ Al ser el archivo Markdown texto plano, cualquier editor de texto sirve en princ
 
 [Typora](https://typora.io), de Abner Lee, pasó en 2020 de ser gratuito a un modelo de pago único tras un periodo de beta abierta (no es de código abierto). Es un programa rápido, sobrio y elegante, con un modo de vista previa continua. Se descarga desde [typora.io](https://typora.io/#download).
 
-Por último, cualquier editor de código general con las extensiones adecuadas ([VSCode](https://code.visualstudio.com), de Microsoft, o su empaquetado libre [VSCodium](https://vscodium.com/)) puede funcionar razonablemente bien para ediciones puntuales o rápidas. Hay quien lo recomienda incluso como entorno de escritura general. VSCode se descarga desde [code.visualstudio.com](https://code.visualstudio.com/download); VSCodium, desde [su repositorio en GitHub](https://github.com/VSCodium/vscodium/releases/latest), con la extensión [Pandoc Citer](https://marketplace.visualstudio.com/items?itemName=notZaki.pandocciter).
+Por último, cualquier editor de código general (como puede ser [VSCode](https://code.visualstudio.com), de Microsoft), con las extensiones adecuadas, puede funcionar razonablemente bien para ediciones puntuales o rápidas. Hay quien lo recomienda incluso como entorno de escritura general. VSCode se descarga desde [code.visualstudio.com](https://code.visualstudio.com/download), y la extensión de referencia es [Pandoc Citer](https://marketplace.visualstudio.com/items?itemName=notZaki.pandocciter).
 
 ### Procesadores de texto
 

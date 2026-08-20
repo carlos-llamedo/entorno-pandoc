@@ -1,12 +1,16 @@
 [submodule "templates/pandoc-templates"]
 	path = templates/pandoc-templates
-	url = https://github.com/jgm/pandoc-templates.git
+	url = git@github.com:jgm/pandoc-templates.git
+	branch = master
 [submodule "templates/kjhealy"]
 	path = templates/kjhealy
-	url = https://github.com/kjhealy/pandoc-templates.git
+	url = git@github.com:kjhealy/pandoc-templates.git
+	branch = master
 [submodule "locales"]
 	path = locales
 	url = git@github.com:citation-style-language/locales.git
+	branch = master
 [submodule "csl"]
 	path = csl
 	url = git@github.com:citation-style-language/styles.git
+	branch = master
