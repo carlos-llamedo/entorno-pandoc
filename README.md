@@ -253,8 +253,8 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 
 ## Proyectos similares
 
-- [`pandoc-templates`](https://github.com/jgm/pandoc-templates), el propio repositorio de las plantillas que usa Pandoc. Se incluye [como submódulo](templates/pandoc-templates/).
-- [`pandoc-templates`](https://github.com/kjhealy/pandoc-templates) de Kieran Healy. Se incluye [como submódulo](templates/kjhealy/).
+- [`pandoc-templates`](https://github.com/jgm/pandoc-templates), el propio repositorio de las plantillas que usa Pandoc. Se incluye como submódulo.
+- [`pandoc-templates`](https://github.com/kjhealy/pandoc-templates) de Kieran Healy. Se incluye como submódulo.
 - [`Technical-Markdown`](https://github.com/gabyx/Technical-Markdown) de Gabriel Nützi.
 - [`phd_thesis_markdown`](https://github.com/tompollard/phd_thesis_markdown) de Tom Pollard.
 - [`pandoc-scholar`](https://github.com/pandoc-scholar/pandoc-scholar) de Albert Krewinkel.
