@@ -36,11 +36,11 @@ Es importante que Citeproc vaya después de cualquier filtro que pueda generar o
 La bibliografía se configura mediante las variables `bibliography` y `csl` del documento o del archivo de defaults:
 
 ```yaml
-bibliography: biblioteca.yaml
+bibliography: biblioteca.json
 csl: chicago-notes-bibliography
 ```
 
-Si `csl` no está declarado, citeproc usa el estilo *Chicago* autor-fecha por defecto.
+Si `csl` no está declarado, citeproc usa el estilo _Chicago_ autor-fecha por defecto.
 
 Las variables que controlan el comportamiento de la bibliografía y las citas se declaran en los metadatos del documento:
 
@@ -54,14 +54,14 @@ Las variables que controlan el comportamiento de la bibliografía y las citas se
 | `nocite` | lista de claves | Incluye entradas en la bibliografía sin que aparezcan citadas en el texto. `@*` incluye toda la bibliografía |
 | `lang` | etiqueta BCP 47 | Idioma para la localización del estilo CSL |
 
-La bibliografía se inserta por defecto al final del documento. Para controlar su posición, se puede usar un *div* con el identificador `refs`:
+La bibliografía se inserta por defecto al final del documento. Para controlar su posición, se puede usar un _div_ con el identificador `refs`:
 
 ```markdown
 ::: {#refs}
 :::
 ```
 
-Para colocar esta sección fuera del cuerpo del documento (en las páginas finales, por ejemplo), se puede poner el *div* en una variable arbitraria (llamémosla `refs`)
+Para colocar esta sección fuera del cuerpo del documento (en las páginas finales, por ejemplo), se puede poner el _div_ en una variable arbitraria (llamémosla `refs`)
 
 ```yaml
 refs: |
@@ -222,7 +222,7 @@ bibliography:
   secundaria: biblioteca.json
 ```
 
-Cada sección de referencias se inserta en el punto del documento donde se quiera que aparezca, mediante un *div* cuyo identificador sigue el patrón `refs-nombre`:
+Cada sección de referencias se inserta en el punto del documento donde se quiera que aparezca, mediante un _div_ cuyo identificador sigue el patrón `refs-nombre`:
 
 ```markdown
 ## Fuentes primarias
@@ -255,9 +255,9 @@ filters:
 
 [`zotero.lua`](https://retorque.re/zotero-better-bibtex/exporting/pandoc/) es un filtro de Emiliano Heyns. Convierte la sintaxis de citas de Pandoc (`[@clave]`) a campos de cita activos de Zotero en archivos `.odt` y `.docx`, equivalentes a los que inserta la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration). El resultado es un documento de ofimática con citas vinculadas a la biblioteca de Zotero, que el usuario puede seguir editando desde Writer o Word con el complemento de Zotero instalado.
 
-Se usa exclusivamente en el flujo de salida hacia `.odt`, declarado en `odt.yaml`, ya que LibreOffice Writer tiene un *bug* con las citas en los `.docx`[^1]. Zotero se tiene que estar ejecutando cuando el documento se compila. No es compatible con Citeproc en el mismo pipeline: cuando se usa `zotero.lua`, Citeproc no debe declararse en `filters`.
+Se usa exclusivamente en el flujo de salida hacia `.odt`, declarado en `odt.yaml`, ya que LibreOffice Writer tiene un _bug_ con las citas en los `.docx`[^1]. Zotero se tiene que estar ejecutando cuando el documento se compila. No es compatible con Citeproc en el mismo pipeline: cuando se usa `zotero.lua`, Citeproc no debe declararse en `filters`.
 
-[^1]: LibreOffice Writer tiene, [como indica Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations) un *bug* que impide reconocer las citas en archivos `.docx` generados con este filtro, por lo que en ese entorno hay que exportar a `.odt`. Microsoft Word no tiene este problema y admite los `.docx` sin restricciones.
+[^1]: LibreOffice Writer tiene, [como indica Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations) un _bug_ que impide reconocer las citas en archivos `.docx` generados con este filtro, por lo que en ese entorno hay que exportar a `.odt`. Microsoft Word no tiene este problema y admite los `.docx` sin restricciones.
 
 ```yaml
 filters:

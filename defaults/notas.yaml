@@ -1,4 +1,5 @@
-to: markdown
+reader: markdown
+writer: markdown
 
 resource-path: 
   - .
@@ -9,7 +10,7 @@ filters:
   - citeproc
 
 csl: chicago-notes-bibliography
-bibliography: biblioteca.yaml
+bibliography: biblioteca.json
 
 metadata:
   lang: es-ES

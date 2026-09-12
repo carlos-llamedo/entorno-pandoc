@@ -188,7 +188,7 @@ Por defecto el encabezado verso lleva el nombre del autor en cursiva (o el títu
 
 | Variable | Tipo | Efecto | Origen |
 |---|---|---|---|
-| `headscaps` | booleano | Encabezados en versalitas (*serif*) o mayúsculas (*sans*) en lugar de cursiva | propio |
+| `headscaps` | booleano | Encabezados en versalitas (_serif_) o mayúsculas (_sans_) en lugar de cursiva | propio |
 | `folioonly` | booleano | Solo folio, sin texto de encabezado | propio |
 | `headrule` | booleano | Filete bajo el encabezado | propio |
 | `nofolio` | booleano | Suprime el folio en páginas de inicio de capítulo | propio |
@@ -254,7 +254,7 @@ Las citas exentas van en el tamaño `\textsmall` y con el sangrado izquierdo igu
 
 ## Numeración romana
 
-Por defecto los números romanos de las páginas preliminares van en versalitas (o en mayúsculas si la fuente que les aplica es *sans*).
+Por defecto los números romanos de las páginas preliminares van en versalitas (o en mayúsculas si la fuente que les aplica es _sans_).
 
 | Variable | Tipo | Efecto | Origen |
 |---|---|---|---|

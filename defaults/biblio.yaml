@@ -1,3 +1,5 @@
+reader: csljson
+writer: pdf
 pdf-engine: lualatex
 
 resource-path: 

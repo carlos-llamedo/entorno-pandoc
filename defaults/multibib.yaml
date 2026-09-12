@@ -1,5 +1,5 @@
-from: markdown+rebase_relative_paths
-
+reader: markdown
+writer: pdf
 pdf-engine: lualatex
 
 resource-path: 

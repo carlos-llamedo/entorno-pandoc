@@ -1,5 +1,5 @@
-from: markdown+rebase_relative_paths
-to: odt
+reader: markdown
+writer: odt
 
 reference-doc: templates/memoir.odt
 

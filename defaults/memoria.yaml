@@ -1,5 +1,5 @@
-from: markdown+rebase_relative_paths
-
+reader: markdown
+writer: pdf
 pdf-engine: lualatex
 
 resource-path: 
@@ -7,7 +7,7 @@ resource-path:
   - figuras
   - ${USERDATA}
 
-bibliography: biblioteca.yaml
+bibliography: biblioteca.json
 
 filters:
   - include-files.lua
