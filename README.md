@@ -242,7 +242,7 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
     
     :::: {#refs .references .csl-bib-body .hanging-indent}
     ::: {#ref-Ward-Perkins2005 .csl-entry}
-    Ward-Perkins, Bryan. _The Fall of Rome and the End of Civilization_.
+    Ward-Perkins, Bryan. *The Fall of Rome and the End of Civilization*.
     Oxford University Press, 2005.
     :::
     ::::
