@@ -175,7 +175,7 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
 - [`referencias`](docs/referencias.md). Dónde está la documentación oficial de cada componente.
 - [`herramientas`](docs/herramientas.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
-- [`plantilla`](docs/plantilla.md). Qué variables variables YAML contempla `pandoc.tex`.
+- [`plantilla`](docs/plantilla.md). Qué variables YAML contempla `pandoc.tex`.
 - [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
 - [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
 
@@ -208,7 +208,7 @@ En lugar de formatear manualmente las citas, `citeproc` es capaz de generar refe
 
 La gestión de bibliografía se apoya en [Zotero](https://www.zotero.org/) con [Better BibTeX](https://retorque.re/zotero-better-bibtex/). A través de ellos se genera y mantiene actualizado el archivo `${USERDATA}/biblioteca.json`, una exportación global de toda la biblioteca en formato CSL JSON que algunos preajustes —como [`memoria.yaml`](defaults/memoria.yaml) o [`notas.yaml`](defaults/notas.yaml)— requieren. La justificación de esta decisión está en [`herramientas`](docs/herramientas.md).
 
-El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuario tienen que crear su propia exportación** en el directorio de datos de Pandoc.
+El archivo `biblioteca.json` no se incluye en el repositorio, pero **cada usuario tiene que crear su propia exportación** en el directorio de datos de Pandoc.
 
 #### Archivos de estilo CSL y de localización
 

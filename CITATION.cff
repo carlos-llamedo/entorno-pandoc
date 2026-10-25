@@ -6,7 +6,7 @@ authors:
     given-names: Carlos
     email: carlosllamedo@protonmail.com
     orcid: https://orcid.org/0009-0009-2819-5157
-date-released: 2026-04
+date-released: 2026-04-01
 abstract: Plantillas y filtros de Pandoc para escribir y citar en Markdown.
 keywords:
   - pandoc
