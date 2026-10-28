@@ -24,7 +24,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
     3. Monoespaciada: [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/releases/latest)
     4. Matemática: [STIX Two math](https://github.com/stipub/stixfonts/releases/latest)
 
-[^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de `pandoc.tex`.
+[^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de [`memoria.sty`](tex/memoria.sty).
 
 ## Guía de uso rápido
 
@@ -42,8 +42,18 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
     incluye una línea «User data directory: …» con la ruta desde la que Pandoc lee. Debe coincidir con la del paso anterior.
 
-3. **Crea un archivo de bibliografía con Zotero.** Los preajustes `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar los preajustes que lo usan o crear un `biblioteca.json` vacío.
-4. **Genera un documento a partir de un archivo Markdown.**
+3. **Haz visible el estilo para LaTeX.** El aspecto de los PDF está en [`memoria.sty`](tex/memoria.sty), que LaTeX busca en su árbol de archivos personal (TEXMFHOME), no en el directorio de datos de Pandoc. Enlázalo allí:
+
+    ```bash
+    TEXMFHOME="$(kpsewhich -var-value TEXMFHOME)"
+    mkdir -p "$TEXMFHOME/tex/latex"
+    ln -srf "$HOME/.local/share/pandoc/tex/memoria.sty" "$TEXMFHOME/tex/latex/memoria.sty"
+    ```
+
+    `kpsewhich memoria.sty` debe devolver la ruta del enlace. En Windows, copia el archivo en lugar de enlazarlo (y vuelve a copiarlo cuando se actualice).
+
+4. **Crea un archivo de bibliografía con Zotero.** Los preajustes `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar los preajustes que lo usan o crear un `biblioteca.json` vacío.
+5. **Genera un documento a partir de un archivo Markdown.**
 
     ```bash
     pandoc -d memoria "Documento.md" -o "Documento.pdf"
@@ -51,7 +61,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
    `-d memoria` carga [`memoria.yaml`](defaults/memoria.yaml), que activa la plantilla, los filtros y la bibliografía. El resto de preajustes y su propósito se explican en [su sección correspondiente](#preajustes).
 
-Con esto se genera un documento básico, pero lo normal es que se quiera ajustar el aspecto del resultado. Lo que se declara en los preajustes que se cargan es inamovible, tiene preferencia sobre todo lo demás, por lo que están pensados para cubrir el mínimo necesario. Hay que consultar las opciones que ofrecen los [filtros](docs/filtros.md) y la [plantilla](docs/plantilla.md), y declarar las que se quieran cambiar al principio del documento, entre dos líneas que solo contengan `---`. El manual de Pandoc contiene [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) en la que se explica más en detalle esto, pero vamos a poner aquí un breve ejemplo.
+Con esto se genera un documento básico, pero lo normal es que se quiera ajustar el aspecto del resultado. Lo que se declara en los preajustes que se cargan es inamovible, tiene preferencia sobre todo lo demás, por lo que están pensados para cubrir el mínimo necesario. Hay que consultar las opciones que ofrecen los [filtros](docs/filtros.md), la [plantilla](docs/plantilla.md) y el [estilo](docs/memoria.md), y declarar las que se quieran cambiar al principio del documento, entre dos líneas que solo contengan `---`. El manual de Pandoc contiene [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) en la que se explica más en detalle esto, pero vamos a poner aquí un breve ejemplo.
 
 Quieres usar Times New Roman como fuente del documento, que los enlaces destaquen con un color distinto, que en los metadatos aparezca tu nombre y que las llamadas a nota al pie de las referencias se sitúen antes de los signos de puntuación (sistema francés). Estas opciones se corresponden con las variables `mainfont`, `colorlinks`, `author` y `notes-after-punctuation`. `colorlinks` y `notes-after-punctuation` son variables booleanas, por lo que solo se puede activar (`true`) o desactivar (`false`). `mainfont` y `author` esperan cadenas de caracteres, por lo que hay que escribir exactamente lo que se quiere con ellas. Lo metemos todo al principio del documento, entre dos líneas que contengan los caracteres `---`, y este sería el resultado:
 
@@ -176,6 +186,7 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 - [`referencias`](docs/referencias.md). Dónde está la documentación oficial de cada componente.
 - [`herramientas`](docs/herramientas.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
 - [`plantilla`](docs/plantilla.md). Qué variables YAML contempla `pandoc.tex`.
+- [`memoria`](docs/memoria.md). Opciones del estilo por defecto, `memoria.sty`, y su uso en LaTeX.
 - [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
 - [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
 
@@ -183,7 +194,7 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
 El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa para generar los documentos.
 
-- [`pandoc.tex`](templates/pandoc.tex) es la plantilla principal. Está diseñada para memorias académicas con la clase `book` de LaTeX y es compatible con todos los preajustes que generan PDF. Sus variables, declarables en el encabezado YAML de cada documento, están documentadas en [`plantilla`](docs/plantilla.md).
+- [`pandoc.tex`](templates/pandoc.tex) es la plantilla principal, compatible con todos los preajustes que generan PDF. Sigue la plantilla LaTeX oficial de Pandoc y no decide nada del aspecto: lo delega en un paquete de estilo, por defecto [`memoria.sty`](tex/memoria.sty), pensado para memorias académicas con la clase `book` y utilizable también en documentos LaTeX escritos a mano. Las variables de la plantilla están documentadas en [`plantilla`](docs/plantilla.md) y las opciones del estilo, en [`memoria`](docs/memoria.md).
 - [`dunning.tex`](templates/dunning.tex) es una plantilla ligera basada en la clase `tufte-handout`, útil para documentos breves con notas al margen. Obra de Andrew Dunning.
 
 El repositorio incluye también los archivos XML para construir `memoir.odt`, una plantilla para documentos ODT con aspecto parecido al de los PDF generados por `pandoc.tex`. Los formatos `.odt` y `.docx` son archivos XML comprimidos; el directorio [`odt/`](templates/odt/) contiene esos archivos, que hay que empaquetar manualmente en `memoir.odt` y colocar en [`templates/`](templates/). El archivo construido **no se incluye en el repositorio** por ser un binario.

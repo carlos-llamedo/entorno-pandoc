@@ -95,7 +95,7 @@ nocite: |
 
 ### pandoc-crossref
 
-[`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) es un filtro externo de Nikolay Yakimov para remisiones a figuras, tablas y ecuaciones. Asigna números correlativos a los elementos etiquetados y sustituye las referencias en el texto por los identificadores formateados.
+[`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref) es un filtro externo de Nikolay Yakimov para remisiones a figuras, cuadros, listados y ecuaciones. Asigna números correlativos a los elementos etiquetados y sustituye las referencias en el texto por los identificadores formateados.
 
 Se invoca declarándolo en `filters`. Debe ir **antes de Citeproc** para que las referencias cruzadas estén resueltas cuando Citeproc procese el documento:
 
@@ -111,41 +111,55 @@ Las figuras se etiquetan mediante el atributo `#fig:identificador` en la sintaxi
 ![Pie de foto](ruta/imagen.png){#fig:mapa}
 ```
 
-Las tablas, añadiendo el atributo a continuación del pie:
+Los cuadros, añadiendo el atributo a continuación del pie:
 
 ```markdown
-: Pie de tabla {#tbl:datos}
+: Pie de cuadro {#tbl:datos}
 
 | Col A | Col B |
 |-------|-------|
 | 1     | 2     |
 ```
 
+Los listados de código, con el identificador y el pie como atributos del bloque:
+
+````markdown
+```{#lst:saludo .python caption="Saludo en Python"}
+print("hola")
+```
+````
+
 Las remisiones en el texto tienen esta sintaxis:
 
 ```markdown
 Como se aprecia en @fig:mapa, la distribución es irregular.
 
-Véase la @tbl:datos para los valores completos.
+Véase el @tbl:datos para los valores completos, y el @lst:saludo para el código.
 ```
 
-Los prefijos y títulos de sección se declaran localizados al español en el bloque `metadata`:
+Los prefijos y títulos de sección se declaran localizados al español en el bloque `metadata`, con los mismos nombres que usa babel. `listings: true` hace que los listados se compongan con el paquete `listings`, el modo que activa `syntax-highlighting: idiomatic` (véase [`plantilla`](plantilla.md#código-y-listados)); sin ella, crossref anida el listado dentro de otro flotante y duplica el pie.
 
 ```yaml
 metadata:
+  listings: true
   figureTitle: "Figura"
-  tableTitle: "Tabla"
+  tableTitle: "Cuadro"
+  listingTitle: "Listado"
   figPrefix:
     - "fig."
     - "figs."
   tblPrefix:
-    - "tabla"
-    - "tablas"
+    - "cuadro"
+    - "cuadros"
+  lstPrefix:
+    - "listado"
+    - "listados"
   eqnPrefix:
     - "ec."
     - "ecs."
-  lofTitle: "Lista de figuras"
-  lotTitle: "Lista de tablas"
+  lofTitle: "Índice de figuras"
+  lotTitle: "Índice de cuadros"
+  lolTitle: "Índice de listados"
 ```
 
 * * *

@@ -1,302 +1,80 @@
-% memoria.tex
-% Plantilla Pandoc para memorias académicas.
-% Clase: book (LuaLaTeX). Compatible con default.latex y memoria.yaml.
+% pandoc.tex — default.latex de Pandoc para LuaLaTeX, con el aspecto en
+% el paquete `style` (memoria por defecto). Divergencias marcadas con DIVERGE.
 % Copyright © 2026 Carlos Llamedo (MIT Licence)
-% ─────────────────────────────────────────────────────────────────────────────
 
-% ── Estándar del PDF ─────────────────────────────────────────────────────────
-
-% document.metadata.latex
-
-$if(pdfstandard)$
-\DocumentMetadata{
-$if(pdfstandard.version)$
-  pdfversion=$pdfstandard.version$,
-$endif$
-$if(pdfstandard.standards)$
-  pdfstandard={$for(pdfstandard.standards)$$it$$sep$,$endfor$},
-$endif$
-$if(pdfstandard.tagging)$
-  tagging=on,
-$endif$
-$if(lang)$
-  lang=$lang$,
-$endif$
-  xmp=true}
-$endif$
-
-% ── Opciones para paquetes ───────────────────────────────────────────────────
-
-% passoptions.latex
-
-\PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
-\PassOptionsToPackage{hyphens}{url}
-$if(colorlinks)$
-\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
-$endif$
-
+$pandoc-templates/document-metadata.latex()$
+$pandoc-templates/passoptions.latex()$
+% DIVERGE: 12pt y A4 por defecto.
 \documentclass[
-$if(fontsize)$
-  $fontsize$,
-$else$
-  12pt,
+$for(babel-otherlangs)$
+  $babel-otherlangs$,
+$endfor$
+$if(babel-lang)$
+  $babel-lang$,
 $endif$
-$if(papersize)$
-  $papersize$paper,
-$else$
-  a4paper,
-$endif$
-$if(classoption)$
-  $for(classoption)$$classoption$$sep$, $endfor$
-$else$
-  twoside,
-  openany
-$endif$
-]{book}
-
-% ── Colores ──────────────────────────────────────────────────────────────────
-
+  $if(fontsize)$$fontsize$$else$12pt$endif$,
+  $if(papersize)$$papersize$$else$a4$endif$paper,
+$for(classoption)$
+  $classoption$$sep$,
+$endfor$
+]{$documentclass$}
 \usepackage{xcolor}
-\definecolor{linkblue}{RGB}{0, 70, 150}
-\definecolor{purpleblue}{RGB}{72, 61, 139}
-
-% ── Geometría ────────────────────────────────────────────────────────────────
-
 $if(geometry)$
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
-$else$
-\usepackage[
-  top        = 3cm,
-  bottom     = 3cm,
-  left       = 3cm,
-  right      = 3cm,
-  headheight = 14.5pt,
-  % la mitad del margen superior menos la altura del encabezado
-  headsep    = \dimexpr1.5cm - 14.5pt\relax,
-  % la mitad del margen inferior
-  footskip   = 1.5cm,
-]{geometry}
 $endif$
-
-% ── Matemáticas ──────────────────────────────────────────────────────────────
-
-% fonts.latex
-
-\usepackage{unicode-math}
-\defaultfontfeatures{Scale=MatchLowercase}
-\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-
+\usepackage{amsmath,amssymb}
 $if(cancel)$
 \usepackage{cancel}
 $endif$
-
-% ── Numeración de secciones ──────────────────────────────────────────────────
-
 $if(numbersections)$
 \setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
 $else$
-\setcounter{secnumdepth}{-\maxdimen}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 $endif$
-
-% ── Fuentes ──────────────────────────────────────────────────────────────────
-
-% font-settings.latex
-
-\usepackage{luaotfload}
-
-\directlua{luaotfload.add_fallback("mainfontfallback",{"Source Serif 4:mode=harf"})}
-\directlua{luaotfload.add_fallback("sansfontfallback",{"Source Sans 3:mode=harf"})}
-\directlua{luaotfload.add_fallback("monofontfallback",{"Source Code Pro:mode=harf"})}
-
-\setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$,RawFeature={fallback=mainfontfallback}]{$if(mainfont)$$mainfont$$else$Arno Pro$endif$}
-\setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$,RawFeature={fallback=sansfontfallback}]{$if(sansfont)$$sansfont$$else$Myriad Pro$endif$}
-\setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$,RawFeature={fallback=monofontfallback}]{$if(monofont)$$monofont$$else$Source Code Pro$endif$}
-\setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$if(mathfont)$$mathfont$$else$STIX Two Math$endif$}
-
-\usepackage[$if(microtypeoptions)$$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$$else$protrusion=true$endif$]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath}
-
-\newcommand{\definecapsfor}[1]{%
-  $if(sanssc)$
-  \renewcommand{\metacaps}[##1]{\textsc{\MakeLowercase{##1}}}%
-  \renewcommand{\capsfont}{#1\scshape}%
-  $else$
-  \renewcommand{\metacaps}[1]{\MakeUppercase{##1}}%
-  \renewcommand{\capsfont}{#1\upshape}%
-  $endif$
-}
-
-% Familia de display
-$if(titlesans)$
-\newcommand{\metafont}{\sffamily}
-\newcommand{\metacaps}[1]{}
-\newcommand{\capsfont}{}
-\definecapsfor{\sffamily}
-$elseif(titlefont)$
-\newfontfamily\displayfamily[Numbers=OldStyle, $for(titlefontoptions)$$titlefontoptions$$sep$,$endfor$]{$titlefont$}
-\newcommand{\metafont}{\displayfamily}
-\newcommand{\metacaps}[1]{}
-\newcommand{\capsfont}{}
-\definecapsfor{\displayfamily}
-$else$
-\newcommand{\metafont}{\normalfont}
-\newcommand{\metacaps}[1]{}
-\newcommand{\capsfont}{}
-\definecapsfor{\normalfont}
-$endif$
-
-$if(bodysans)$
-\renewcommand{\familydefault}{\sfdefault}
-$if(titlefont)$$else$
-\definecapsfor{\sffamily}
-$endif$
-$endif$
-
-$if(bodymono)$
-\renewcommand{\familydefault}{\ttdefault}
-$if(titlefont)$$else$
-\definecapsfor{\ttfamily}
-$endif$
-$endif$
-
-% \textsmall: tamaño reducido para notas, citas, captions y código.
-\newcommand{\textsmall}{$if(smallsize)$$smallsize$$else$\normalsize$endif$}
-
-% ── Microtipografía ──────────────────────────────────────────────────────────
-
-$if(strikeout)$
-\usepackage{luacolor}
-\usepackage[soul]{lua-ul}
-$endif$
-
-% ── Interlineado y párrafo ────────────────────────────────────────────────────
-
+$pandoc-templates/fonts.latex()$
+$if(linestretch)$
 \usepackage{setspace}
-\setstretch{$if(linestretch)$$linestretch$$else$1.5$endif$}
-
-\newlength{\ParIndent}
-% Otras posibilidades: 0.5in, 1cm, 2em
-\setlength{\ParIndent}{$if(parindent)$$parindent$$else$1cm$endif$}
-
-$if(noindent)$
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{0.25\baselineskip plus 2pt minus 1pt}
-$else$
-\setlength{\parindent}{\ParIndent}
-\setlength{\parskip}{0pt}
 $endif$
+% DIVERGE: de common.latex, sin parskip, que es del estilo.
 
-% Control de viudas y huérfanas.
-
-\clubpenalty=9999
-\widowpenalty=9999
-\displaywidowpenalty=9999
-\setlength{\emergencystretch}{3em}
-
-% ── Numeración romana ─────────────────────────────────────────────────────────
-
-% Versalitas por defecto
-\makeatletter
-$if(romansmall)$
-% Los romanos se quedan en minúsculas
-$else$
-\renewcommand{\@roman}[1]{\capsfont{\metacaps{\romannumeral#1}}}
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
 $endif$
-\makeatother
-
-% ── Listas (enumitem) ─────────────────────────────────────────────────────────
-
-\usepackage{enumitem}
-
-\setlist{
-  topsep     = 0pt,
-  partopsep  = 0pt,
-  itemsep    = 0pt,
-  parsep     = 0pt,
-  labelwidth = \dimexpr\ParIndent - 0.5em\relax,
-  labelsep   = 0.5em,
-  leftmargin = !,
-}
-
-\AtBeginDocument{
-  \setlist[itemize,1]{label=\textemdash}
-  \setlist[itemize,2]{label=\textbullet}
-  \setlist[itemize,3]{label={\small◆}}
-  \setlist[itemize,4]{label=\textemdash}
-$if(noindent)$
-  \setlist{topsep=\parskip}
+$if(listings)$
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
 $endif$
-}
-
-\providecommand{\tightlist}{}
-$if(noindent)$
-\renewcommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}}
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
 $endif$
-
-% ── Citas exentas ────────────────────────────────────────────────────────────
-
-\usepackage{quoting}
-
-\quotingsetup{
-  leftmargin  = \ParIndent,
-  rightmargin = $if(quotesymmetric)$\ParIndent$else$0pt$endif$,
-  vskip       = $if(noindent)$\parskip$else$0pt$endif$,
-  indentfirst = false,
-}
-
-\AtBeginEnvironment{quoting}{%
-  \textsmall
-}
-
-\renewenvironment{quote}{\begin{quoting}}{\end{quoting}}
-
-% ── Idioma ───────────────────────────────────────────────────────────────────
-
-\usepackage{babel}
-\babelprovide[main, import, hyphenrules=spanish]{spanish}
-\babelprovide[import]{french}
-\babelprovide[import]{british}
-\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
-\usepackage{selnolig}
-
-% ── Tablas y flotantes ────────────────────────────────────────────────────────
-
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{tabularx}
-\usepackage{graphicx}
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+$if(tables)$
+\usepackage{longtable,booktabs,array}
 \usepackage{caption}
-
+\captionsetup[table]{skip=6pt}
+\newcounter{none} % for unnumbered tables
+$if(multirow)$
+\usepackage{multirow}
+$endif$
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
 \makeatletter
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
-
-\usepackage{footnotehyper}
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-
-\setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
-\setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
-
-\DeclareCaptionFont{captiontext}{\textsmall\metafont}
-\DeclareCaptionFont{captionlabel}{\capsfont}
-\DeclareCaptionLabelFormat{displaylabel}{\metacaps{#1}~#2}
-\DeclareCaptionLabelSeparator{enspace}{\enspace}
-
-\captionsetup{
-  font            = captiontext,
-  labelfont       = captionlabel,
-  labelsep        = enspace,
-  labelformat     = displaylabel,
-  singlelinecheck = true,
-  justification   = justified,
-}
-\captionsetup[figure]{position = below}
-\captionsetup[table]{position = above, skip = 4pt}
-
+$endif$
+$if(graphics)$
+\usepackage{graphicx}
 \makeatletter
 \newsavebox\pandoc@box
-\newcommand*\pandocbounded[1]{%
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
   \sbox\pandoc@box{#1}%
   \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
   \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
@@ -305,234 +83,88 @@ $endif$
   \else\usebox{\pandoc@box}%
   \fi%
 }
+% Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-
-% ── Notas al pie ─────────────────────────────────────────────────────────────
-
-% Filete separador: solo en páginas de continuación por defecto.
-$if(nofootrule)$
-\usepackage[norule]{footmisc}
-$elseif(footrule)$
-\usepackage[splitrule]{footmisc}
-$else$
-\usepackage[norule,splitrule]{footmisc}
 $endif$
-
-\setlength{\skip\footins}{0.5\baselineskip plus 2pt minus 2pt}
-
-\renewcommand{\thefootnote}{\arabic{footnote}}
-
-\makeatletter
-\@removefromreset{footnote}{chapter}
-% Formato de la llamada a la nota.
-\renewcommand{\@makefnmark}{\textcolor{black}{\textsuperscript{\@thefnmark}}}
-% Formato del texto de la nota.
-\renewcommand{\@makefntext}[1]{%
-  \textsmall
-  \parindent=\ParIndent
-  \@enumdepth=0\relax
-  \@itemdepth=0\relax
-  \noindent
-$if(noindent)$%
-% Usamos el comportamiento por defecto: notas al pie sin sangría
-$else$%
-  \hspace*{\ParIndent}%
-$endif$%
-$if(footsuper)$%
-  {\@makefnmark}\enspace%
-$else$%
-  {\@thefnmark.}\enspace%
-$endif$%
-  #1%
-}
-\makeatother
-
-% ── Encabezados y pie de página (fancyhdr) ───────────────────────────────────
-
-\usepackage{fancyhdr}
-
-$if(headscaps)$
-  \newcommand{\headerstyle}[1]{\textsmall\metafont\metacaps{#1}}
-$else$
-  \newcommand{\headerstyle}[1]{\textsmall\metafont\textit{#1}}
+$if(svg)$
+\usepackage{svg}
 $endif$
-
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-
-\pagestyle{fancy}
-\fancyhf{}
-
-\fancyhead[RO,LE]{\textsmall\metafont\thepage}
-
-$if(folioonly)$
-% Dejamos el encabezado vacío
-$else$
-  \fancyhead[RE]{\headerstyle{$if(author)$$for(author)$$author$$sep$, $endfor$$else$$title$$endif$}}
-  \fancyhead[LO]{\nouppercase{\headerstyle{\leftmark}}}
+$if(strikeout)$
+\usepackage{luacolor}
+\usepackage[soul]{lua-ul}
 $endif$
-
-\renewcommand{\headrulewidth}{$if(headrule)$0.4pt$else$0pt$endif$}
-
-\fancypagestyle{plain}{%
-  \fancyhf{}%
-  $if(nofolio)$
-  % Dejamos el pie vacío
-  $else$
-    \fancyfoot[C]{\textsmall\metafont\thepage}%
-  $endif$
-  \renewcommand{\headrulewidth}{0pt}%
-}
-
-% Los capítulos sin numerar también cuentan
-\makeatletter
-\pretocmd{\@schapter}{\chaptermark{#1}}{}{}
-\makeatother
-
-% ── Secciones y títulos (titlesec) ────────────────────────────────────────────
-
-\usepackage{needspace}
-\usepackage[compact]{titlesec}
-
-% Páginas en blanco intercaladas (twoside): sin encabezado ni folio.
-\makeatletter
-\renewcommand{\cleardoublepage}{%
-  \clearpage
-  \if@twoside
-    \ifodd\c@page\else
-      \hbox{}\thispagestyle{empty}\newpage
-    \fi
-  \fi
-}
-\makeatother
-
-\titleformat{\chapter}[display]{\metafont\fontsize{16}{20}\selectfont}{}{0pt}{}
-\titlespacing*{\chapter}{0pt}{0pt}{2\baselineskip}
-
-\titleformat{\section}{\metafont\fontsize{14}{18}\selectfont}{\thesection}{1em}{}
-\titleformat{\subsection}{\metafont\normalsize\bfseries}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\metafont\normalsize\bfseries\itshape}{\thesubsubsection}{1em}{}
-\titleformat{\paragraph}[hang]{\metafont\normalsize\itshape}{\theparagraph}{1em}{}
-\titleformat{\subparagraph}[hang]{\metafont\normalsize}{\thesubparagraph}{1em}{}
-
-% ── Formato de los índices ───────────────────────────────────────────────────
-
-\PassOptionsToPackage{titles}{tocloft}
-\usepackage{tocloft}
-
-\makeatletter
-
-\newlength{\tocpnumwidth}
-\settowidth{\tocpnumwidth}{999}
-\cftsetpnumwidth{\tocpnumwidth}
-
-\newlength{\tocchapextra}\settowidth{\tocchapextra}{0}
-\newlength{\mychapnumwidth}\settowidth{\mychapnumwidth}{1\enspace}
-\newlength{\mysecnumwidth}\settowidth{\mysecnumwidth}{1.1\enspace}
-\newlength{\mysubsecnumwidth}\settowidth{\mysubsecnumwidth}{1.1.1\enspace}
-\newlength{\mysubsubsecnumwidth}\settowidth{\mysubsubsecnumwidth}{1.1.1.1\enspace}
-
-\cftsetindents{chapter}{0em}{\mychapnumwidth}
-\cftsetindents{section}{\mychapnumwidth}{\mysecnumwidth}
-\cftsetindents{subsection}{\dimexpr\mychapnumwidth+\mysecnumwidth\relax}{\mysubsecnumwidth}
-\cftsetindents{subsubsection}{\dimexpr\mychapnumwidth+\mysecnumwidth+\mysubsecnumwidth\relax}{\mysubsubsecnumwidth}
-
-\renewcommand{\cftfigpresnum}{\figurename~}
-\renewcommand{\cfttabpresnum}{\tablename~}
-\DeclareRobustCommand*{\deactivateaddvspace}{\let\addvspace\@gobble}
-
-\AtBeginDocument{%
-  \newlength{\figlabelwidth}%
-  \settowidth{\figlabelwidth}{\cftfigpresnum~999}%
-  \addtolength{\figlabelwidth}{2.5em}%
-  \cftsetindents{figure}{0em}{\figlabelwidth}%
-  \cftsetindents{table}{0em}{\figlabelwidth}%
-  \addtocontents{lof}{\protect\deactivateaddvspace}%
-  \addtocontents{lot}{\protect\deactivateaddvspace}%
-}
-
-\renewcommand{\cftchapleader}{\hspace{1.5em}}       \renewcommand{\cftchapafterpnum}{\cftparfillskip}
-\renewcommand{\cftsecleader}{\hspace{1.5em}}        \renewcommand{\cftsecafterpnum}{\cftparfillskip}
-\renewcommand{\cftsubsecleader}{\hspace{1.5em}}     \renewcommand{\cftsubsecafterpnum}{\cftparfillskip}
-\renewcommand{\cftsubsubsecleader}{\hspace{1.5em}}  \renewcommand{\cftsubsubsecafterpnum}{\cftparfillskip}
-\renewcommand{\cftfigleader}{\hspace{1.5em}}        \renewcommand{\cftfigafterpnum}{\cftparfillskip}
-\renewcommand{\cfttableader}{\hspace{1.5em}}        \renewcommand{\cfttabafterpnum}{\cftparfillskip}
-
-\renewcommand{\cftchapfont}{\metafont\capsfont}     \renewcommand{\cftchappagefont}{\metafont}
-\renewcommand{\cftsecfont}{\metafont}               \renewcommand{\cftsecpagefont}{\metafont}
-\renewcommand{\cftsubsecfont}{\metafont}            \renewcommand{\cftsubsecpagefont}{\metafont}
-\renewcommand{\cftsubsubsecfont}{\metafont}         \renewcommand{\cftsubsubsecpagefont}{\metafont}
-\renewcommand{\cftfigfont}{\metafont}               \renewcommand{\cftfigpagefont}{\metafont}
-\renewcommand{\cfttabfont}{\metafont}               \renewcommand{\cfttabpagefont}{\metafont}
-
-\patchcmd{\l@chapter}{#1}{\metacaps{#1}}{}{}
-\setlength{\cftbeforechapskip}{0.1em}
-
-\makeatother
-
-% ── Código fuente (fancyvrb + tokens de resaltado) ────────────────────────────
-
-\usepackage{fancyvrb}
-\usepackage{framed}
-
-$highlighting-macros$
-
-% ── Bibliografía CSL (citeproc/pandoc) ────────────────────────────────────────
-
+$if(csl-refs)$
+% definitions for citeproc citations
 \NewDocumentCommand\citeproctext{}{}
 \NewDocumentCommand\citeproc{mm}{%
   \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
 \makeatletter
-  \let\@cite@ofmt\@firstofone
-  \def\@biblabel#1{}
-  \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
 \makeatother
 \newlength{\cslhangindent}
-\setlength{\cslhangindent}{\ParIndent}
+\setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2]
-  {\begin{list}{}{%
-    \setlength{\itemindent}{0pt}
-    \setlength{\leftmargin}{0pt}
-    \setlength{\parsep}{0pt}
-    \ifodd #1
-      \setlength{\leftmargin}{\cslhangindent}
-      \setlength{\itemindent}{-1\cslhangindent}
-    \fi
-    \setlength{\itemsep}{#2\parskip}}}
-  {\end{list}}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
 \usepackage{calc}
 \newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+$endif$
+$if(lang)$
+\usepackage[bidi=basic$if(shorthands)$$else$,shorthands=off$endif$$for(babeloptions)$,$babeloptions$$endfor$]{babel}
+$for(babelfonts/pairs)$
+\babelfont[$babelfonts.key$]{rm}{$babelfonts.value$}
+$endfor$
+% DIVERGE: sin \babelfont{rm} para mainfont, que ya fija font-settings.
+\usepackage{selnolig} % disable illegal ligatures
+$endif$
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$if(subfigure)$
+\usepackage{subcaption}
+$endif$
+$if(csquotes)$
+\usepackage[$for(csquotesoptions)$$csquotesoptions$$sep$,$endfor$]{csquotes}
+$endif$
 
-% ── Cabeceras extra de Pandoc y del usuario ───────────────────────────────────
+\usepackage[$for(styleoptions/pairs)$$it.key$={$it.value$}$sep$,$endfor$]{$if(style)$$style$$else$memoria$endif$}
+$pandoc-templates/font-settings.latex()$
+% DIVERGE: interlineado en todo el documento, no solo tras el índice.
+$if(linestretch)$
+\setstretch{$linestretch$}
+$endif$
 
 $for(header-includes)$
 $header-includes$
 $endfor$
-
-% ── Hipervínculos y medatados ─────────────────────────────────────────────────
-
-\usepackage{xurl}
-\urlstyle{$if(urlstyle)$$urlstyle$$else$same$endif$}
-
-$if(links-as-notes)$
-\DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
-$endif$
-$if(verbatim-in-note)$
-\VerbatimFootnotes
-$endif$
-
-\usepackage{hyperref}
-
-\providecommand{\xmpquote}[1]{#1}
-
+$pandoc-templates/after-header-includes.latex()$
+% DIVERGE: hypersetup.latex con otros colores por defecto.
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
 \hypersetup{
 $if(title-meta)$
-  pdftitle={$title-meta$$if(subtitle)$. $subtitle$$endif$},
+  pdftitle={$title-meta$},
 $endif$
 $if(author-meta)$
   pdfauthor={$author-meta$},
@@ -549,168 +181,88 @@ $endif$
 $if(colorlinks)$
   colorlinks=true,
   linkcolor={$if(linkcolor)$$linkcolor$$else$DarkSlateBlue$endif$},
-  urlcolor={$if(urlcolor)$$urlcolor$$else$DarkSlateBlue$endif$},
-  citecolor={$if(citecolor)$$citecolor$$else$DarkSlateBlue$endif$},
   filecolor={$if(filecolor)$$filecolor$$else$black$endif$},
+  citecolor={$if(citecolor)$$citecolor$$else$DarkSlateBlue$endif$},
+  urlcolor={$if(urlcolor)$$urlcolor$$else$DarkSlateBlue$endif$},
 $else$
 $if(boxlinks)$
 $else$
   hidelinks,
 $endif$
 $endif$
-  pdfcreator={LaTeX via Pandoc}
-}
+  pdfcreator={LaTeX via pandoc}}
 
-\usepackage{etoolbox}
-\makeatletter
-\pretocmd{\addcontentsline}{\phantomsection}{}{}
-\makeatother
-
-% ── Tráiler PDF de Pandoc ─────────────────────────────────────────────────────
 
 $if(pdf-trailer-id)$
 \pdfvariable trailerid {[ $pdf-trailer-id$ ]}
 $endif$
 
-% ── Portada ───────────────────────────────────────────────────────────────────
-
 $if(title)$
 \title{$title$$if(subtitle)$\\\medskip\large $subtitle$$endif$}
 $endif$
-$if(author)$
 \author{$for(author)$$author$$sep$ \and $endfor$}
-$endif$
 \date{$date$}
 
-% ──────────────────────────────────────────────────────────────────────────────
 \begin{document}
-% ──────────────────────────────────────────────────────────────────────────────
-
+$if(has-frontmatter)$
 \frontmatter
-
-% ── Portada ──────────────────────────────────────────────────────────────────
-
-$if(maketitle)$
-\makeatletter
-\patchcmd{\@maketitle}{\newpage}{}{}{}
-\makeatother
-\pdfbookmark[1]{Portada}{portada}
-\maketitle
-\thispagestyle{empty}
 $endif$
-
-% ── Resumen ───────────────────────────────────────────────────────────────────
-
+% DIVERGE: maketitle, dedication, epigraph y thanks son propios.
+$if(maketitle)$
+\maketitle
+$endif$
 $if(abstract)$
-\clearpage
-\phantomsection
-\pdfbookmark[1]{Resumen}{resumen}
-\thispagestyle{empty}
-\newenvironment{abstract}{%
-  \normalsize\noindent\metafont\textbf{Resumen}\par\noindent\normalfont\ignorespaces
-}{\par}
 \begin{abstract}
 $abstract$
 $if(keywords)$
-\par\noindent\metafont\textbf{Palabras clave:} \normalfont $for(keywords)$$keywords$$sep$, $endfor$
+\keywords{$for(keywords)$$keywords$$sep$, $endfor$}
 $endif$
 \end{abstract}
 $endif$
-
-% ── Dedicatoria ───────────────────────────────────────────────────────────────
-
 $if(dedication)$
-\clearpage
-\thispagestyle{empty}
-\vspace*{0.25\textheight}
-\noindent\hfill
-\begin{minipage}{0.5\linewidth}
-  \setstretch{1}%
-  \textit{$dedication$}
-\end{minipage}
+\dedication{$dedication$}
 $endif$
-
-% ── Epígrafe ──────────────────────────────────────────────────────────────────
-
 $if(epigraphtext)$
-\clearpage
-\thispagestyle{empty}
-\vspace*{0.25\textheight}
-\noindent\hfill
-\begin{minipage}{0.5\linewidth}
-  \setstretch{1}%
-  $epigraphtext$
-  $if(epigraphauthor)$
-  \par\smallskip
-  {\raggedleft%
-  \capsfont{$epigraphauthor$}%
-  $if(epigraphwork)$, \textit{$epigraphwork$}$endif$\par}
-  $else$$if(epigraphwork)$
-  \par\smallskip{\raggedleft\textit{$epigraphwork$}\par}
-  $endif$$endif$
-\end{minipage}
+\epigraphpage{$epigraphtext$}{$epigraphauthor$}{$epigraphwork$}
 $endif$
-
-% ── Índices ───────────────────────────────────────────────────────────────────
-
-{%
+% DIVERGE: índices en un grupo con enlaces negros por defecto; lol es propio.
+{
 $if(colorlinks)$
 \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
 $endif$
-
 $if(toc)$
-\clearpage
-\thispagestyle{plain}
-\pdfbookmark[1]{\contentsname}{toc}
-\setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$2$endif$}
+$if(toc-title)$
+\renewcommand*\contentsname{$toc-title$}
+$endif$
+\setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
 $endif$
-
 $if(lof)$
-\clearpage
-\thispagestyle{plain}
-\addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
 $endif$
-
 $if(lot)$
-\clearpage
-\thispagestyle{plain}
-\addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
 $endif$
-}
-
-% ── Agradecimientos ───────────────────────────────────────────────────────────
-
-$if(thanks)$
-\clearpage
-\phantomsection
-\addcontentsline{toc}{chapter}{Agradecimientos}
-\chapter*{Agradecimientos}
-$thanks$
+$if(lol)$
+\lstlistoflistings
 $endif$
-
-% ── Otros elementos preliminares ──────────────────────────────────────────────
-
+}
+$if(thanks)$
+\begin{acknowledgments}
+$thanks$
+\end{acknowledgments}
+$endif$
 $for(include-before)$
 $include-before$
 $endfor$
-
-% ── Cuerpo principal ──────────────────────────────────────────────────────────
-
+$if(has-frontmatter)$
 \mainmatter
-
+$endif$
 $body$
 
-% ── Elementos finales ─────────────────────────────────────────────────────────
-
+$if(has-frontmatter)$
 \backmatter
-
-$if(nocite-ids)$
-\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
 $endif$
-
 $if(refs)$
 $refs$
 $endif$

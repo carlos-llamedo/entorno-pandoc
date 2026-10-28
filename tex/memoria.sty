@@ -1,0 +1,349 @@
+% memoria.sty — Estilo de memorias académicas (clase book, LuaLaTeX).
+% Copyright © 2026 Carlos Llamedo (MIT Licence)
+
+\NeedsTeXFormat{LaTeX2e}[2022-11-01]
+\ProvidesPackage{memoria}[2026/10/28 Estilo de memorias academicas]
+
+\newif\ifmem@headscaps
+\newif\ifmem@folioonly
+\newif\ifmem@headrule
+\newif\ifmem@nofolio
+\newif\ifmem@footsuper
+\newif\ifmem@footrule
+\newif\ifmem@nofootrule
+\newif\ifmem@quotesymmetric
+\newif\ifmem@noindent
+
+\DeclareKeys[memoria]{
+  headscaps        .if    = mem@headscaps,
+  folioonly        .if    = mem@folioonly,
+  headrule         .if    = mem@headrule,
+  nofolio          .if    = mem@nofolio,
+  footsuper        .if    = mem@footsuper,
+  footrule         .if    = mem@footrule,
+  nofootrule       .if    = mem@nofootrule,
+  quotesymmetric   .if    = mem@quotesymmetric,
+  noindent         .if    = mem@noindent,
+  titlefont        .store = \mem@titlefont,
+  titlefontoptions .store = \mem@titlefontoptions,
+  parindent        .store = \mem@parindent,
+  smallsize        .store = \mem@smallsize,
+  tocstyle         .store = \mem@tocstyle,
+}
+\SetKeys[memoria]{titlefont=, titlefontoptions=, parindent=1cm, smallsize=\normalsize, tocstyle=margen}
+\ProcessKeyOptions[memoria]
+
+\RequirePackage{etoolbox}
+\RequirePackage{xcolor}
+
+\@ifclasswith{book}{openright}{}{\@openrightfalse}
+
+\@ifpackageloaded{geometry}{}{%
+  \RequirePackage[
+    top        = 3cm,
+    bottom     = 3cm,
+    left       = 3cm,
+    right      = 3cm,
+    headheight = 14.5pt,
+    headsep    = \dimexpr1.5cm - 14.5pt\relax,
+    footskip   = 1.5cm,
+  ]{geometry}}
+
+\RequirePackage{unicode-math}
+\defaultfontfeatures{Scale=MatchLowercase}
+\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+
+\directlua{luaotfload.add_fallback("mainfontfallback",{"Source Serif 4:mode=harf"})}
+\directlua{luaotfload.add_fallback("sansfontfallback",{"Source Sans 3:mode=harf"})}
+\directlua{luaotfload.add_fallback("monofontfallback",{"Source Code Pro:mode=harf"})}
+\defaultfontfeatures+[\rmfamily]{RawFeature={fallback=mainfontfallback}}
+\defaultfontfeatures+[\sffamily]{RawFeature={fallback=sansfontfallback}}
+\defaultfontfeatures+[\ttfamily]{RawFeature={fallback=monofontfallback}}
+
+\setmathfont{STIX Two Math}
+
+% El primer \setmainfont fija también la letra de los operadores matemáticos,
+% así que las fuentes por defecto esperan al final del preámbulo.
+\edef\mem@rmdefault{\rmdefault}
+\edef\mem@sfdefault{\sfdefault}
+\edef\mem@ttdefault{\ttdefault}
+\newcommand{\mem@fuente}[3]{%
+  \edef\@tempa{#1}\ifx\@tempa#2#3\fi}
+\AddToHook{begindocument/before}{%
+  \mem@fuente{\rmdefault}{\mem@rmdefault}{\setmainfont{Arno Pro}}%
+  \mem@fuente{\sfdefault}{\mem@sfdefault}{\setsansfont{Myriad Pro}}%
+  \mem@fuente{\ttdefault}{\mem@ttdefault}{\setmonofont{Source Code Pro}}%
+  \@ifpackageloaded{microtype}{}{%
+    \RequirePackage{microtype}%
+    \UseMicrotypeSet[protrusion]{basicmath}}}
+
+\RequirePackage{upquote}
+
+\ifx\mem@titlefont\@empty
+  \newcommand{\metafont}{\normalfont}
+\else
+  \expanded{\noexpand\newfontfamily\noexpand\displayfamily
+    [Numbers=OldStyle,\unexpanded\expandafter{\mem@titlefontoptions}]
+    {\unexpanded\expandafter{\mem@titlefont}}}
+  \newcommand{\metafont}{\displayfamily}
+\fi
+
+\ExplSyntaxOn
+\NewDocumentCommand \metacaps { m }
+  {
+    \fontspec_if_feature:nTF { smcp }
+      { \textsc { \MakeLowercase {#1} } }
+      { \MakeUppercase {#1} }
+  }
+\ExplSyntaxOff
+\AddToHook{package/hyperref/after}{\pdfstringdefDisableCommands{\let\metacaps\@firstofone}}
+
+\newcommand{\textsmall}{\mem@smallsize}
+
+\RequirePackage{setspace}
+\setstretch{1.5}
+
+\newlength{\ParIndent}
+\setlength{\ParIndent}{\mem@parindent}
+
+\ifmem@noindent
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0.25\baselineskip plus 2pt minus 1pt}
+\else
+  \setlength{\parindent}{\ParIndent}
+  \setlength{\parskip}{0pt}
+\fi
+
+\clubpenalty=9999
+\widowpenalty=9999
+\displaywidowpenalty=9999
+\setlength{\emergencystretch}{3em}
+
+% spanish.ldf redefine \@roman en cada selección de idioma.
+\def\mem@roman{\def\@roman##1{\metacaps{\romannumeral##1}}}
+\mem@roman
+\AddToHook{package/babel/after}{%
+  \AddBabelHook{memoria}{afterextras}{\mem@roman}%
+  \addto\captionsspanish{%
+    \def\lstlistingname{Listado}%
+    \def\lstlistlistingname{Índice de listados}}}
+
+\RequirePackage{enumitem}
+\setlist{
+  topsep      = \ifmem@noindent\parskip\else 0pt\fi,
+  partopsep   = 0pt,
+  itemsep     = 0pt,
+  parsep      = 0pt,
+  labelindent = \parindent,
+  leftmargin  = *,
+}
+\setlist[itemize,1]{label=\textemdash}
+\setlist[itemize,2]{label=\textbullet}
+\setlist[itemize,3]{label={\small◆}}
+\setlist[itemize,4]{label=\textemdash}
+
+% Sin el paquete quoting: spanish.ldf define un entorno con ese nombre.
+\renewenvironment{quote}{%
+  \textsmall
+  \list{}{%
+    \setlength{\topsep}{\ifmem@noindent\parskip\else\z@\fi}%
+    \setlength{\partopsep}{\z@}%
+    \setlength{\itemindent}{\z@}%
+    \setlength{\leftmargin}{\ParIndent}%
+    \setlength{\rightmargin}{\ifmem@quotesymmetric\ParIndent\else\z@\fi}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\parsep}{\parskip}}%
+  \item\relax\ignorespaces
+}{%
+  \ifhmode\unskip\fi
+  \endlist
+}
+
+\RequirePackage{caption}
+\setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
+\setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
+\DeclareCaptionFont{captiontext}{\textsmall\metafont}
+\DeclareCaptionLabelFormat{displaylabel}{\metacaps{#1}~#2}
+\DeclareCaptionLabelSeparator{enspace}{\enspace}
+\captionsetup{
+  font            = captiontext,
+  labelsep        = enspace,
+  labelformat     = displaylabel,
+  singlelinecheck = true,
+  justification   = justified,
+}
+\captionsetup[figure]{position = below}
+\captionsetup[table]{position = above, skip = 4pt}
+
+\AddToHook{env/verbatim/begin}{\textsmall}
+\AddToHook{package/fancyvrb/after}{\fvset{fontsize=\textsmall}}
+% columns=fixed espacia el texto copiado del PDF; float desplazaría los bloques sin pie.
+\AddToHook{package/listings/after}{%
+  \lstset{
+    basicstyle        = \textsmall\ttfamily,
+    columns           = fullflexible,
+    keepspaces        = true,
+    showstringspaces  = false,
+    frame             = single,
+    framesep          = 10pt,
+    xleftmargin       = 10pt,
+    xrightmargin      = 10pt,
+  }}
+
+% Las entradas de la bibliografía se separan como los párrafos.
+\ifdefined\CSLReferences
+  \setlength{\cslhangindent}{\ParIndent}
+  \patchcmd{\CSLReferences}{\baselineskip}{\parskip}{}{}
+\fi
+
+\ifmem@nofootrule
+  \RequirePackage[norule]{footmisc}
+\else\ifmem@footrule
+  \RequirePackage[splitrule]{footmisc}
+\else
+  \RequirePackage[norule,splitrule]{footmisc}
+\fi\fi
+\setlength{\skip\footins}{0.5\baselineskip plus 2pt minus 2pt}
+\@removefromreset{footnote}{chapter}
+\renewcommand{\@makefnmark}{\textcolor{black}{\textsuperscript{\@thefnmark}}}
+\renewcommand{\@makefntext}[1]{%
+  \textsmall
+  \parindent=\ifmem@noindent\z@\else\ParIndent\fi
+  \@enumdepth=\z@
+  \@itemdepth=\z@
+  \indent
+  \ifmem@footsuper{\@makefnmark}\else{\@thefnmark.}\fi\enspace
+  #1%
+}
+
+\RequirePackage{fancyhdr}
+\ifmem@headscaps
+  \newcommand{\headerstyle}[1]{\textsmall\metafont\metacaps{#1}}
+\else
+  \newcommand{\headerstyle}[1]{\textsmall\metafont\textit{#1}}
+\fi
+
+% \maketitle vacía \@author y \@title.
+\let\mem@sinautor\@author
+\let\mem@sintitulo\@title
+\AtBeginDocument{%
+  \ifx\@author\mem@sinautor\let\mem@autor\@empty\else\let\mem@autor\@author\fi
+  \ifx\@title\mem@sintitulo\let\mem@titulo\@empty\else\let\mem@titulo\@title\fi}
+\newcommand{\mem@verso}{{\def\and{\unskip, }\ifx\mem@autor\@empty\mem@titulo\else\mem@autor\fi}}
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO,LE]{\textsmall\metafont\thepage}
+\ifmem@folioonly\else
+  \fancyhead[RE]{\headerstyle{\mem@verso}}
+  \fancyhead[LO]{\headerstyle{\leftmark}}
+\fi
+\renewcommand{\headrulewidth}{\ifmem@headrule 0.4pt\else 0pt\fi}
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \ifmem@nofolio\else
+    \fancyfoot[C]{\textsmall\metafont\thepage}%
+  \fi
+  \renewcommand{\headrulewidth}{0pt}%
+}
+% Los capítulos sin numerar fijan su marca; las de book.cls (índices) van en mayúsculas.
+\pretocmd{\@schapter}{\chaptermark{#1}}{}{}
+\let\@mkboth\@gobbletwo
+
+\RequirePackage[compact]{titlesec}
+\RequirePackage{emptypage}
+\titleformat{\chapter}[display]{\metafont\fontsize{16}{20}\selectfont}{}{0pt}{}
+\titlespacing{\chapter}{0pt}{0pt}{2\baselineskip}
+\titleformat{\section}{\metafont\fontsize{14}{18}\selectfont}{\thesection}{1em}{}
+\titleformat{\subsection}{\metafont\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\metafont\normalsize\bfseries\itshape}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}[hang]{\metafont\normalsize\itshape}{\theparagraph}{1em}{}
+\titleformat{\subparagraph}[hang]{\metafont\normalsize}{\thesubparagraph}{1em}{}
+
+\AddToHook{cmd/tableofcontents/before}{%
+  \clearpage\ifdefined\pdfbookmark\pdfbookmark[0]{\contentsname}{toc}\fi}
+\newcommand{\mem@lista}[1]{\clearpage\phantomsection\addcontentsline{toc}{chapter}{#1}}
+\AddToHook{cmd/listoffigures/before}{\mem@lista{\listfigurename}}
+\AddToHook{cmd/listoftables/before}{\mem@lista{\listtablename}}
+\AddToHook{package/listings/after}{%
+  \AddToHook{cmd/lstlistoflistings/before}{\mem@lista{\lstlistlistingname}}}
+
+\RequirePackage{titletoc}
+\newcommand{\mem@listas}[1]{%
+  #1{figure}{\figurename~\thecontentslabel}%
+  #1{table}{\tablename~\thecontentslabel}%
+  \AddToHook{package/listings/after}{\contentsuse{lstlisting}{lol}#1{lstlisting}{\lstlistingname~\thecontentslabel}}%
+  \AtBeginDocument{%
+    \addtocontents{lof}{\protect\mem@sinhuecos}%
+    \addtocontents{lot}{\protect\mem@sinhuecos}%
+    \@ifpackageloaded{listings}{\addtocontents{lol}{\protect\mem@sinhuecos}}{}}}
+\DeclareRobustCommand*{\mem@sinhuecos}{\let\addvspace\@gobble}
+\newcommand{\mem@pagina}{\llap{\makebox[\leftskip][l]{\mdseries\thecontentspage}}}
+\newcommand{\mem@versal}[1]{\textls{\metacaps{#1}}}
+\newcommand{\mem@margen}[2]{%
+  \titlecontents{#1}[4em]{\metafont}{\contentspush{\mem@pagina#2\enspace}}{\mem@pagina}{}}
+\newcommand{\mem@columna}[3][0pt]{%
+  \titlecontents{#2}[#1]{\metafont}{\contentspush{#3\enspace}}{}{\hfill\contentspage}}
+\newcommand{\mem@toc@tex}{}
+\newcommand{\mem@toc@margen}{%
+  \mem@listas\mem@margen
+  \titlecontents{chapter}[4em]
+    {\addvspace{.5\baselineskip}\metafont\bfseries}
+    {\mem@pagina\contentslabel{1.5em}}
+    {\mem@pagina}
+    {}%
+  \titlecontents{section}[4em]
+    {\addvspace{.25\baselineskip}\metafont}
+    {\mem@versal}
+    {\mem@versal}
+    {}%
+  \titlecontents*{subsection}[5.5em]{}{}{}{, \thecontentspage}[; ][]%
+  \titlecontents*{subsubsection}[5.5em]{}{}{}{, \thecontentspage}[; ][]}
+\newcommand{\mem@toc@columna}{%
+  \mem@listas\mem@columna
+  \titlecontents{chapter}[0pt]
+    {\addvspace{\baselineskip}\metafont}
+    {\contentspush{\thecontentslabel\enspace}\mem@versal}
+    {\mem@versal}
+    {\hfill\contentspage}%
+  \mem@columna[1.5em]{section}{\thecontentslabel}%
+  \mem@columna[3em]{subsection}{\thecontentslabel}%
+  \mem@columna[4.5em]{subsubsection}{\thecontentslabel}}
+\ifcsname mem@toc@\mem@tocstyle\endcsname
+  \csname mem@toc@\mem@tocstyle\endcsname
+\else
+  \PackageError{memoria}{tocstyle desconocido: \mem@tocstyle}{Valores: tex, margen, columna.}
+\fi
+
+\newcommand{\mem@paginabreve}[1]{%
+  \clearpage
+  \thispagestyle{empty}%
+  \vspace*{0.25\textheight}%
+  \noindent\hfill
+  \begin{minipage}{0.5\linewidth}%
+    \setstretch{1}%
+    #1%
+  \end{minipage}}
+
+\NewDocumentEnvironment{abstract}{}{%
+  \clearpage
+  \thispagestyle{empty}%
+  \normalsize\noindent{\metafont\bfseries\abstractname}\par\noindent\ignorespaces
+}{\par}
+\newcommand{\keywords}[1]{\par\noindent{\metafont\bfseries Palabras clave:} #1}
+\NewDocumentCommand{\dedication}{+m}{\mem@paginabreve{\textit{#1}}}
+\NewDocumentCommand{\epigraphpage}{+m m m}{%
+  \mem@paginabreve{%
+    #1%
+    \IfBlankF{#2#3}{%
+      \par\smallskip
+      {\raggedleft
+       \IfBlankF{#2}{\metacaps{#2}\IfBlankF{#3}{, }}%
+       \IfBlankF{#3}{\textit{#3}}\par}}}}
+\NewDocumentEnvironment{acknowledgments}{}{%
+  \chapter*{Agradecimientos}%
+  \addcontentsline{toc}{chapter}{Agradecimientos}%
+}{}
+
+\endinput

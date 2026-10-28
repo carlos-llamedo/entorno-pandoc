@@ -18,19 +18,26 @@ filters:
 
 template: pandoc.tex
 top-level-division: chapter
+syntax-highlighting: idiomatic
 
 metadata:
   lang: es-ES
+  listings: true
   figureTitle: "Figura"
-  tableTitle: "Tabla"
+  tableTitle: "Cuadro"
+  listingTitle: "Listado"
   figPrefix:
     - "fig."
     - "figs."
   tblPrefix:
-    - "tabla"
-    - "tablas"
+    - "cuadro"
+    - "cuadros"
+  lstPrefix:
+    - "listado"
+    - "listados"
   eqnPrefix:
     - "ec."
     - "ecs."
-  lofTitle: "Lista de figuras"
-  lotTitle: "Lista de tablas"
+  lofTitle: "Índice de figuras"
+  lotTitle: "Índice de cuadros"
+  lolTitle: "Índice de listados"
