@@ -1,0 +1,41 @@
+reader: markdown
+writer: pdf
+pdf-engine: lualatex
+
+resource-path: 
+  - .
+  - figuras
+  - ${USERDATA}
+
+filters:
+  - include-files.lua
+  - pandoc-crossref
+  - custom-divs.lua
+  - multibib.lua
+  - correcciones-notas.lua
+
+template: pandoc.tex
+syntax-highlighting: idiomatic
+
+metadata:
+  style: temas
+  lang: es-ES
+  listings: true
+  figureTitle: "Figura"
+  tableTitle: "Cuadro"
+  listingTitle: "Listado"
+  figPrefix:
+    - "fig."
+    - "figs."
+  tblPrefix:
+    - "cuadro"
+    - "cuadros"
+  lstPrefix:
+    - "listado"
+    - "listados"
+  eqnPrefix:
+    - "ec."
+    - "ecs."
+  lofTitle: "Índice de figuras"
+  lotTitle: "Índice de cuadros"
+  lolTitle: "Índice de listados"

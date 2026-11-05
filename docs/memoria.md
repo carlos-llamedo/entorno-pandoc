@@ -65,9 +65,9 @@ En `margen` y `columna`, las entradas de figuras, cuadros y listados llevan su n
 - **Página:** márgenes de `3cm`, con encabezado y pie a media altura del margen. La variable `geometry` los sustituye. Los capítulos empiezan en cualquier página, salvo que se declare `classoption: openright`.
 - **Fuentes:** Arno Pro, Myriad Pro, Source Code Pro y STIX Two Math, con Source Serif 4, Source Sans 3 y Source Code Pro como fallbacks. Se aplican al final del preámbulo y solo si el documento no ha elegido otras, porque la primera fuente principal fija también la de los operadores matemáticos.
 - **Párrafo:** interlineado 1,5, sangría sin espacio entre párrafos, y control de viudas y huérfanas.
-- **Versalitas:** folios romanos, etiquetas de los pies, capítulos del índice, autor del epígrafe y encabezados con `headscaps` usan las versalitas de la fuente si las tiene; si no, mayúsculas.
+- **Versalitas:** etiquetas de los pies, capítulos del índice, autor del epígrafe y encabezados con `headscaps` usan las versalitas de la fuente si las tiene; si no, mayúsculas. Los romanos, folios incluidos, los pone babel en versalitas cuando el español es la lengua principal; en otros idiomas o sin `lang` van en minúscula. Con una fuente sin versalitas, un fallo de `spanish.ldf` hace que también salgan en minúscula, con avisos de fuente en el registro.
 - **Encabezados:** en el verso, el autor (o el título si no hay autor); en el recto, el capítulo. El folio va en el exterior superior.
-- **Listas:** la marca a la altura de la sangría de párrafo y el texto colgado tras ella. Raya, bolo y rombo según el nivel.
+- **Listas:** la marca a la altura de la sangría de párrafo y el texto colgado tras ella. Raya, bolo y rombo según el nivel cuando el español es la lengua principal; en otros idiomas o sin `lang`, las marcas de LaTeX.
 - **Notas:** numeración continua en todo el documento; filete solo en las páginas de continuación.
 - **Bibliografía:** sangría francesa igual a `parindent`; las entradas se separan como los párrafos.
 - **Código:** a `smallsize`. Los listados van en un recuadro, como en las plantillas de Kieran Healy, pero sin flotar y con el espaciado natural para que el texto copiado del PDF salga limpio.

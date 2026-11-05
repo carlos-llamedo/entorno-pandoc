@@ -1,0 +1,312 @@
+% temas.sty
+% Copyright © 2026 Carlos Llamedo (MIT Licence)
+
+\NeedsTeXFormat{LaTeX2e}[2022-11-01]
+\ProvidesPackage{temas}[2026/11/05 Estilo de temas de oposicion]
+
+\newif\iftem@headscaps
+\newif\iftem@headrule
+\newif\iftem@footsuper
+\newif\iftem@footrule
+\newif\iftem@nofootrule
+\newif\iftem@quotesymmetric
+\newif\iftem@noindent
+
+\DeclareKeys[temas]{
+  headscaps        .if    = tem@headscaps,
+  headrule         .if    = tem@headrule,
+  footsuper        .if    = tem@footsuper,
+  footrule         .if    = tem@footrule,
+  nofootrule       .if    = tem@nofootrule,
+  quotesymmetric   .if    = tem@quotesymmetric,
+  noindent         .if    = tem@noindent,
+  titlefont        .store = \tem@titlefont,
+  titlefontoptions .store = \tem@titlefontoptions,
+  parindent        .store = \tem@parindent,
+  smallsize        .store = \tem@smallsize,
+  unknown          .code  = \PackageWarning{temas}{Se ignora una opción desconocida},
+}
+\SetKeys[temas]{titlefont=, titlefontoptions=, parindent=1cm, smallsize=\normalsize}
+\ProcessKeyOptions[temas]
+
+\@ifclassloaded{article}{}{%
+  \PackageWarningNoLine{temas}{Este estilo está pensado para la clase article}}
+
+\RequirePackage{etoolbox}
+\RequirePackage{xcolor}
+
+\@twosidetrue
+\@mparswitchtrue
+\flushbottom
+
+\@ifpackageloaded{geometry}{}{%
+  \RequirePackage[
+    top        = 3cm,
+    bottom     = 3cm,
+    left       = 3cm,
+    right      = 3cm,
+    headheight = 14.5pt,
+    headsep    = \dimexpr1.5cm - 14.5pt\relax,
+    footskip   = 1.5cm,
+  ]{geometry}}
+
+%
+
+\RequirePackage{unicode-math}
+\defaultfontfeatures{Scale=MatchLowercase}
+\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+
+\directlua{luaotfload.add_fallback("mainfontfallback",{"Source Serif 4:mode=harf"})}
+\directlua{luaotfload.add_fallback("sansfontfallback",{"Source Sans 3:mode=harf"})}
+\directlua{luaotfload.add_fallback("monofontfallback",{"Source Code Pro:mode=harf"})}
+\defaultfontfeatures+[\rmfamily]{RawFeature={fallback=mainfontfallback}}
+\defaultfontfeatures+[\sffamily]{RawFeature={fallback=sansfontfallback}}
+\defaultfontfeatures+[\ttfamily]{RawFeature={fallback=monofontfallback}}
+
+\setmathfont{STIX Two Math}
+
+\edef\tem@rmdefault{\rmdefault}
+\edef\tem@sfdefault{\sfdefault}
+\edef\tem@ttdefault{\ttdefault}
+\newcommand{\tem@fuente}[3]{%
+  \edef\@tempa{#1}\ifx\@tempa#2#3\fi}
+\AddToHook{begindocument/before}{%
+  \tem@fuente{\rmdefault}{\tem@rmdefault}{\setmainfont{Arno Pro}}%
+  \tem@fuente{\sfdefault}{\tem@sfdefault}{\setsansfont{Myriad Pro}}%
+  \tem@fuente{\ttdefault}{\tem@ttdefault}{\setmonofont{Source Code Pro}}%
+  \@ifpackageloaded{microtype}{}{%
+    \RequirePackage{microtype}%
+    \UseMicrotypeSet[protrusion]{basicmath}}}
+
+\RequirePackage{upquote}
+
+\ifx\tem@titlefont\@empty
+  \newcommand{\metafont}{\normalfont}
+\else
+  \expanded{\noexpand\newfontfamily\noexpand\displayfamily
+    [Numbers=OldStyle,\unexpanded\expandafter{\tem@titlefontoptions}]
+    {\unexpanded\expandafter{\tem@titlefont}}}
+  \newcommand{\metafont}{\displayfamily}
+\fi
+
+\ExplSyntaxOn
+\NewDocumentCommand \metacaps { m }
+  {
+    \fontspec_if_feature:nTF { smcp }
+      { \textsc { \MakeLowercase {#1} } }
+      { \MakeUppercase {#1} }
+  }
+\ExplSyntaxOff
+\AddToHook{package/hyperref/after}{\pdfstringdefDisableCommands{\let\metacaps\@firstofone}}
+
+\newcommand{\textsmall}{\tem@smallsize}
+
+\RequirePackage{setspace}
+\setstretch{1.5}
+
+\newlength{\ParIndent}
+\setlength{\ParIndent}{\tem@parindent}
+
+\iftem@noindent
+  \setlength{\parindent}{0pt}
+  \setlength{\parskip}{0.25\baselineskip plus 2pt minus 1pt}
+\else
+  \setlength{\parindent}{\ParIndent}
+  \setlength{\parskip}{0pt}
+\fi
+
+\clubpenalty=9999
+\widowpenalty=9999
+\displaywidowpenalty=9999
+\setlength{\emergencystretch}{3em}
+
+\AddToHook{package/babel/after}{%
+  \addto\captionsspanish{%
+    \def\lstlistingname{Listado}%
+    \def\lstlistlistingname{Índice de listados}}}
+
+%
+
+\RequirePackage{enumitem}
+\setlist{
+  topsep      = \iftem@noindent\parskip\else 0pt\fi,
+  partopsep   = 0pt,
+  itemsep     = 0pt,
+  parsep      = 0pt,
+  labelindent = \parindent,
+  leftmargin  = *,
+}
+% Solo actúa si el español es la lengua principal; si no, las marcas de LaTeX.
+\AddToHook{package/babel/after}{%
+  \ifdefined\es@itemize
+    \es@itemize{\textemdash}{\textbullet}{{\small◆}}{\textemdash}%
+  \fi}
+
+% Sin el paquete quoting: spanish.ldf define un entorno con ese nombre.
+\renewenvironment{quote}{%
+  \textsmall
+  \list{}{%
+    \setlength{\topsep}{\iftem@noindent\parskip\else\z@\fi}%
+    \setlength{\partopsep}{\z@}%
+    \setlength{\itemindent}{\z@}%
+    \setlength{\leftmargin}{\ParIndent}%
+    \setlength{\rightmargin}{\iftem@quotesymmetric\ParIndent\else\z@\fi}%
+    \setlength{\listparindent}{\parindent}%
+    \setlength{\parsep}{\parskip}}%
+  \item\relax\ignorespaces
+}{%
+  \ifhmode\unskip\fi
+  \endlist
+}
+
+\RequirePackage{caption}
+\setlength{\textfloatsep}{0.5\baselineskip plus 4pt minus 2pt}
+\setlength{\intextsep}{0.5\baselineskip plus 4pt minus 2pt}
+\DeclareCaptionFont{captiontext}{\textsmall\metafont}
+\DeclareCaptionLabelFormat{displaylabel}{\metacaps{#1}~#2}
+\DeclareCaptionLabelSeparator{enspace}{\enspace}
+\captionsetup{
+  font            = captiontext,
+  labelsep        = enspace,
+  labelformat     = displaylabel,
+  singlelinecheck = true,
+  justification   = justified,
+}
+\captionsetup[figure]{position = below}
+\captionsetup[table]{position = above, skip = 4pt}
+
+\AddToHook{env/verbatim/begin}{\textsmall}
+\AddToHook{package/fancyvrb/after}{\fvset{fontsize=\textsmall}}
+% columns=fixed espacia el texto copiado del PDF; float desplazaría los bloques sin pie.
+\AddToHook{package/listings/after}{%
+  \lstset{
+    basicstyle        = \textsmall\ttfamily,
+    columns           = fullflexible,
+    keepspaces        = true,
+    showstringspaces  = false,
+    frame             = single,
+    framesep          = 10pt,
+    xleftmargin       = 10pt,
+    xrightmargin      = 10pt,
+  }}
+
+% Las entradas de la bibliografía se separan como los párrafos.
+\ifdefined\CSLReferences
+  \setlength{\cslhangindent}{\ParIndent}
+  \patchcmd{\CSLReferences}{\baselineskip}{\parskip}{}{}
+\fi
+
+\iftem@nofootrule
+  \RequirePackage[bottom,norule]{footmisc}
+\else\iftem@footrule
+  \RequirePackage[bottom,splitrule]{footmisc}
+\else
+  \RequirePackage[bottom,norule,splitrule]{footmisc}
+\fi\fi
+\setlength{\skip\footins}{0.5\baselineskip plus 2pt minus 2pt}
+\renewcommand{\@makefnmark}{\textcolor{black}{\textsuperscript{\@thefnmark}}}
+\renewcommand{\@makefntext}[1]{%
+  \textsmall
+  \parindent=\iftem@noindent\z@\else\ParIndent\fi
+  \@enumdepth=\z@
+  \@itemdepth=\z@
+  \indent
+  \iftem@footsuper{\@makefnmark}\else{\@thefnmark.}\fi\enspace
+  #1%
+}
+
+\let\tem@sinautor\@author
+\let\tem@sintitulo\@title
+\def\tem@cortar#1\\#2\@nil{\def\tem@titulo{#1}}
+\let\tem@titulo\@empty
+\let\tem@autor\@empty
+\AtBeginDocument{%
+  \ifx\@author\tem@sinautor\else\let\tem@autor\@author\fi
+  \ifx\@title\tem@sintitulo\else\expandafter\tem@cortar\@title\\\@nil\fi}
+\newcommand{\tem@autorimpreso}{{\def\and{\unskip, }\tem@autor}}
+
+\let\tem@correo\@empty
+\newcommand{\authoremail}[1]{\def\tem@correo{#1}}
+\newcommand{\tem@mailto}[2]{%
+  \ifdefined\href{\hypersetup{urlcolor=black}\href{mailto:#1}{#2}}\else#2\fi}
+\newcommand{\tem@autorenlazado}{%
+  \ifx\tem@correo\@empty\tem@autorimpreso
+  \else\tem@mailto{\tem@correo}{\tem@autorimpreso}\fi}
+
+\newif\iftem@separar
+\newcommand{\tem@elemento}[1]{%
+  \iftem@separar\ \textperiodcentered\ \fi#1\tem@separartrue}
+
+\renewcommand{\maketitle}{%
+  \thispagestyle{empty}%
+  \begingroup
+    \setstretch{1}%
+    \setlength{\parindent}{\z@}%
+    \raggedright
+    {\metafont\fontsize{20}{26}\selectfont\@title\par}%
+    \bigskip
+    {\textsmall\metafont
+     \tem@separarfalse
+     \ifx\tem@autor\@empty\else\tem@elemento{\tem@autorimpreso}\fi
+     \ifx\tem@correo\@empty\else\tem@elemento{\tem@mailto{\tem@correo}{\tem@correo}}\fi
+     \ifx\@date\@empty\else\tem@elemento{\@date}\fi\par}%
+  \endgroup
+  \vspace{\baselineskip}}
+
+\newif\iftem@preliminar
+\newif\iftem@enindice
+\tem@preliminartrue
+\AtBeginDocument{\pagenumbering{roman}\pagestyle{empty}}
+\AddToHook{cmd/section/before}{%
+  \iftem@preliminar\iftem@enindice\else
+    \clearpage
+    \pagenumbering{arabic}%
+    \pagestyle{fancy}%
+    \global\tem@preliminarfalse
+  \fi\fi}
+\AddToHook{cmd/tableofcontents/before}{%
+  \tem@enindicetrue
+  \titlespacing*{\section}{0pt}{0pt}{0.5\baselineskip}%
+  \ifdefined\pdfbookmark\pdfbookmark[1]{\contentsname}{toc}\fi}
+\AddToHook{cmd/tableofcontents/after}{\tem@enindicefalse}
+
+\RequirePackage[compact]{titlesec}
+% Sin el punto de spanish.ldf tras el número: 1.1, no 1.1.
+\titleformat{\section}{\metafont\fontsize{16}{20}\selectfont}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{2\baselineskip plus 2pt minus 2pt}{\baselineskip}
+\titleformat{\subsection}{\metafont\fontsize{14}{18}\selectfont}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{1.5\baselineskip plus 2pt minus 2pt}{0.5\baselineskip}
+\titleformat{\subsubsection}{\metafont\normalsize\bfseries}{\thesubsubsection}{1em}{}
+\titleformat{\paragraph}[hang]{\metafont\normalsize\itshape}{\theparagraph}{1em}{}
+\titleformat{\subparagraph}[hang]{\metafont\normalsize}{\thesubparagraph}{1em}{}
+
+\RequirePackage{titletoc}
+\newcommand{\tem@pagina}{\llap{\makebox[\leftskip][l]{\mdseries\thecontentspage}}}
+\newcommand{\tem@versal}[1]{\textls{\metacaps{#1}}}
+\titlecontents{section}[4em]
+  {\addvspace{.25\baselineskip}\metafont}
+  {\tem@pagina\tem@versal}
+  {\tem@pagina\tem@versal}
+  {}
+\titlecontents*{subsection}[5.5em]{}{}{}{, \thecontentspage}[; ][]
+\titlecontents*{subsubsection}[5.5em]{}{}{}{, \thecontentspage}[; ][]
+
+\RequirePackage{fancyhdr}
+\iftem@headscaps
+  \newcommand{\headerstyle}[1]{\textsmall\metafont\metacaps{#1}}
+\else
+  \newcommand{\headerstyle}[1]{\textsmall\metafont\textit{#1}}
+\fi
+
+\newcommand{\tem@cabecera}{%
+  \fancyhf{}%
+  \fancyhead[LO]{\headerstyle{\tem@titulo}}%
+  \fancyhead[RO,LE]{\textsmall\metafont\thepage}%
+  \fancyhead[RE]{\headerstyle{\tem@autorenlazado}}%
+  \renewcommand{\headrulewidth}{\iftem@headrule 0.4pt\else 0pt\fi}%
+  \renewcommand{\footrulewidth}{0pt}}
+\pagestyle{fancy}
+\tem@cabecera
+\fancypagestyle{plain}{\tem@cabecera}
+
+\endinput

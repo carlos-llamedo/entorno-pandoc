@@ -48,9 +48,10 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
     TEXMFHOME="$(kpsewhich -var-value TEXMFHOME)"
     mkdir -p "$TEXMFHOME/tex/latex"
     ln -srf "$HOME/.local/share/pandoc/tex/memoria.sty" "$TEXMFHOME/tex/latex/memoria.sty"
+    ln -srf "$HOME/.local/share/pandoc/tex/temas.sty" "$TEXMFHOME/tex/latex/temas.sty"
     ```
 
-    `kpsewhich memoria.sty` debe devolver la ruta del enlace. En Windows, copia el archivo en lugar de enlazarlo (y vuelve a copiarlo cuando se actualice).
+    `kpsewhich` debe devolver la ruta del enlace. En Windows, copia el archivo en lugar de enlazarlo (y vuelve a copiarlo cuando se actualice).
 
 4. **Crea un archivo de bibliografía con Zotero.** Los preajustes `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar los preajustes que lo usan o crear un `biblioteca.json` vacío.
 5. **Genera un documento a partir de un archivo Markdown.**
@@ -187,6 +188,7 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 - [`herramientas`](docs/herramientas.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
 - [`plantilla`](docs/plantilla.md). Qué variables YAML contempla `pandoc.tex`.
 - [`memoria`](docs/memoria.md). Opciones del estilo por defecto, `memoria.sty`, y su uso en LaTeX.
+- [`temas`](docs/temas.md). El estilo `temas.sty`..
 - [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
 - [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
 
@@ -237,6 +239,7 @@ El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para ta
 
 - [`memoria.yaml`](defaults/memoria.yaml). La opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF.
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
+- [`temas.yaml`](defaults/temas.yaml). Multibib, clase `article`, estilo [`temas.sty`](tex/temas.sty), título e índice en la primera página y encabezados de nivel 1 seguidos.
 - [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `pandoc.tex`.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es _Chicago_ autor-fecha. No soporta bibliografías en formato CSL YAML.
 - [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Este preajuste no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo _Chicago_ notas-bibliografía[^16].

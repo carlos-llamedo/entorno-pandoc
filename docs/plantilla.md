@@ -149,7 +149,7 @@ Las variables `fontoptions` controlan cómo [`fontspec`](https://ctan.org/pkg/fo
 
 `lang` acepta etiquetas BCP 47 (`es-ES`, `en-GB`, `fr-FR`…). Afecta a los metadatos del PDF y, a través de babel, a la silabación y a los nombres («Índice general», «Figura», «Cuadro»). Los preajustes declaran `es-ES`; sin `lang` no se carga babel. Los demás idiomas que aparezcan en el documento (`[texte]{lang=fr}`) se cargan automáticamente.
 
-Con el español, babel aplica sus convenciones: operadores acentuados (lím, máx), sangría también en el primer párrafo tras un título, y «Cuadro» e «Índice de cuadros» para las tablas. `babeloptions` le pasa opciones (p. ej., `es-nodecimaldot`), y `shorthands: true` activa sus atajos.
+Con el español, babel aplica sus convenciones: operadores acentuados (lím, máx), sangría también en el primer párrafo tras un título, y «Cuadro» e «Índice de cuadros» para las tablas. `babeloptions` le pasa opciones (p. ej., `es-tabla`), y `shorthands: true` activa sus atajos, entre ellos la coma decimal en matemáticas (`$3.14$` da 3,14).
 
 * * *
 
@@ -198,7 +198,7 @@ Como muestra el @lst:saludo, …
 | Variable | Tipo | Origen |
 |---|---|---|
 | `title`, `subtitle` | cadena | pandoc |
-| `author` | cadena o lista | pandoc |
+| `author` | cadena, lista o mapas con `name` y `email` | pandoc |
 | `date` | cadena | pandoc |
 | `title-meta`, `author-meta`, `subject`, `keywords` | cadena o lista | pandoc |
 | `abstract` | cadena | pandoc |
@@ -207,7 +207,7 @@ Como muestra el @lst:saludo, …
 | `dedication` | cadena | propio |
 | `epigraphtext`, `epigraphauthor`, `epigraphwork` | cadena | propio |
 
-`maketitle` imprime la portada; sin ella, el título solo existe como metadato. `title-meta`, `author-meta`, `subject` y `keywords` van a los metadatos del PDF; el subtítulo no.
+`maketitle` imprime la portada; sin ella, el título solo existe como metadato. Cada autor puede declararse como mapa con `name` y `email`; la plantilla usa `name` como nombre (también en `pdfauthor`) y pasa el correo al estilo con `\authoremail{…}`, que lo usa o lo ignora. `title-meta`, `author-meta`, `subject` y `keywords` van a los metadatos del PDF; el subtítulo no.
 
 `abstract` imprime el resumen y, si hay `keywords`, las palabras clave a continuación. `thanks` genera un capítulo de agradecimientos tras los índices (en la plantilla oficial es una nota al título). `dedication` genera una página de dedicatoria y `epigraphtext` una de epígrafe, con `epigraphauthor` y `epigraphwork` opcionales.
 
@@ -272,6 +272,7 @@ La plantilla carga el paquete de estilo después de la clase, babel, las fuentes
 | `\dedication{…}` | `dedication` | Dedicatoria |
 | `\epigraphpage{texto}{autor}{obra}` | `epigraph…` | Epígrafe; autor y obra pueden ir vacíos |
 | entorno `acknowledgments` | `thanks` | Agradecimientos |
+| `\authoremail{…}` | `author.email` | Correo del autor (opcional: la plantilla lo declara vacío si el estilo no lo define) |
 
 Todo lo demás (márgenes, fuentes por defecto, títulos, encabezados, índices, notas, bibliografía) lo decide el estilo con LaTeX corriente.
 
@@ -287,6 +288,7 @@ Todo lo demás (márgenes, fuentes por defecto, títulos, encabezados, índices,
 - Sin `\babelfont{rm}`, que repetiría lo que ya fija `font-settings`.
 - Colores de enlace propios, y enlaces de los índices en negro por defecto.
 - Variables de contenido propias: `maketitle`, `dedication`, `epigraph…`, `thanks` como agradecimientos, `lol` y `refs`.
+- Autores como mapas con `name` y `email`, y el comando `\authoremail` para el estilo.
 - Requiere LuaLaTeX. No admite las variables de beamer, natbib, biblatex, `pagestyle`, `block-headings` ni `dir`.
 
 Al actualizar el submódulo conviene revisar los cambios en esos archivos y trasladarlos a la plantilla.

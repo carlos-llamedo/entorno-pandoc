@@ -168,6 +168,10 @@ $if(title-meta)$
 $endif$
 $if(author-meta)$
   pdfauthor={$author-meta$},
+$else$
+$if(author)$
+  pdfauthor={$for(author)$$author.name$$sep$, $endfor$},
+$endif$
 $endif$
 $if(lang)$
   pdflang={$lang$},
@@ -200,8 +204,16 @@ $endif$
 $if(title)$
 \title{$title$$if(subtitle)$\\\medskip\large $subtitle$$endif$}
 $endif$
-\author{$for(author)$$author$$sep$ \and $endfor$}
+% DIVERGE: el autor puede ser un mapa con name y email; el estilo decide qué
+% hace con \authoremail (memoria lo ignora).
+\author{$for(author)$$if(author.name)$$author.name$$else$$author$$endif$$sep$ \and $endfor$}
 \date{$date$}
+\providecommand{\authoremail}[1]{}
+$for(author)$
+$if(author.email)$
+\authoremail{$author.email$}
+$endif$
+$endfor$
 
 \begin{document}
 $if(has-frontmatter)$

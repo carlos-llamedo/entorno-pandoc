@@ -119,11 +119,7 @@
 \displaywidowpenalty=9999
 \setlength{\emergencystretch}{3em}
 
-% spanish.ldf redefine \@roman en cada selección de idioma.
-\def\mem@roman{\def\@roman##1{\metacaps{\romannumeral##1}}}
-\mem@roman
 \AddToHook{package/babel/after}{%
-  \AddBabelHook{memoria}{afterextras}{\mem@roman}%
   \addto\captionsspanish{%
     \def\lstlistingname{Listado}%
     \def\lstlistlistingname{Índice de listados}}}
@@ -137,10 +133,11 @@
   labelindent = \parindent,
   leftmargin  = *,
 }
-\setlist[itemize,1]{label=\textemdash}
-\setlist[itemize,2]{label=\textbullet}
-\setlist[itemize,3]{label={\small◆}}
-\setlist[itemize,4]{label=\textemdash}
+% Solo actúa si el español es la lengua principal; si no, las marcas de LaTeX.
+\AddToHook{package/babel/after}{%
+  \ifdefined\es@itemize
+    \es@itemize{\textemdash}{\textbullet}{{\small◆}}{\textemdash}%
+  \fi}
 
 % Sin el paquete quoting: spanish.ldf define un entorno con ese nombre.
 \renewenvironment{quote}{%
@@ -255,6 +252,7 @@
 \RequirePackage{emptypage}
 \titleformat{\chapter}[display]{\metafont\fontsize{16}{20}\selectfont}{}{0pt}{}
 \titlespacing{\chapter}{0pt}{0pt}{2\baselineskip}
+% Sin el punto de spanish.ldf tras el número: 1.1, no 1.1.
 \titleformat{\section}{\metafont\fontsize{14}{18}\selectfont}{\thesection}{1em}{}
 \titleformat{\subsection}{\metafont\normalsize\bfseries}{\thesubsection}{1em}{}
 \titleformat{\subsubsection}{\metafont\normalsize\bfseries\itshape}{\thesubsubsection}{1em}{}
