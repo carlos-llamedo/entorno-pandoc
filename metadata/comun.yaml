@@ -1,0 +1,3 @@
+# Valores comunes a todos los formatos; el documento puede cambiarlos.
+lang: es-ES
+notes-after-punctuation: false

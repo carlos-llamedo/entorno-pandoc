@@ -13,14 +13,14 @@ Para que LaTeX lo encuentre, debe estar en el árbol TEXMF personal (véase el [
 
 ## Opciones
 
-Desde Pandoc se declaran bajo `styleoptions`; en LaTeX, como opciones del paquete.
+Desde Pandoc se declaran en `fontfamilyoptions`, una por elemento; en LaTeX, como opciones del paquete.
 
 ```yaml
-styleoptions:
-  headscaps: true
-  titlefont: Meta Pro
-  smallsize: \footnotesize
-  tocstyle: columna
+fontfamilyoptions:
+  - headscaps=true
+  - titlefont=Meta Pro
+  - smallsize=\footnotesize
+  - tocstyle=columna
 ```
 
 | Opción | Tipo | Valor por defecto | Efecto |
@@ -44,7 +44,7 @@ styleoptions:
 
 `smallsize` acepta cualquier comando de tamaño. Con un cuerpo de `12pt`: `\footnotesize` da 10 pt, `\small` 10,95 pt, y `\normalsize` (por defecto) iguala los elementos secundarios con el cuerpo.
 
-`titlefont` permite combinar dos familias, p. ej. una sans para los títulos (`titlefont: Myriad Pro`) o dos serifs. Lleva siempre cifras elzevirianas. Las demás fuentes no son opciones del estilo: se cambian con las variables de Pandoc `mainfont`, `sansfont`, `monofont` y `mathfont`, fuera de `styleoptions` (véase [`plantilla`](plantilla.md#fuentes)).
+`titlefont` permite combinar dos familias, p. ej. una sans para los títulos (`titlefont: Myriad Pro`) o dos serifs. Lleva siempre cifras elzevirianas. Las demás fuentes no son opciones del estilo: se cambian con las variables de Pandoc `mainfont`, `sansfont`, `monofont` y `mathfont`, fuera de `fontfamilyoptions` (véase [`plantilla`](plantilla.md#fuentes)).
 
 * * *
 

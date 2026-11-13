@@ -33,7 +33,13 @@
 \SetKeys[memoria]{titlefont=, titlefontoptions=, parindent=1cm, smallsize=\normalsize, tocstyle=margen}
 \ProcessKeyOptions[memoria]
 
+% Cuerpo de 12pt y papel A4, sean cuales sean las opciones de la clase.
+\RequirePackage[fontsize=12pt]{scrextend}
+
 \RequirePackage{etoolbox}
+% Nombres de color de xcolor (DarkSlateBlue…). Con Pandoc, la plantilla ya
+% carga xcolor con ellos antes que el estilo; esto cubre el uso sin Pandoc.
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 \RequirePackage{xcolor}
 
 \@ifclasswith{book}{openright}{}{\@openrightfalse}
@@ -48,7 +54,10 @@
     headsep    = \dimexpr1.5cm - 14.5pt\relax,
     footskip   = 1.5cm,
   ]{geometry}}
+\geometry{a4paper}
 
+% Fuentes por defecto del estilo. Pandoc carga el estilo como `fontfamily`,
+% antes de font-settings, así que mainfont, sansfont… del documento mandan.
 \RequirePackage{unicode-math}
 \defaultfontfeatures{Scale=MatchLowercase}
 \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
@@ -78,6 +87,11 @@
     \UseMicrotypeSet[protrusion]{basicmath}}}
 
 \RequirePackage{upquote}
+
+% Enlaces en color, sin recuadros.
+\AddToHook{package/hyperref/after}{%
+  \hypersetup{colorlinks=true, linkcolor=DarkSlateBlue, citecolor=DarkSlateBlue,
+    urlcolor=DarkSlateBlue, filecolor=black}}
 
 \ifx\mem@titlefont\@empty
   \newcommand{\metafont}{\normalfont}
@@ -188,10 +202,10 @@
   }}
 
 % Las entradas de la bibliografía se separan como los párrafos.
-\ifdefined\CSLReferences
+\AtBeginDocument{\ifdefined\CSLReferences
   \setlength{\cslhangindent}{\ParIndent}
   \patchcmd{\CSLReferences}{\baselineskip}{\parskip}{}{}
-\fi
+\fi}
 
 \ifmem@nofootrule
   \RequirePackage[norule]{footmisc}
@@ -223,6 +237,8 @@
 % \maketitle vacía \@author y \@title.
 \let\mem@sinautor\@author
 \let\mem@sintitulo\@title
+% La plantilla oficial usa este \subtitle, si existe, tras \title.
+\providecommand{\subtitle}[1]{\appto\@title{\\\medskip\large #1}}
 \AtBeginDocument{%
   \ifx\@author\mem@sinautor\let\mem@autor\@empty\else\let\mem@autor\@author\fi
   \ifx\@title\mem@sintitulo\let\mem@titulo\@empty\else\let\mem@titulo\@title\fi}
@@ -249,6 +265,8 @@
 \let\@mkboth\@gobbletwo
 
 \RequirePackage[compact]{titlesec}
+\apptocmd{\ttl@labelling}{%
+  \ifttl@label\else\ifx\ttl@Hy@saveanchor\@empty\ttl@Hy@steplink{#1}\fi\fi}{}{}
 \RequirePackage{emptypage}
 \titleformat{\chapter}[display]{\metafont\fontsize{16}{20}\selectfont}{}{0pt}{}
 \titlespacing{\chapter}{0pt}{0pt}{2\baselineskip}
@@ -343,5 +361,14 @@
   \chapter*{Agradecimientos}%
   \addcontentsline{toc}{chapter}{Agradecimientos}%
 }{}
+
+% Enlaces de los índices en el color del texto.
+\newcommand{\mem@indice}[1]{%
+  \AddToHook{cmd/#1/before}{\begingroup\ifdefined\hypersetup\hypersetup{linkcolor=black}\fi}%
+  \AddToHook{cmd/#1/after}{\endgroup}}
+\mem@indice{tableofcontents}
+\mem@indice{listoffigures}
+\mem@indice{listoftables}
+\AddToHook{package/listings/after}{\mem@indice{lstlistoflistings}}
 
 \endinput

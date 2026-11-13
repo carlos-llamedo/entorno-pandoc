@@ -17,25 +17,11 @@ filters:
 template: pandoc.tex
 syntax-highlighting: idiomatic
 
+metadata-files:
+  - comun.yaml
+  - crossref.yaml
+  - citas.yaml
+  - latex.yaml
+
 metadata:
-  style: temas
-  lang: es-ES
-  listings: true
-  figureTitle: "Figura"
-  tableTitle: "Cuadro"
-  listingTitle: "Listado"
-  figPrefix:
-    - "fig."
-    - "figs."
-  tblPrefix:
-    - "cuadro"
-    - "cuadros"
-  lstPrefix:
-    - "listado"
-    - "listados"
-  eqnPrefix:
-    - "ec."
-    - "ecs."
-  lofTitle: "Índice de figuras"
-  lotTitle: "Índice de cuadros"
-  lolTitle: "Índice de listados"
+  fontfamily: temas

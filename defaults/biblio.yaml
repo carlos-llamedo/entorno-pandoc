@@ -15,7 +15,9 @@ csl: chicago-author-date
 template: pandoc.tex
 top-level-division: chapter
 
+metadata-files:
+  - comun.yaml
+  - latex.yaml
+
 metadata:
-  lang: es-ES
   reference-section-title: "Bibliografía"
-  colorlinks: true

@@ -1,0 +1,20 @@
+# Localización de pandoc-crossref; el documento puede cambiarla.
+listings: true
+figureTitle: "Figura"
+tableTitle: "Cuadro"
+listingTitle: "Listado"
+figPrefix:
+  - "fig."
+  - "figs."
+tblPrefix:
+  - "cuadro"
+  - "cuadros"
+lstPrefix:
+  - "listado"
+  - "listados"
+eqnPrefix:
+  - "ec."
+  - "ecs."
+lofTitle: "Índice de figuras"
+lotTitle: "Índice de cuadros"
+lolTitle: "Índice de listados"

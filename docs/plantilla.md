@@ -9,23 +9,27 @@ date: 2026-10
 
 Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla. El manual de Pandoc incluye [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) que detalla cómo declarar estas opciones. Algunas variables de comportamiento las gestiona un filtro, no la plantilla, y están documentadas en [`filtros`](filtros.md).
 
+La plantilla no fija valores por defecto. Los de aspecto los pone el estilo; el resto está en los archivos de [`metadata/`](../metadata), que los preajustes cargan con `metadata-files`: [`comun.yaml`](../metadata/comun.yaml) (idioma), [`crossref.yaml`](../metadata/crossref.yaml) (localización de pandoc-crossref), [`citas.yaml`](../metadata/citas.yaml) (estilo de citas) y [`latex.yaml`](../metadata/latex.yaml) (estilo y párrafo). Las fuentes, el cuerpo de letra, el papel y el aspecto de los enlaces son del estilo. Cualquier variable declarada en el bloque YAML del documento tiene prioridad sobre ellos y sobre el estilo.
+
 * * *
 
 ## Estilo
 
 | Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
-| `style` | cadena | `memoria` | propio |
-| `styleoptions` | mapa | — | propio |
+| `fontfamily` | cadena | `memoria` (en `latex.yaml`) | pandoc |
+| `fontfamilyoptions` | lista | — | pandoc |
 
-`style` es el nombre del paquete de estilo (sin `.sty`), que LaTeX debe encontrar en su árbol TEXMF. `styleoptions` se le pasa tal cual como opciones: cada clave se convierte en `clave={valor}`. Las opciones de `memoria` están en [`memoria`](memoria.md).
+El estilo se carga con la variable oficial `fontfamily`: es el nombre del paquete (sin `.sty`), que LaTeX debe encontrar en su árbol TEXMF. Pandoc lo carga justo antes de aplicar `mainfont` y compañía, así que el estilo puede fijar fuentes por defecto y el documento cambiarlas. `fontfamilyoptions` es la lista de opciones del paquete, cada una como `clave=valor`; si un valor lleva comas, va entre llaves. Las opciones de `memoria` están en [`memoria`](memoria.md).
 
 ```yaml
-styleoptions:
-  headscaps: true
-  smallsize: \footnotesize
-  tocstyle: columna
+fontfamilyoptions:
+  - headscaps=true
+  - smallsize=\footnotesize
+  - tocstyle=columna
 ```
+
+Sirve cualquier paquete, también de terceros. Por ejemplo, `documentclass: scrreprt` con `fontfamily: classicthesis` compone el mismo Markdown con el aspecto de classicthesis.
 
 * * *
 
@@ -47,12 +51,14 @@ Si `pdfstandard` está declarado, la plantilla emite `\DocumentMetadata{…}` co
 | Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
 | `documentclass` | cadena | `book` o `article` | pandoc |
-| `fontsize` | cadena | `12pt` | pandoc |
-| `papersize` | cadena | `a4` | pandoc |
+| `fontsize` | cadena | el del estilo (`12pt` fijo en `memoria` y `temas`) | pandoc |
+| `papersize` | cadena | el del estilo (`a4` fijo en `memoria` y `temas`) | pandoc |
 | `classoption` | lista | — | pandoc |
 | `geometry` | lista | la del estilo | pandoc |
 
 Pandoc usa `book` si `top-level-division` es `chapter` (como en los preajustes) y `article` en otro caso. `memoria` requiere `book`. `papersize` acepta los nombres de papel de la clase sin el sufijo `paper`: `a4`, `letter`, `a5`, `b5`. `classoption` admite cualquier opción de la clase, como `oneside` u `openright`.
+
+`fontsize` y `papersize` son opciones de la clase, que se carga antes que el estilo. El estilo puede cambiarlas después: `memoria` y `temas` fijan siempre 12pt (con `scrextend`) y A4 (con `geometry`), así que con ellos estas variables no tienen efecto.
 
 Si `geometry` se declara, sustituye por completo a los márgenes del estilo. Las medidas calculadas se escriben con `\dimexpr`:
 
@@ -79,14 +85,14 @@ geometry:
 | `fontfamilies` | lista de mapas | pandoc |
 | `microtypeoptions` | lista | pandoc |
 
-La fuente principal del documento se cambia con `mainfont`, en el nivel superior del bloque YAML (no dentro de `styleoptions`); `sansfont`, `monofont` y `mathfont` hacen lo propio con la sans, la monoespaciada y la matemática:
+La fuente principal del documento se cambia con `mainfont`, en el nivel superior del bloque YAML (no dentro de `fontfamilyoptions`); `sansfont`, `monofont` y `mathfont` hacen lo propio con la sans, la monoespaciada y la matemática:
 
 ```yaml
 mainfont: Minion Pro
 sansfont: Meta Pro
 ```
 
-Las fuentes que no se declaren conservan las del estilo (en `memoria`, Arno Pro, Myriad Pro, Source Code Pro y STIX Two Math). Las opciones de una fuente solo se aplican si se declara también la fuente. Los fallbacks son las fuentes donde se buscan los caracteres que no tiene la principal; cada elemento es un nombre de fuente seguido de `:mode=harf`. `fontfamilies` define familias adicionales con `\newfontfamily`: cada elemento lleva `name` (el comando, p. ej. `\griego`), `font` y, opcionalmente, `options`. Sin `microtypeoptions`, microtype activa la protrusión y la expansión.
+Las fuentes que no se declaren conservan las del estilo (en `memoria` y `temas`, Arno Pro, Myriad Pro, Source Code Pro y STIX Two Math, con Source Serif 4, Source Sans 3 y Source Code Pro como fallbacks). Con un estilo de terceros, como `classicthesis`, se conservan las suyas. Las opciones de una fuente solo se aplican si se declara también la fuente. Los fallbacks son las fuentes donde se buscan los caracteres que no tiene la principal; cada elemento es un nombre de fuente seguido de `:mode=harf`. `fontfamilies` define familias adicionales con `\newfontfamily`: cada elemento lleva `name` (el comando, p. ej. `\griego`), `font` y, opcionalmente, `options`. Sin `microtypeoptions`, microtype activa la protrusión y la expansión.
 
 Las variables `fontoptions` controlan cómo [`fontspec`](https://ctan.org/pkg/fontspec) procesa las fuentes. Los usos más frecuentes son:
 
@@ -135,7 +141,7 @@ Las variables `fontoptions` controlan cómo [`fontspec`](https://ctan.org/pkg/fo
 | `csquotes` | booleano | pandoc |
 | `csquotesoptions` | lista | pandoc |
 
-`linestretch` sustituye al interlineado del estilo en todo el documento. `cancel` carga el paquete `cancel` para tachados matemáticos; `strikeout` lo activa Pandoc cuando hay texto tachado. `csquotes` compone las comillas con el paquete [`csquotes`](https://ctan.org/pkg/csquotes), que las adapta al idioma.
+`linestretch` sustituye al interlineado del estilo a partir de los índices. `cancel` carga el paquete `cancel` para tachados matemáticos; `strikeout` lo activa Pandoc cuando hay texto tachado. `csquotes` compone las comillas con el paquete [`csquotes`](https://ctan.org/pkg/csquotes), que las adapta al idioma.
 
 * * *
 
@@ -165,9 +171,8 @@ Con el español, babel aplica sus convenciones: operadores acentuados (lím, má
 | `lof` | booleano | — | pandoc |
 | `lot` | booleano | — | pandoc |
 | `lol` | booleano | — | propio |
-| `toccolor` | color | `black` | pandoc |
 
-`lof`, `lot` y `lol` imprimen el índice de figuras, el de cuadros y el de listados. `lol` requiere el modo de listados (véase la sección siguiente). Con `colorlinks`, los enlaces de los índices van en `toccolor`.
+`lof`, `lot` y `lol` imprimen el índice de figuras, el de cuadros y el de listados. `lol` requiere el modo de listados (véase la sección siguiente). El color de sus enlaces lo decide el estilo: `memoria` y `temas` los ponen en negro.
 
 * * *
 
@@ -204,12 +209,11 @@ Como muestra el @lst:saludo, …
 | `abstract` | cadena | pandoc |
 | `thanks` | cadena | pandoc |
 | `maketitle` | booleano | propio |
-| `dedication` | cadena | propio |
-| `epigraphtext`, `epigraphauthor`, `epigraphwork` | cadena | propio |
+| `acknowledgments` | cadena | propio |
 
-`maketitle` imprime la portada; sin ella, el título solo existe como metadato. Cada autor puede declararse como mapa con `name` y `email`; la plantilla usa `name` como nombre (también en `pdfauthor`) y pasa el correo al estilo con `\authoremail{…}`, que lo usa o lo ignora. `title-meta`, `author-meta`, `subject` y `keywords` van a los metadatos del PDF; el subtítulo no.
+`maketitle` imprime la portada; sin ella, el título solo existe como metadato. Cada autor puede declararse como mapa con `name` y `email`; la plantilla usa `name` como nombre y pasa el correo al estilo con `\authoremail{…}`, que lo usa o lo ignora. `title-meta`, `author-meta`, `subject` y `keywords` van a los metadatos del PDF; el subtítulo no. Con autores como mapas, Pandoc no genera `author-meta`: hay que declararlo para que el PDF lleve autor.
 
-`abstract` imprime el resumen y, si hay `keywords`, las palabras clave a continuación. `thanks` genera un capítulo de agradecimientos tras los índices (en la plantilla oficial es una nota al título). `dedication` genera una página de dedicatoria y `epigraphtext` una de epígrafe, con `epigraphauthor` y `epigraphwork` opcionales.
+`abstract` imprime el resumen y, si hay `keywords`, las palabras clave a continuación. `acknowledgments` genera los agradecimientos tras los índices. `thanks` es la variable oficial: una nota al pie en el título. `subtitle` lo compone el `\subtitle` del estilo, si lo define; si no, Pandoc lo añade bajo el título.
 
 * * *
 
@@ -227,15 +231,11 @@ Pandoc activa estas variables según lo que contenga el documento; no hace falta
 
 | Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
-| `colorlinks` | booleano | — | pandoc |
-| `linkcolor`, `urlcolor`, `citecolor` | color | `DarkSlateBlue` | pandoc |
-| `filecolor` | color | `black` | pandoc |
-| `boxlinks` | booleano | — | pandoc |
 | `links-as-notes` | booleano | — | pandoc |
 | `urlstyle` | cadena | `same` | pandoc |
 | `hyperrefoptions` | lista | — | pandoc |
 
-Sin `colorlinks` ni `boxlinks`, los enlaces no se marcan, pero siguen siendo clicables. Los colores admiten los nombres de `xcolor` (`dvipsnames`, `svgnames`, `x11names`). `links-as-notes` convierte los enlaces en notas al pie con la URL. `urlstyle` acepta `tt`, `rm`, `sf` o `same`.
+El aspecto de los enlaces (color, recuadros o nada) es del estilo, que lo fija con `\hypersetup`: `memoria` y `temas` los colorean en DarkSlateBlue. La plantilla no admite `colorlinks`, `linkcolor`, `urlcolor`, `citecolor`, `filecolor`, `toccolor` ni `boxlinks`, que en la oficial pisarían al estilo. `links-as-notes` convierte los enlaces en notas al pie con la URL. `urlstyle` acepta `tt`, `rm`, `sf` o `same`.
 
 * * *
 
@@ -263,32 +263,28 @@ Sin `colorlinks` ni `boxlinks`, los enlaces no se marcan, pero siguen siendo cli
 
 ## Contrato con el estilo
 
-La plantilla carga el paquete de estilo después de la clase, babel, las fuentes por defecto y el código que necesita Pandoc (tablas, imágenes, citas, listados), y antes de las fuentes del usuario, `header-includes` e hyperref. Del estilo solo usa estos nombres, y solo si el documento declara la variable correspondiente:
+Pandoc carga el paquete de estilo (`fontfamily`) después de la clase y de `unicode-math`, y antes de las fuentes del documento, babel, el código que necesita Pandoc (tablas, imágenes, citas, listados), `header-includes` e hyperref. El estilo puede fijar sus fuentes con `\setmainfont` y similares: las que declare el documento se aplican después y tienen prioridad. Lo que dependa de paquetes posteriores se aplaza con `\AtBeginDocument` o `\AddToHook{package/…/after}`. El aspecto de los enlaces también es del estilo: como hyperref se carga después, lo fija con `\AddToHook{package/hyperref/after}{\hypersetup{…}}`. Puede usar los nombres de color de `xcolor` (`dvipsnames`, `svgnames`, `x11names`), que la plantilla carga siempre. Del estilo solo usa estos nombres, y solo si el documento declara la variable correspondiente:
 
 | Nombre | Variable | Uso |
 |---|---|---|
 | entorno `abstract` | `abstract` | Resumen (las clases `article` y `report` ya lo traen) |
 | `\keywords{…}` | `keywords` | Palabras clave, dentro de `abstract` |
-| `\dedication{…}` | `dedication` | Dedicatoria |
-| `\epigraphpage{texto}{autor}{obra}` | `epigraph…` | Epígrafe; autor y obra pueden ir vacíos |
-| entorno `acknowledgments` | `thanks` | Agradecimientos |
+| `\subtitle{…}` | `subtitle` | Subtítulo (opcional: si el estilo no lo define, Pandoc pone el suyo) |
+| entorno `acknowledgments` | `acknowledgments` | Agradecimientos |
 | `\authoremail{…}` | `author.email` | Correo del autor (opcional: la plantilla lo declara vacío si el estilo no lo define) |
 
-Todo lo demás (márgenes, fuentes por defecto, títulos, encabezados, índices, notas, bibliografía) lo decide el estilo con LaTeX corriente.
+Todo lo demás (márgenes, títulos, encabezados, índices, notas, bibliografía) lo decide el estilo con LaTeX corriente.
 
 * * *
 
 ## Relación con las plantillas oficiales
 
-`pandoc.tex` sigue la plantilla LaTeX oficial de Pandoc, incluida como submódulo en `templates/pandoc-templates`. Los parciales que no chocan con el estilo se incluyen directamente (`document-metadata`, `passoptions`, `fonts`, `font-settings` y `after-header-includes`), y los bloques de `common.latex` se copian sin las ramas de beamer, CJK y pdfTeX. Las divergencias están marcadas en la plantilla con `DIVERGE`:
+`pandoc.tex` es el `default.latex` oficial de Pandoc, incluido como submódulo en `templates/pandoc-templates`, con las inserciones marcadas con `DIVERGE`. Las divergencias son:
 
-- `12pt` y A4 por defecto.
-- Sin `parskip` (ni la variable `indent`): el párrafo es cosa del estilo.
-- `linestretch` se aplica a todo el documento, también al índice.
-- Sin `\babelfont{rm}`, que repetiría lo que ya fija `font-settings`.
-- Colores de enlace propios, y enlaces de los índices en negro por defecto.
-- Variables de contenido propias: `maketitle`, `dedication`, `epigraph…`, `thanks` como agradecimientos, `lol` y `refs`.
 - Autores como mapas con `name` y `email`, y el comando `\authoremail` para el estilo.
-- Requiere LuaLaTeX. No admite las variables de beamer, natbib, biblatex, `pagestyle`, `block-headings` ni `dir`.
+- Portada solo con `maketitle` (la oficial la pone siempre que hay `title`).
+- Resumen independiente de la portada, con `keywords` dentro.
+- Variables de contenido propias: `lol`, `acknowledgments` y `refs`.
+- `hypersetup.latex` copiado solo con los metadatos del PDF: sin `colorlinks`, colores ni `hidelinks`, que son del estilo. Por eso los nombres de color de `xcolor` se cargan siempre, no solo con `colorlinks`.
 
-Al actualizar el submódulo conviene revisar los cambios en esos archivos y trasladarlos a la plantilla.
+Al actualizar el submódulo conviene comparar `default.latex` con la plantilla: basta con un `diff` que ignore el prefijo `pandoc-templates/` de los parciales.

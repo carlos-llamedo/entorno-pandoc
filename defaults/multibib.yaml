@@ -18,24 +18,8 @@ template: pandoc.tex
 top-level-division: chapter
 syntax-highlighting: idiomatic
 
-metadata:
-  lang: es-ES
-  listings: true
-  figureTitle: "Figura"
-  tableTitle: "Cuadro"
-  listingTitle: "Listado"
-  figPrefix:
-    - "fig."
-    - "figs."
-  tblPrefix:
-    - "cuadro"
-    - "cuadros"
-  lstPrefix:
-    - "listado"
-    - "listados"
-  eqnPrefix:
-    - "ec."
-    - "ecs."
-  lofTitle: "Índice de figuras"
-  lotTitle: "Índice de cuadros"
-  lolTitle: "Índice de listados"
+metadata-files:
+  - comun.yaml
+  - crossref.yaml
+  - citas.yaml
+  - latex.yaml

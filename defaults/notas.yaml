@@ -8,8 +8,8 @@ resource-path:
 filters:
   - citeproc
 
-csl: chicago-notes-bibliography
 bibliography: biblioteca.json
 
-metadata:
-  lang: es-ES
+metadata-files:
+  - comun.yaml
+  - citas.yaml

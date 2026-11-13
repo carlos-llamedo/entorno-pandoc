@@ -62,16 +62,16 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
    `-d memoria` carga [`memoria.yaml`](defaults/memoria.yaml), que activa la plantilla, los filtros y la bibliografía. El resto de preajustes y su propósito se explican en [su sección correspondiente](#preajustes).
 
-Con esto se genera un documento básico, pero lo normal es que se quiera ajustar el aspecto del resultado. Lo que se declara en los preajustes que se cargan es inamovible, tiene preferencia sobre todo lo demás, por lo que están pensados para cubrir el mínimo necesario. Hay que consultar las opciones que ofrecen los [filtros](docs/filtros.md), la [plantilla](docs/plantilla.md) y el [estilo](docs/memoria.md), y declarar las que se quieran cambiar al principio del documento, entre dos líneas que solo contengan `---`. El manual de Pandoc contiene [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) en la que se explica más en detalle esto, pero vamos a poner aquí un breve ejemplo.
+Con esto se genera un documento básico, pero lo normal es que se quiera ajustar el aspecto del resultado. Los preajustes fijan lo imprescindible (lector, plantilla, filtros) y cargan valores por defecto desde [`metadata/`](metadata), que cualquier documento puede cambiar. Hay que consultar las opciones que ofrecen los [filtros](docs/filtros.md), la [plantilla](docs/plantilla.md) y el [estilo](docs/memoria.md), y declarar las que se quieran cambiar al principio del documento, entre dos líneas que solo contengan `---`. El manual de Pandoc contiene [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) en la que se explica más en detalle esto, pero vamos a poner aquí un breve ejemplo.
 
-Quieres usar Times New Roman como fuente del documento, que los enlaces destaquen con un color distinto, que en los metadatos aparezca tu nombre y que las llamadas a nota al pie de las referencias se sitúen antes de los signos de puntuación (sistema francés). Estas opciones se corresponden con las variables `mainfont`, `colorlinks`, `author` y `notes-after-punctuation`. `colorlinks` y `notes-after-punctuation` son variables booleanas, por lo que solo se puede activar (`true`) o desactivar (`false`). `mainfont` y `author` esperan cadenas de caracteres, por lo que hay que escribir exactamente lo que se quiere con ellas. Lo metemos todo al principio del documento, entre dos líneas que contengan los caracteres `---`, y este sería el resultado:
+Quieres usar Times New Roman como fuente del documento, que las secciones vayan numeradas, que en los metadatos aparezca tu nombre y que las llamadas a nota al pie de las referencias se sitúen después de los signos de puntuación, como en inglés (por defecto van antes, como en español). Estas opciones se corresponden con las variables `mainfont`, `numbersections`, `author` y `notes-after-punctuation`. `numbersections` y `notes-after-punctuation` son variables booleanas, por lo que solo se puede activar (`true`) o desactivar (`false`). `mainfont` y `author` esperan cadenas de caracteres, por lo que hay que escribir exactamente lo que se quiere con ellas. Lo metemos todo al principio del documento, entre dos líneas que contengan los caracteres `---`, y este sería el resultado:
 
 ```markdown
 ---
 mainfont: Times New Roman
-colorlinks: true
+numbersections: true
 author: Carlos Llamedo
-notes-after-punctuation: false
+notes-after-punctuation: true
 ---
 
 Aquí empieza el texto normal del documento.
