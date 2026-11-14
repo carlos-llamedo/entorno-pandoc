@@ -18,10 +18,10 @@ template: pandoc.tex
 syntax-highlighting: idiomatic
 
 metadata-files:
-  - comun.yaml
+  - localizacion.yaml
   - crossref.yaml
-  - citas.yaml
-  - latex.yaml
+  - plantilla.yaml
 
+# Estilo de temas.sty, del repositorio entorno-latex.
 metadata:
   fontfamily: temas

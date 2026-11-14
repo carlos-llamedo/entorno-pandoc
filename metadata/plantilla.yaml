@@ -1,3 +1,2 @@
 # Valores por defecto de pandoc.tex; el documento puede cambiarlos.
-fontfamily: memoria
 indent: true

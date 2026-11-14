@@ -9,7 +9,7 @@ filters:
   - citeproc
 
 bibliography: biblioteca.json
+csl: chicago-notes-bibliography
 
 metadata-files:
-  - comun.yaml
-  - citas.yaml
+  - localizacion.yaml

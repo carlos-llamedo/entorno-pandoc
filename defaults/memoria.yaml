@@ -21,7 +21,10 @@ top-level-division: chapter
 syntax-highlighting: idiomatic
 
 metadata-files:
-  - comun.yaml
+  - localizacion.yaml
   - crossref.yaml
-  - citas.yaml
-  - latex.yaml
+  - plantilla.yaml
+
+# Estilo de memoria.sty, del repositorio entorno-latex.
+metadata:
+  fontfamily: memoria

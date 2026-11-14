@@ -5,11 +5,11 @@ date: 2026-10
 
 # Variables de la plantilla `pandoc.tex`
 
-[`pandoc.tex`](../templates/pandoc.tex) es la capa que convierte el documento de Pandoc en LaTeX. No contiene decisiones de aspecto: las delega en un paquete de estilo, por defecto [`memoria.sty`](memoria.md). Cualquier otro paquete que cumpla el [contrato](#contrato-con-el-estilo) puede sustituirlo sin tocar la plantilla.
+[`pandoc.tex`](../templates/pandoc.tex) es la capa que convierte el documento de Pandoc en LaTeX. No contiene decisiones de aspecto: las delega en un paquete de estilo, como [`memoria.sty`](https://github.com/carlos-llamedo/entorno-latex/blob/main/docs/memoria.md) o `temas.sty`, del repositorio [entorno-latex](https://github.com/carlos-llamedo/entorno-latex). Cualquier otro paquete que cumpla el [contrato](#contrato-con-el-estilo) puede sustituirlos sin tocar la plantilla, y sin ninguno compila con LaTeX estándar (es lo que hace el preajuste `latex`).
 
 Las variables marcadas como `pandoc` son estándar y están documentadas en el manual de Pandoc; las marcadas como `propio` son específicas de esta plantilla. El manual de Pandoc incluye [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) que detalla cómo declarar estas opciones. Algunas variables de comportamiento las gestiona un filtro, no la plantilla, y están documentadas en [`filtros`](filtros.md).
 
-La plantilla no fija valores por defecto. Los de aspecto los pone el estilo; el resto está en los archivos de [`metadata/`](../metadata), que los preajustes cargan con `metadata-files`: [`comun.yaml`](../metadata/comun.yaml) (idioma), [`crossref.yaml`](../metadata/crossref.yaml) (localización de pandoc-crossref), [`citas.yaml`](../metadata/citas.yaml) (estilo de citas) y [`latex.yaml`](../metadata/latex.yaml) (estilo y párrafo). Las fuentes, el cuerpo de letra, el papel y el aspecto de los enlaces son del estilo. Cualquier variable declarada en el bloque YAML del documento tiene prioridad sobre ellos y sobre el estilo.
+La plantilla no fija valores por defecto. Los de aspecto los pone el estilo; el resto está en los archivos de [`metadata/`](../metadata), que los preajustes cargan con `metadata-files`: [`localizacion.yaml`](../metadata/localizacion.yaml) (idioma y posición de las llamadas de nota), [`crossref.yaml`](../metadata/crossref.yaml) (localización de pandoc-crossref) y [`plantilla.yaml`](../metadata/plantilla.yaml) (sangría de párrafo). El estilo de citas no tiene valor por defecto propio: si el documento no declara `csl`, citeproc usa _Chicago_ autor-fecha. Las fuentes, el cuerpo de letra, el papel y el aspecto de los enlaces son del estilo. Cualquier variable declarada en el bloque YAML del documento tiene prioridad sobre ellos y sobre el estilo. La excepción es `fontfamily`: cada preajuste la fija en su bloque `metadata`, que manda sobre el documento, porque elegir preajuste es elegir estilo.
 
 * * *
 
@@ -17,10 +17,10 @@ La plantilla no fija valores por defecto. Los de aspecto los pone el estilo; el 
 
 | Variable | Tipo | Valor por defecto | Origen |
 |---|---|---|---|
-| `fontfamily` | cadena | `memoria` (en `latex.yaml`) | pandoc |
+| `fontfamily` | cadena | la del preajuste (`memoria`, `temas` o ninguna) | pandoc |
 | `fontfamilyoptions` | lista | — | pandoc |
 
-El estilo se carga con la variable oficial `fontfamily`: es el nombre del paquete (sin `.sty`), que LaTeX debe encontrar en su árbol TEXMF. Pandoc lo carga justo antes de aplicar `mainfont` y compañía, así que el estilo puede fijar fuentes por defecto y el documento cambiarlas. `fontfamilyoptions` es la lista de opciones del paquete, cada una como `clave=valor`; si un valor lleva comas, va entre llaves. Las opciones de `memoria` están en [`memoria`](memoria.md).
+El estilo se carga con la variable oficial `fontfamily`: es el nombre del paquete (sin `.sty`), que LaTeX debe encontrar en su árbol TEXMF. Pandoc lo carga justo antes de aplicar `mainfont` y compañía, así que el estilo puede fijar fuentes por defecto y el documento cambiarlas. `fontfamilyoptions` es la lista de opciones del paquete, cada una como `clave=valor`; si un valor lleva comas, va entre llaves. Las opciones de `memoria` están en [`memoria`](https://github.com/carlos-llamedo/entorno-latex/blob/main/docs/memoria.md).
 
 ```yaml
 fontfamilyoptions:
@@ -209,11 +209,10 @@ Como muestra el @lst:saludo, …
 | `abstract` | cadena | pandoc |
 | `thanks` | cadena | pandoc |
 | `maketitle` | booleano | propio |
-| `acknowledgments` | cadena | propio |
 
 `maketitle` imprime la portada; sin ella, el título solo existe como metadato. Cada autor puede declararse como mapa con `name` y `email`; la plantilla usa `name` como nombre y pasa el correo al estilo con `\authoremail{…}`, que lo usa o lo ignora. `title-meta`, `author-meta`, `subject` y `keywords` van a los metadatos del PDF; el subtítulo no. Con autores como mapas, Pandoc no genera `author-meta`: hay que declararlo para que el PDF lleve autor.
 
-`abstract` imprime el resumen y, si hay `keywords`, las palabras clave a continuación. `acknowledgments` genera los agradecimientos tras los índices. `thanks` es la variable oficial: una nota al pie en el título. `subtitle` lo compone el `\subtitle` del estilo, si lo define; si no, Pandoc lo añade bajo el título.
+`abstract` imprime el resumen y, si hay `keywords`, las palabras clave a continuación. `thanks` es la variable oficial para los agradecimientos; la plantilla la pasa como `\thanks` dentro de `\title`, y el estilo decide su forma: sin estilo, o con `temas`, es una nota al pie en el título; `memoria` la convierte en el capítulo «Agradecimientos», tras la portada. Puede tener varios párrafos. `subtitle` lo compone el `\subtitle` del estilo, si lo define; si no, Pandoc lo añade bajo el título.
 
 * * *
 
@@ -257,7 +256,7 @@ El aspecto de los enlaces (color, recuadros o nada) es del estilo, que lo fija c
 | `include-before` | bloque raw LaTeX | pandoc |
 | `include-after` | bloque raw LaTeX | pandoc |
 
-`header-includes` se inyecta al final del preámbulo, después del estilo y de las fuentes y antes de hyperref. `include-before` va tras los índices y los agradecimientos; `include-after`, tras `refs`.
+`header-includes` se inyecta al final del preámbulo, después del estilo y de las fuentes y antes de hyperref. `include-before` va tras los índices; `include-after`, tras `refs`.
 
 * * *
 
@@ -268,9 +267,9 @@ Pandoc carga el paquete de estilo (`fontfamily`) después de la clase y de `unic
 | Nombre | Variable | Uso |
 |---|---|---|
 | entorno `abstract` | `abstract` | Resumen (las clases `article` y `report` ya lo traen) |
-| `\keywords{…}` | `keywords` | Palabras clave, dentro de `abstract` |
+| `\keywords{…}` | `keywords` | Palabras clave, dentro de `abstract` (opcional: si el estilo no lo define, la plantilla pone un párrafo con `\keywordsname`) |
+| `\thanks{…}` | `thanks` | Agradecimientos (opcional: si el estilo no lo cambia, es la nota al pie de LaTeX en el título) |
 | `\subtitle{…}` | `subtitle` | Subtítulo (opcional: si el estilo no lo define, Pandoc pone el suyo) |
-| entorno `acknowledgments` | `acknowledgments` | Agradecimientos |
 | `\authoremail{…}` | `author.email` | Correo del autor (opcional: la plantilla lo declara vacío si el estilo no lo define) |
 
 Todo lo demás (márgenes, títulos, encabezados, índices, notas, bibliografía) lo decide el estilo con LaTeX corriente.
@@ -284,7 +283,8 @@ Todo lo demás (márgenes, títulos, encabezados, índices, notas, bibliografía
 - Autores como mapas con `name` y `email`, y el comando `\authoremail` para el estilo.
 - Portada solo con `maketitle` (la oficial la pone siempre que hay `title`).
 - Resumen independiente de la portada, con `keywords` dentro.
-- Variables de contenido propias: `lol`, `acknowledgments` y `refs`.
+- Variables de contenido propias: `lol` y `refs`.
+- `\keywords` de respaldo, para compilar sin estilo.
 - `hypersetup.latex` copiado solo con los metadatos del PDF: sin `colorlinks`, colores ni `hidelinks`, que son del estilo. Por eso los nombres de color de `xcolor` se cargan siempre, no solo con `colorlinks`.
 
 Al actualizar el submódulo conviene comparar `default.latex` con la plantilla: basta con un `diff` que ignore el prefijo `pandoc-templates/` de los parciales.

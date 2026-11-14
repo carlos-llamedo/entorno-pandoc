@@ -18,13 +18,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 - [`pandoc`](https://pandoc.org/installing.html) con [`citeproc`](https://github.com/jgm/citeproc) (vienen empaquetados juntos)
 - [`pandoc-crossref`](https://github.com/lierdakil/pandoc-crossref/releases/latest)
 - Una distribución [`TeX`](https://ctan.org/starter) que incluya [`LuaTeX`](https://www.luatex.org/download.html)
-- Las siguientes fuentes[^1]:
-    1. _Serif_: [Arno Pro](https://fonts.adobe.com/fonts/arno) o [Source Serif 4](https://github.com/adobe-fonts/source-serif/releases/latest)
-    2. _Sans_: [Myriad Pro](https://fonts.adobe.com/fonts/myriad) o [Source Sans 3](https://github.com/adobe-fonts/source-sans/releases/latest)
-    3. Monoespaciada: [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/releases/latest)
-    4. Matemática: [STIX Two math](https://github.com/stipub/stixfonts/releases/latest)
-
-[^1]: La plantilla no está limitada a estas fuentes, son simplemente las que están declaradas por defecto. Se puede usar cualquier fuente instalada en el sistema declarando `mainfont`, `sansfont`, `monofont` y `mathfont` en el bloque YAML del documento, o modificando directamente la sección de fuentes de [`memoria.sty`](tex/memoria.sty).
+- Para generar directamente un PDF, los estilos LaTeX de [entorno-latex](https://github.com/carlos-llamedo/entorno-latex).
 
 ## Guía de uso rápido
 
@@ -42,17 +36,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
     incluye una línea «User data directory: …» con la ruta desde la que Pandoc lee. Debe coincidir con la del paso anterior.
 
-3. **Haz visible el estilo para LaTeX.** El aspecto de los PDF está en [`memoria.sty`](tex/memoria.sty), que LaTeX busca en su árbol de archivos personal (TEXMFHOME), no en el directorio de datos de Pandoc. Enlázalo allí:
-
-    ```bash
-    TEXMFHOME="$(kpsewhich -var-value TEXMFHOME)"
-    mkdir -p "$TEXMFHOME/tex/latex"
-    ln -srf "$HOME/.local/share/pandoc/tex/memoria.sty" "$TEXMFHOME/tex/latex/memoria.sty"
-    ln -srf "$HOME/.local/share/pandoc/tex/temas.sty" "$TEXMFHOME/tex/latex/temas.sty"
-    ```
-
-    `kpsewhich` debe devolver la ruta del enlace. En Windows, copia el archivo en lugar de enlazarlo (y vuelve a copiarlo cuando se actualice).
-
+3. **Instala los estilos LaTeX.** Se intenta que [la plantilla](templates/pandoc.tex) sea lo más agnóstica posible, por lo que se pueden usar otros estilos. Pero está pensada para usar las hojas de estilo definidas en [`entorno-latex`](https://github.com/carlos-llamedo/entorno-latex)
 4. **Crea un archivo de bibliografía con Zotero.** Los preajustes `memoria` y `notas` exigen un archivo `biblioteca.json` en el directorio de datos. Expórtalo como se explica en [la sección «Archivo de bibliografía»](#archivo-de-bibliografía). Si no vas a citar, puedes cambiar los preajustes que lo usan o crear un `biblioteca.json` vacío.
 5. **Genera un documento a partir de un archivo Markdown.**
 
@@ -62,7 +46,7 @@ El repositorio es bastante autocontenido, pero hay dependencias mínimas sin las
 
    `-d memoria` carga [`memoria.yaml`](defaults/memoria.yaml), que activa la plantilla, los filtros y la bibliografía. El resto de preajustes y su propósito se explican en [su sección correspondiente](#preajustes).
 
-Con esto se genera un documento básico, pero lo normal es que se quiera ajustar el aspecto del resultado. Los preajustes fijan lo imprescindible (lector, plantilla, filtros) y cargan valores por defecto desde [`metadata/`](metadata), que cualquier documento puede cambiar. Hay que consultar las opciones que ofrecen los [filtros](docs/filtros.md), la [plantilla](docs/plantilla.md) y el [estilo](docs/memoria.md), y declarar las que se quieran cambiar al principio del documento, entre dos líneas que solo contengan `---`. El manual de Pandoc contiene [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) en la que se explica más en detalle esto, pero vamos a poner aquí un breve ejemplo.
+Con esto se genera un documento básico, pero lo normal es que se quiera ajustar el aspecto del resultado. Los preajustes fijan lo imprescindible (lector, plantilla, filtros) y cargan valores por defecto desde [`metadata/`](metadata), que cualquier documento puede cambiar. Hay que consultar las opciones que ofrecen los [filtros](docs/filtros.md), la [plantilla](docs/plantilla.md) y el [estilo](https://github.com/carlos-llamedo/entorno-latex/blob/main/docs/memoria.md), y declarar las que se quieran cambiar al principio del documento, entre dos líneas que solo contengan `---`. El manual de Pandoc contiene [una sección](https://pandoc.org/MANUAL.html#extension-yaml_metadata_block) en la que se explica más en detalle esto, pero vamos a poner aquí un breve ejemplo.
 
 Quieres usar Times New Roman como fuente del documento, que las secciones vayan numeradas, que en los metadatos aparezca tu nombre y que las llamadas a nota al pie de las referencias se sitúen después de los signos de puntuación, como en inglés (por defecto van antes, como en español). Estas opciones se corresponden con las variables `mainfont`, `numbersections`, `author` y `notes-after-punctuation`. `numbersections` y `notes-after-punctuation` son variables booleanas, por lo que solo se puede activar (`true`) o desactivar (`false`). `mainfont` y `author` esperan cadenas de caracteres, por lo que hay que escribir exactamente lo que se quiere con ellas. Lo metemos todo al principio del documento, entre dos líneas que contengan los caracteres `---`, y este sería el resultado:
 
@@ -187,8 +171,6 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 - [`referencias`](docs/referencias.md). Dónde está la documentación oficial de cada componente.
 - [`herramientas`](docs/herramientas.md). Qué es cada herramienta, cómo instalarla y cómo se relaciona con el resto del flujo de trabajo.
 - [`plantilla`](docs/plantilla.md). Qué variables YAML contempla `pandoc.tex`.
-- [`memoria`](docs/memoria.md). Opciones del estilo por defecto, `memoria.sty`, y su uso en LaTeX.
-- [`temas`](docs/temas.md). El estilo `temas.sty`..
 - [`filtros`](docs/filtros.md). Qué filtros se usan, para qué sirven, cómo usarlos y qué variables YAML modifican su comportamiento.
 - [`markdown`](docs/markdown.md). Guía de estilo de Markdown, extensiones de Pandoc activas en este flujo y qué hacen.
 
@@ -196,10 +178,8 @@ El directorio [`docs/`](docs/) contiene la documentación técnica de consulta:
 
 El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa para generar los documentos.
 
-- [`pandoc.tex`](templates/pandoc.tex) es la plantilla principal, compatible con todos los preajustes que generan PDF. Sigue la plantilla LaTeX oficial de Pandoc y no decide nada del aspecto: lo delega en un paquete de estilo, por defecto [`memoria.sty`](tex/memoria.sty), pensado para memorias académicas con la clase `book` y utilizable también en documentos LaTeX escritos a mano. Las variables de la plantilla están documentadas en [`plantilla`](docs/plantilla.md) y las opciones del estilo, en [`memoria`](docs/memoria.md).
+- [`pandoc.tex`](templates/pandoc.tex) es la plantilla principal, compatible con todos los preajustes que generan PDF. Sigue la plantilla LaTeX oficial de Pandoc y no decide nada del aspecto: lo delega en un paquete de estilo, normalmente uno de [entorno-latex](https://github.com/carlos-llamedo/entorno-latex). Sin estilo produce LaTeX estándar. Las variables de la plantilla están documentadas en [`plantilla`](docs/plantilla.md), y los estilos, en su repositorio.
 - [`dunning.tex`](templates/dunning.tex) es una plantilla ligera basada en la clase `tufte-handout`, útil para documentos breves con notas al margen. Obra de Andrew Dunning.
-
-El repositorio incluye también los archivos XML para construir `memoir.odt`, una plantilla para documentos ODT con aspecto parecido al de los PDF generados por `pandoc.tex`. Los formatos `.odt` y `.docx` son archivos XML comprimidos; el directorio [`odt/`](templates/odt/) contiene esos archivos, que hay que empaquetar manualmente en `memoir.odt` y colocar en [`templates/`](templates/). El archivo construido **no se incluye en el repositorio** por ser un binario.
 
 ### Filtros Lua
 
@@ -237,10 +217,12 @@ Las [localizaciones](https://github.com/citation-style-language/locales) adaptan
 
 El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para tareas específicas.
 
+Los preajustes `memoria`, `multibib`, `temas` y `biblio` fijan su estilo (`fontfamily`) y dependen de [entorno-latex](https://github.com/carlos-llamedo/entorno-latex).
+
 - [`memoria.yaml`](defaults/memoria.yaml). La opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF.
 - [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
-- [`temas.yaml`](defaults/temas.yaml). Multibib, clase `article`, estilo [`temas.sty`](tex/temas.sty), título e índice en la primera página y encabezados de nivel 1 seguidos.
-- [`odt.yaml`](defaults/odt.yaml) genera un documento ODT (un formato abierto equivalente al `.docx` de Microsoft Word) parecido a los PDF generados a partir de `pandoc.tex`.
+- [`temas.yaml`](defaults/temas.yaml). Multibib, clase `article`, estilo [`temas.sty`](https://github.com/carlos-llamedo/entorno-latex/blob/main/temas.sty), título e índice en la primera página y encabezados de nivel 1 seguidos. No declara `bibliography`: cada documento tiene que declarar la suya.
+- [`latex.yaml`](defaults/latex.yaml) convierte el documento Markdown en un `.tex` con la plantilla `pandoc.tex`, sin compilarlo y sin ningún estilo: LaTeX estándar, que compila con cualquier distribución TeX y sirve de punto de partida para otra clase o estilo.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es _Chicago_ autor-fecha. No soporta bibliografías en formato CSL YAML.
 - [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Este preajuste no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo _Chicago_ notas-bibliografía[^16].
 

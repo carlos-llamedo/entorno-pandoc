@@ -16,8 +16,10 @@ template: pandoc.tex
 top-level-division: chapter
 
 metadata-files:
-  - comun.yaml
-  - latex.yaml
+  - localizacion.yaml
+  - plantilla.yaml
 
+# Estilo de memoria.sty, del repositorio entorno-latex.
 metadata:
+  fontfamily: memoria
   reference-section-title: "Bibliografía"

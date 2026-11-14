@@ -1,6 +1,6 @@
 % pandoc.tex — default.latex de Pandoc con las variables de contenido propias
-% de este repositorio. El aspecto lo pone el paquete de `fontfamily` (memoria
-% por defecto, en metadata/latex.yaml). Divergencias marcadas con DIVERGE.
+% de este repositorio. El aspecto lo pone el paquete de `fontfamily`, si lo
+% hay; sin él, compila con LaTeX estándar. Divergencias marcadas con DIVERGE.
 % Copyright © 2026 Carlos Llamedo (MIT Licence)
 
 $pandoc-templates/document-metadata.latex()$
@@ -100,9 +100,12 @@ $if(subtitle)$
 \subtitle{$subtitle$}
 $endif$
 % DIVERGE: autores como mapas con name y email; el estilo decide qué hace
-% con \authoremail (si no lo define, se ignora).
+% con \authoremail (si no lo define, se ignora). \keywords, si el estilo no
+% lo define, es un párrafo con \keywordsname.
 \author{$for(author)$$if(author.name)$$author.name$$else$$author$$endif$$sep$ \and $endfor$}
 \providecommand{\authoremail}[1]{}
+\providecommand{\keywordsname}{Palabras clave}
+\providecommand{\keywords}[1]{\par\medskip\noindent\textbf{\keywordsname:} #1}
 $for(author)$
 $if(author.email)$
 \authoremail{$author.email$}
@@ -115,7 +118,7 @@ $if(has-frontmatter)$
 \frontmatter
 $endif$
 % DIVERGE: portada solo con maketitle; resumen sin depender del título y
-% con keywords (\keywords lo define el estilo).
+% con keywords (\keywords del estilo o el de respaldo).
 $if(maketitle)$
 \maketitle
 $endif$
@@ -152,14 +155,9 @@ $endif$
 $if(lot)$
 \listoftables
 $endif$
-% DIVERGE: índice de listados y agradecimientos (entorno del estilo).
+% DIVERGE: índice de listados.
 $if(lol)$
 \lstlistoflistings
-$endif$
-$if(acknowledgments)$
-\begin{acknowledgments}
-$acknowledgments$
-\end{acknowledgments}
 $endif$
 $if(linestretch)$
 \setstretch{$linestretch$}

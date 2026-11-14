@@ -269,7 +269,7 @@ filters:
 
 [`zotero.lua`](https://retorque.re/zotero-better-bibtex/exporting/pandoc/) es un filtro de Emiliano Heyns. Convierte la sintaxis de citas de Pandoc (`[@clave]`) a campos de cita activos de Zotero en archivos `.odt` y `.docx`, equivalentes a los que inserta la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration). El resultado es un documento de ofimática con citas vinculadas a la biblioteca de Zotero, que el usuario puede seguir editando desde Writer o Word con el complemento de Zotero instalado.
 
-Se usa exclusivamente en el flujo de salida hacia `.odt`, declarado en `odt.yaml`, ya que LibreOffice Writer tiene un _bug_ con las citas en los `.docx`[^1]. Zotero se tiene que estar ejecutando cuando el documento se compila. No es compatible con Citeproc en el mismo pipeline: cuando se usa `zotero.lua`, Citeproc no debe declararse en `filters`.
+Sirve solo para la salida a `.odt`, ya que LibreOffice Writer tiene un _bug_ con las citas en los `.docx`[^1]. Zotero se tiene que estar ejecutando cuando el documento se compila. No es compatible con Citeproc en el mismo pipeline: cuando se usa `zotero.lua`, Citeproc no debe declararse en `filters`.
 
 [^1]: LibreOffice Writer tiene, [como indica Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations) un _bug_ que impide reconocer las citas en archivos `.docx` generados con este filtro, por lo que en ese entorno hay que exportar a `.odt`. Microsoft Word no tiene este problema y admite los `.docx` sin restricciones.
 

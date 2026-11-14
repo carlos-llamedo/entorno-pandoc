@@ -1,0 +1,25 @@
+reader: markdown
+writer: latex
+standalone: true
+
+resource-path: 
+  - .
+  - figuras
+  - ${USERDATA}
+
+bibliography: biblioteca.json
+
+filters:
+  - include-files.lua
+  - pandoc-crossref
+  - custom-divs.lua
+  - citeproc
+  - correcciones-notas.lua
+
+template: pandoc.tex
+syntax-highlighting: idiomatic
+
+metadata-files:
+  - localizacion.yaml
+  - crossref.yaml
+  - plantilla.yaml
