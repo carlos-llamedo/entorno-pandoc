@@ -167,7 +167,7 @@ Con el español, babel aplica sus convenciones: operadores acentuados (lím, má
 | `secnumdepth` | entero | `5` | pandoc |
 | `toc` | booleano | — | pandoc |
 | `toc-title` | cadena | el de babel | pandoc |
-| `toc-depth` | entero | `2` | pandoc |
+| `toc-depth` | entero | `3` | pandoc |
 | `lof` | booleano | — | pandoc |
 | `lot` | booleano | — | pandoc |
 | `lol` | booleano | — | propio |
