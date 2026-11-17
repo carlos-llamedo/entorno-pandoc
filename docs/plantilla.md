@@ -244,7 +244,7 @@ El aspecto de los enlaces (color, recuadros o nada) es del estilo, que lo fija c
 |---|---|---|
 | `refs` | cadena | propio |
 
-`refs` lleva la bibliografía a las páginas finales en vez de al final del cuerpo (véase [`filtros`](filtros.md#citeproc)). La plantilla abre antes la materia final con `\backmatter`, si la clase o el estilo lo definen: en las clases de libro es el `\backmatter` de siempre; un estilo para `article` puede definirlo, como `temas.sty`, que empieza la bibliografía en página nueva. La separación entre entradas la decide el estilo.
+`refs` lleva la bibliografía a las páginas finales en vez de al final del cuerpo (véase [`filtros`](filtros.md#citeproc)). La separación entre entradas la decide el estilo.
 
 * * *
 
