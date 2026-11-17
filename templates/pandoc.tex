@@ -167,9 +167,8 @@ $if(has-frontmatter)$
 $endif$
 $body$
 
-$if(has-frontmatter)$
-\backmatter
-$endif$
+% DIVERGE: \backmatter siempre que la clase o el estilo lo definan
+\ifdefined\backmatter\backmatter\fi
 % DIVERGE: variable refs para colocar la bibliografía (véase docs/filtros.md).
 $if(refs)$
 $refs$

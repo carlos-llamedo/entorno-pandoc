@@ -41,10 +41,6 @@ Todo el repositorio de Better BibTeX (y por tanto [el filtro `zotero.lua`](https
 
 El filtro `custom-divs.lua` es, en realidad, código propio inspirado en el trabajo de Duck. Todo el [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions) está bajo la licencia [GPLv3](https://github.com/tomduck/pandoc-latex-extensions/blob/master/LICENSE).
 
-#### multibib.lua\*
-
-[`multibib.lua`](https://github.com/pandoc-ext/multibib) está publicado bajo una licencia MIT ([README](https://github.com/pandoc-ext/multibib#license); [archivo de licencia en el repositorio](https://github.com/pandoc-ext/multibib/blob/main/LICENSE)), Copyright © 2018-2024 Albert Krewinkel and contributors.
-
 #### include-files.lua\*
 
 [`include-files.lua`](https://github.com/pandoc-ext/include-files) está publicado bajo una [licencia MIT](https://github.com/pandoc-ext/include-files/blob/main/LICENSE), Copyright © 2023 Pandoc Extensions.

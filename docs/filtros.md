@@ -31,7 +31,7 @@ filters:
   - citeproc
 ```
 
-Es importante que Citeproc vaya después de cualquier filtro que pueda generar o modificar citas, y antes de los filtros que operan sobre el texto ya resuelto. `multibib.lua` lo sustituye completamente, por lo que los dos son incompatibles juntos.
+Es importante que Citeproc vaya después de cualquier filtro que pueda generar o modificar citas, y antes de los filtros que operan sobre el texto ya resuelto.
 
 La bibliografía se configura mediante las variables `bibliography` y `csl` del documento o del archivo de defaults:
 
@@ -77,6 +77,17 @@ y usar esta en la plantilla
 $if(refs)$
 $refs$
 $endif$
+```
+
+`reference-section-title` solo tiene efecto cuando Citeproc añade la bibliografía al final del documento así que puede ser apropiado poner un título a la sección y una explicación manualmente:
+
+```yaml
+refs: |
+  ::: {#refs}
+  # Referencias {-}
+  
+  Las referencias se dividen en fuentes primarias y secundarias.
+  :::
 ```
 
 Si se quieren incluir en la bibliografía referencias que, por lo que sea, no están citadas en el texto, se pueden poner en una variable arbitraria (llamémosla `nocite`)
@@ -222,48 +233,97 @@ Párrafo sin sangría de primera línea.
 
 El filtro envuelve el contenido del div en `{\parindent0pt … }` en lugar de usar `\noindent`, porque `\noindent` solo afecta al párrafo inmediatamente siguiente; si el div contiene varios párrafos, los sucesivos recuperarían la sangría normal.
 
-### multibib.lua
+### suprimir-citas.lua
 
-[`multibib.lua`](https://github.com/pandoc-ext/multibib) es un filtro de Albert Krewinkel. Permite separar la bibliografía en varias partes dentro de un mismo documento, cada una alimentada por un archivo de bibliografía distinto. 
+`suprimir-citas.lua` quita las citas del texto y las deja solo en la bibliografía. `citeproc` tiene la opción contraria con `suppress-bibliography`, pero esta no. La opción `nocite` añade a la bibliografía entradas no citadas, pero no oculta las citadas.
 
-Sustituye a Citeproc cuando el documento requiere separar las referencias en secciones independientes (p. ej., fuentes primarias y bibliografía secundaria), por lo que **no es compatible con Citeproc**. Cuando se usa `multibib.lua`, Citeproc no debe declararse en `filters`. Es compatible con `pandoc-crossref`, aunque hay una interacción conocida entre ellos relativa a la numeración de notas al pie.
-
-Las bibliografías se declaran en el bloque de metadatos del documento como un mapa, donde cada clave es un nombre que identificará la sección y cada valor es la ruta al archivo de bibliografía correspondiente. **No funciona con archivos cuya ruta contenga caracteres no ASCII, como letras acentuadas**.
+El filtro pasa todas las citas del documento a `nocite` y las borra del texto, junto con el espacio que las precede. Si una nota al pie solo contenía una cita, la nota se quita entera. Funciona con cualquier estilo, de autor-fecha o de notas. Solo actúa si el documento lo pide en sus metadatos:
 
 ```yaml
-bibliography:
-  primarias: fuentes-primarias.json
-  secundaria: biblioteca.json
+suppress-citations: true
 ```
 
-Cada sección de referencias se inserta en el punto del documento donde se quiera que aparezca, mediante un _div_ cuyo identificador sigue el patrón `refs-nombre`:
+Debe declararse antes de Citeproc, que si no ya habría resuelto las citas:
 
-```markdown
-## Fuentes primarias
-
-::: {#refs-primarias}
-:::
-
-## Bibliografía
-
-::: {#refs-secundaria}
-:::
+```yaml
+filters:
+  - suprimir-citas.lua
+  - citeproc
 ```
 
-### correcciones-notas.lua
+Con las citas narrativas desaparece también el nombre del autor: `según @clave` queda «según». En esos casos hay que escribir el nombre a mano.
 
-`correcciones-notas.lua` aplica dos correcciones tipográficas dentro de las notas al pie, normalizando convenciones del español que Citeproc no gestiona.
+### dividir-bibliografia.lua
 
-Las dos correcciones comparten el mismo recorrido del AST y se procesan en un único pase, por lo que el filtro debe declararse después de Citeproc, una vez que las notas al pie ya están generadas:
+`dividir-bibliografia.lua` permite dividir la bibliografía en varios grupos. No sustituye a Citeproc, sino que se ejecuta después y reparte las entradas de la bibliografía que este ha generado.
 
 ```yaml
 filters:
   - citeproc
-  - correcciones-notas.lua
+  - dividir-bibliografia.lua
 ```
 
-1. Sustituye las abreviaturas castellanas de párrafo (`párr.`) y sección (`sec.`, `secs.`) por el símbolo ortográfico convencional (`§`). La sustitución es exacta, no actúa sobre cadenas que lo contengan.
-2. Normaliza las semirrayas (`–`) que separan rangos de páginas o párrafos sustituyéndolas por guion simple. Así, `§ 12–15` se convierte en `§ 12-15`, siguiendo la convención tipográfica española (las semirrayas son un signo ortográfico propio del inglés, no existen en español). La corrección respeta el contexto: solo actúa sobre semirrayas que aparecen dentro de rangos alfanuméricos tras `§`, y mantiene las semirrayas en cualquier otro uso.
+Los grupos se declaran, por orden, en la variable `reference-sections`. Cada grupo tiene un título (`title`) y, opcionalmente, uno o varios archivos (`file`) de los que solo se leen las claves. Se admiten CSL JSON, CSL YAML, BibLaTeX y RIS, y se buscan como el resto de recursos (en el `resource-path`).
+
+```yaml
+reference-sections:
+  - title: Legislación
+    file: legislación.json
+  - title: Ludografía
+    file: [juegos.json, manuales.bib]
+  - title: Bibliografía
+```
+
+Cada entrada va al primer grupo cuyos archivos la contienen; si no está en ninguno, al primer grupo sin `file`, que recoge el resto. Si no hay grupo para el resto, las entradas sobrantes quedan al final, sin encabezado, y el filtro lo avisa. Dentro de cada grupo se mantiene el orden de Citeproc.
+
+Cada grupo se imprime con su título como encabezado sin numerar, un nivel por debajo del título de la bibliografía, en el sitio donde Citeproc ha puesto la bibliografía.
+
+Para una disposición distinta (por ejemplo, grupos a distintos niveles), un grupo con `id` se coloca en el _div_ `refs-<id>` del documento, si existe; los encabezados se escriben entonces a mano:
+
+```yaml
+reference-sections:
+  - title: Juegos
+    file: juegos.json
+    id: juegos
+refs: |
+  # Referencias {-}
+
+  ## Materiales de clase {-}
+
+  ### Juegos {-}
+
+  ::: {#refs-juegos}
+  :::
+```
+
+### ajustes-citeproc.lua
+
+`ajustes-citeproc.lua` corrige comportamientos de Citeproc que no se pueden cambiar desde el estilo CSL ni desde el locale. Solo actúa sobre el texto de las citas que ha generado Citeproc, por lo que no toca el texto propio del documento (tampoco el de las notas al pie) ni la bibliografía. No depende del idioma, así que se puede usar en cualquier documento. Debe declararse después de Citeproc:
+
+```yaml
+filters:
+  - citeproc
+  - ajustes-citeproc.lua
+```
+
+Por ahora hace un único ajuste: **respeta el signo con que se escriben los rangos de los localizadores**. Citeproc cambia el signo de los rangos del localizador (lo que va tras la coma en `[@clave, párr. 3-5]`) según su tipo:
+
+- En las páginas (`p.`, `pp.` o sin tipo), usa el término `page-range-delimiter` del locale: guion en `es-ES`, semirraya en `en-US`.
+- En los demás tipos (párrafo, sección, capítulo…), pone siempre semirraya, sin consultar el locale ni el estilo.
+
+El filtro pone en cada rango el signo que se escribió en el Markdown, sea guion o semirraya (`--`, con la extensión `smart`, cuenta como semirraya). Lo demás sigue siendo cosa de Citeproc: el término del localizador (`párr.`, `cap.`…) y la abreviatura de los rangos de páginas que pida el estilo (Chicago escribe `321-28` por `321-328`).
+
+| Se escribe | Citeproc (`es-ES`) | Con el filtro |
+|---|---|---|
+| `[@clave, párr. 3-5]` | párr. 3–5 | párr. 3-5 |
+| `[@clave, párr. 3–5]` | párr. 3–5 | párr. 3–5 |
+| `[@clave, cap. 3-5 y 7-9]` | cap. 3–5 y 7-9 | cap. 3-5 y 7-9 |
+| `[@clave, pp. 3–5]` | 3-5 | 3–5 |
+| `[@clave, pp. 321-328]` | 321-28 | 321-28 |
+
+En español, por tanto, los rangos se escriben con guion, y así se imprimen.
+
+El filtro localiza cada rango por su primera cifra dentro del texto de la cita. Si el título de la obra contiene un rango que empieza por la misma cifra que el del localizador (`[@clave, párr. 1914-1918]` en un libro titulado _La guerra de 1914–1918_), también cambia el signo de ese rango del título, aunque solo en esa cita.
 
 ### zotero.lua
 

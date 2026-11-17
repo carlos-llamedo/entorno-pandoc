@@ -14,7 +14,8 @@ filters:
   - pandoc-crossref
   - custom-divs.lua
   - citeproc
-  - correcciones-notas.lua
+  - dividir-bibliografia.lua
+  - ajustes-citeproc.lua
 
 template: pandoc.tex
 top-level-division: chapter

@@ -79,13 +79,9 @@ Documentación sobre su uso se puede encontrar en [el sitio web de Better BibTeX
 
 Aunque el filtro es una reescritura propia, está inspirado por la funcionalidad implementada por Thomas Duck en su [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions). Hay unas cuantas extensiones con ideas muy interesantes; `noindent.lua`, concretamente, está inspirado en su [`noindent.py`](https://github.com/tomduck/pandoc-latex-extensions/blob/master/pandoclatexextensions/plugins/noindent.py).
 
-#### multibib.lua
-
-Este pequeño filtro [`multibib.lua`](https://github.com/pandoc-ext/multibib) no tiene, realmente, más documentación que [el README del proyecto](https://github.com/pandoc-ext/multibib/blob/main/README.md).
-
 #### include-files.lua
 
-Al igual que sucede con `multibib.lua`, no parece que [`include-files.lua`](https://github.com/pandoc-ext/include-files) tenga más documentación que [el README de su repositorio](https://github.com/pandoc-ext/include-files/blob/main/README.md).
+No parece que [`include-files.lua`](https://github.com/pandoc-ext/include-files) tenga más documentación que [el README de su repositorio](https://github.com/pandoc-ext/include-files/blob/main/README.md).
 
 ### Plantillas
 

@@ -186,9 +186,10 @@ El directorio [`templates/`](templates/) contiene las plantillas que Pandoc usa 
 El directorio [`filters/`](filters/) contiene los filtros Lua que transforman el documento durante la compilación. [`referencias`](docs/referencias.md) incluye dónde buscar la documentación exhaustiva de los filtros de terceros, aunque una guía de uso básica, tanto de los propios como de los ajenos, se da en [`filtros`](docs/filtros.md).
 
 - [`include-files.lua`](filters/include-files.lua). Permite [transcluir](https://es.wikipedia.org/wiki/Transclusi%C3%B3n) archivos Markdown, lo que facilita dividir textos largos en varios archivos. De [Albert Krewinkel](https://github.com/pandoc-ext/include-files).
-- [`multibib.lua`](filters/multibib.lua). Genera bibliografías múltiples y separadas en lugar de una única en un documento Markdown. De [Albert Krewinkel](https://github.com/pandoc-ext/multibib).
+- [`suprimir-citas.lua`](filters/suprimir-citas.lua). Con `suppress-citations: true` en los metadatos, quita las citas del texto y las deja solo en la bibliografía.
+- [`dividir-bibliografia.lua`](filters/dividir-bibliografia.lua). Divide la bibliografía que genera `citeproc` en grupos (legislación, fuentes, bibliografía…) declarados en `reference-sections`, según los archivos de bibliografía en los que esté cada entrada.
 - [`custom-divs.lua`](filters/custom-divs.lua). Convierte _divs_ con clase `.noindent` en bloques LaTeX sin sangría de primera línea. Útil para indicar cuándo un párrafo tras una lista o una cita exenta es continuación del anterior, y no uno nuevo.
-- [`correcciones-notas.lua`](filters/correcciones-notas.lua). Aplica correcciones tipográficas del español dentro de las notas al pie construidas por `citeproc`: sustituye `párr.`, `sec.` y `secs.` por `§` para conservar el signo ortográfico y normaliza las semirrayas (anglicismo ortográfico) en rangos numéricos, convirtiéndolas a guiones.
+- [`ajustes-citeproc.lua`](filters/ajustes-citeproc.lua). Corrige comportamientos de `citeproc` que no se pueden cambiar desde el estilo CSL ni desde el locale. Por ahora, respeta el signo con que se escriben los rangos de los localizadores de las citas (`[@clave, párr. 3-5]`), que `citeproc` convierte en semirraya en los que no son de páginas.
 - [`zotero.lua`](filters/zotero.lua). Permite convertir la [sintaxis de la extensión `citations` de Pandoc](https://pandoc.org/MANUAL.html#citation-syntax) a campos de cita de Zotero en archivos `.odt` y `.docx`, tal y como si se hubieran insertado con la [extensión de procesadores de texto de Zotero](https://www.zotero.org/support/word_processor_integration)[^14]. De [Emiliano Heyns](https://github.com/retorquere/zotero-better-bibtex/blob/master/site/content/exporting/zotero.lua).
 
 [^14]: Tal como [documenta Heyns](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations), LibreOffice Writer tiene un _bug_ que impide reconocer las citas en archivos `.docx`, por lo que hay que usar `.odt`. Si se usa Microsoft Word, no hay ningún problema con las citas en los `.docx`.
@@ -217,11 +218,10 @@ Las [localizaciones](https://github.com/citation-style-language/locales) adaptan
 
 El directorio [`defaults/`](defaults/) contiene archivos preconfigurados para tareas específicas.
 
-Los preajustes `memoria`, `multibib`, `temas` y `biblio` fijan su estilo (`fontfamily`) y dependen de [entorno-latex](https://github.com/carlos-llamedo/entorno-latex).
+Los preajustes `memoria`, `temas` y `biblio` fijan su estilo (`fontfamily`) y dependen de [entorno-latex](https://github.com/carlos-llamedo/entorno-latex).
 
 - [`memoria.yaml`](defaults/memoria.yaml). La opción por defecto: toma un documento Markdown, lo convierte a LaTeX y lo compila con LuaTeX para convertirlo en un PDF.
-- [`multibib.yaml`](defaults/multibib.yaml) es un caso anejo a `memoria.yaml`. Se usa cuando, en lugar de un único bloque de referencias bibliográficas, se considera oportuno dividirlas en secciones distintas. En lugar de `citeproc` usa `multibib.lua`.
-- [`temas.yaml`](defaults/temas.yaml). Multibib, clase `article`, estilo [`temas.sty`](https://github.com/carlos-llamedo/entorno-latex/blob/main/temas.sty), título e índice en la primera página y encabezados de nivel 1 seguidos. No declara `bibliography`: cada documento tiene que declarar la suya.
+- [`temas.yaml`](defaults/temas.yaml). Clase `article`, estilo [`temas.sty`](https://github.com/carlos-llamedo/entorno-latex/blob/main/temas.sty), título e índice en la primera página y encabezados de nivel 1 seguidos.
 - [`latex.yaml`](defaults/latex.yaml) convierte el documento Markdown en un `.tex` con la plantilla `pandoc.tex`, sin compilarlo y sin ningún estilo: LaTeX estándar, que compila con cualquier distribución TeX y sirve de punto de partida para otra clase o estilo.
 - [`biblio.yaml`](defaults/biblio.yaml) toma un archivo de bibliografía (BibLaTeX, CSL JSON, etc.) y lo formatea en un PDF a partir de `pandoc.tex`. El estilo usado es _Chicago_ autor-fecha. No soporta bibliografías en formato CSL YAML.
 - [`notas.yaml`](defaults/notas.yaml). Ocasionalmente es útil saber cómo formatea `citeproc` una referencia, sobre todo en nota. Este preajuste no genera ningún archivo, sino que está pensada para devolver en Markdown cómo se formatea una cita en estilo _Chicago_ notas-bibliografía[^16].
@@ -264,7 +264,6 @@ El archivo [`NOTICES`](licences/NOTICES.md) hace un inventario completo de los d
 |  Archivo |  Autor |  Licencia |
 |---|---|---|
 |  `include-files.lua` |  Albert Krewinkel |  [MIT](licences/MIT.md) |
-|  `multibib.lua` |  Albert Krewinkel y contribuidores |  [MIT](licences/MIT.md) |
 |  `zotero.lua` |  Emiliano Heyns |  [MIT](licences/MIT.md) |
 
 Se trata de material de terceros con términos de uso propios, sobre el que este repositorio no reclama derechos.

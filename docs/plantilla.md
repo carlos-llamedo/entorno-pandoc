@@ -184,7 +184,7 @@ Con el español, babel aplica sus convenciones: operadores acentuados (lím, má
 | `highlighting-macros` | bloque raw LaTeX | pandoc |
 | `verbatim-in-note` | booleano | pandoc |
 
-Pandoc compone el código de dos maneras. Por defecto lo colorea él mismo. Con `syntax-highlighting: idiomatic` lo entrega al paquete [`listings`](https://ctan.org/pkg/listings) de LaTeX, como en las plantillas de Kieran Healy; es lo que activan los preajustes `memoria` y `multibib`. Un bloque con identificador `lst:` y atributo `caption` se convierte en un listado numerado, al que se puede remitir (véase [`pandoc-crossref`](filtros.md#pandoc-crossref)):
+Pandoc compone el código de dos maneras. Por defecto lo colorea él mismo. Con `syntax-highlighting: idiomatic` lo entrega al paquete [`listings`](https://ctan.org/pkg/listings) de LaTeX, como en las plantillas de Kieran Healy; es lo que activan los preajustes `memoria`, `temas` y `latex`. Un bloque con identificador `lst:` y atributo `caption` se convierte en un listado numerado, al que se puede remitir (véase [`pandoc-crossref`](filtros.md#pandoc-crossref)):
 
 ````markdown
 ```{#lst:saludo .python caption="Saludo en Python"}
@@ -244,7 +244,7 @@ El aspecto de los enlaces (color, recuadros o nada) es del estilo, que lo fija c
 |---|---|---|
 | `refs` | cadena | propio |
 
-`refs` lleva la bibliografía a las páginas finales en vez de al final del cuerpo (véase [`filtros`](filtros.md#citeproc)). La separación entre entradas la decide el estilo.
+`refs` lleva la bibliografía a las páginas finales en vez de al final del cuerpo (véase [`filtros`](filtros.md#citeproc)). La plantilla abre antes la materia final con `\backmatter`, si la clase o el estilo lo definen: en las clases de libro es el `\backmatter` de siempre; un estilo para `article` puede definirlo, como `temas.sty`, que empieza la bibliografía en página nueva. La separación entre entradas la decide el estilo.
 
 * * *
 

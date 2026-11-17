@@ -7,12 +7,16 @@ resource-path:
   - figuras
   - ${USERDATA}
 
+bibliography: biblioteca.json
+
 filters:
   - include-files.lua
   - pandoc-crossref
   - custom-divs.lua
-  - multibib.lua
-  - correcciones-notas.lua
+  - suprimir-citas.lua
+  - citeproc
+  - dividir-bibliografia.lua
+  - ajustes-citeproc.lua
 
 template: pandoc.tex
 syntax-highlighting: idiomatic
