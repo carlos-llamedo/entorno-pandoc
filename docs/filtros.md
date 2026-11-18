@@ -219,20 +219,6 @@ include-auto: true
 
 El filtro ajusta automáticamente las rutas relativas de enlaces e imágenes dentro de los archivos incluidos, de modo que se resuelven correctamente desde la ubicación del archivo incluido, no desde el documento principal.
 
-### custom-divs.lua
-
-`custom-divs.lua` convierte divs con la clase `noindent` a un grupo LaTeX sin sangría de primera línea. Útil para párrafos que siguen a elementos no textuales (listas, tablas, figuras, citas exentas) y que, por convención tipográfica, no deben llevar sangría aunque el documento use sangría por defecto.
-
-El filtro solo actúa en la salida LaTeX; en otros formatos el div se ignora sin generar código adicional.
-
-```markdown
-::: {.noindent}
-Párrafo sin sangría de primera línea.
-:::
-```
-
-El filtro envuelve el contenido del div en `{\parindent0pt … }` en lugar de usar `\noindent`, porque `\noindent` solo afecta al párrafo inmediatamente siguiente; si el div contiene varios párrafos, los sucesivos recuperarían la sangría normal.
-
 ### suprimir-citas.lua
 
 `suprimir-citas.lua` quita las citas del texto y las deja solo en la bibliografía. `citeproc` tiene la opción contraria con `suppress-bibliography`, pero esta no. La opción `nocite` añade a la bibliografía entradas no citadas, pero no oculta las citadas.

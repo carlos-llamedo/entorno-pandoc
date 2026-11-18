@@ -20,6 +20,7 @@ metadata-files:
   - plantilla.yaml
 
 # Estilo de memoria.sty, del repositorio entorno-latex.
+# https://github.com/carlos-llamedo/entorno-latex
 metadata:
   fontfamily: memoria
   reference-section-title: "Bibliografía"

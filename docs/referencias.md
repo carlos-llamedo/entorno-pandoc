@@ -75,10 +75,6 @@ El filtro [`zotero.lua`](https://github.com/retorquere/zotero-better-bibtex/blob
 
 Documentación sobre su uso se puede encontrar en [el sitio web de Better BibTeX](https://retorque.re/zotero-better-bibtex/exporting/pandoc/index.html#from-markdown-to-zotero-live-citations), así como en [su repositorio GitHub en `site/content/exporting/`](https://github.com/retorquere/zotero-better-bibtex/blob/master/site/content/exporting/pandoc.md).
 
-#### custom-divs.lua
-
-Aunque el filtro es una reescritura propia, está inspirado por la funcionalidad implementada por Thomas Duck en su [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions). Hay unas cuantas extensiones con ideas muy interesantes; `noindent.lua`, concretamente, está inspirado en su [`noindent.py`](https://github.com/tomduck/pandoc-latex-extensions/blob/master/pandoclatexextensions/plugins/noindent.py).
-
 #### include-files.lua
 
 No parece que [`include-files.lua`](https://github.com/pandoc-ext/include-files) tenga más documentación que [el README de su repositorio](https://github.com/pandoc-ext/include-files/blob/main/README.md).

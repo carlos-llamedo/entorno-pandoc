@@ -37,10 +37,6 @@ En el caso del [Citation Style Language](https://citationstyles.org/) (CSL), ten
 
 Todo el repositorio de Better BibTeX (y por tanto [el filtro `zotero.lua`](https://github.com/retorquere/zotero-better-bibtex/blob/master/site/content/exporting/zotero.lua) y su documentación) está [bajo una licencia MIT](https://github.com/retorquere/zotero-better-bibtex/blob/master/LICENSE), Copyright © 2016 Emiliano Heyns.
 
-#### custom-divs.lua
-
-El filtro `custom-divs.lua` es, en realidad, código propio inspirado en el trabajo de Duck. Todo el [repositorio `pandoc-latex-extensions`](https://github.com/tomduck/pandoc-latex-extensions) está bajo la licencia [GPLv3](https://github.com/tomduck/pandoc-latex-extensions/blob/master/LICENSE).
-
 #### include-files.lua\*
 
 [`include-files.lua`](https://github.com/pandoc-ext/include-files) está publicado bajo una [licencia MIT](https://github.com/pandoc-ext/include-files/blob/main/LICENSE), Copyright © 2023 Pandoc Extensions.

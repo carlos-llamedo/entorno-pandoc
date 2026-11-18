@@ -12,7 +12,6 @@ bibliography: biblioteca.json
 filters:
   - include-files.lua
   - pandoc-crossref
-  - custom-divs.lua
   - citeproc
   - dividir-bibliografia.lua
   - ajustes-citeproc.lua
