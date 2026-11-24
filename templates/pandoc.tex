@@ -99,9 +99,9 @@ $if(subtitle)$
 \makeatother
 \subtitle{$subtitle$}
 $endif$
-% DIVERGE: autores como mapas con name y email; el estilo decide qué hace
-% con \authoremail (si no lo define, se ignora). \keywords, si el estilo no
-% lo define, es un párrafo con \keywordsname.
+% DIVERGE: 
+% autores como mapas con name y email;
+% \keywords, es un párrafo con \keywordsname.
 \author{$for(author)$$if(author.name)$$author.name$$else$$author$$endif$$sep$ \and $endfor$}
 \providecommand{\authoremail}[1]{}
 \providecommand{\keywordsname}{Palabras clave}
@@ -112,6 +112,11 @@ $if(author.email)$
 $endif$
 $endfor$
 \date{$date$}
+% DIVERGE: versión del documento en \docversion
+\providecommand{\docversion}[1]{}
+$if(version)$
+\docversion{$version$}
+$endif$
 
 \begin{document}
 $if(has-frontmatter)$

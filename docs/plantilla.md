@@ -205,12 +205,13 @@ Como muestra el @lst:saludo, …
 | `title`, `subtitle` | cadena | pandoc |
 | `author` | cadena, lista o mapas con `name` y `email` | pandoc |
 | `date` | cadena | pandoc |
+| `version` | cadena | propio |
 | `title-meta`, `author-meta`, `subject`, `keywords` | cadena o lista | pandoc |
 | `abstract` | cadena | pandoc |
 | `thanks` | cadena | pandoc |
 | `maketitle` | booleano | propio |
 
-`maketitle` imprime la portada; sin ella, el título solo existe como metadato. Cada autor puede declararse como mapa con `name` y `email`; la plantilla usa `name` como nombre y pasa el correo al estilo con `\authoremail{…}`, que lo usa o lo ignora. `title-meta`, `author-meta`, `subject` y `keywords` van a los metadatos del PDF; el subtítulo no. Con autores como mapas, Pandoc no genera `author-meta`: hay que declararlo para que el PDF lleve autor.
+`maketitle` imprime la portada; sin ella, el título solo existe como metadato. Cada autor puede declararse como mapa con `name` y `email`; la plantilla usa `name` como nombre y pasa el correo al estilo con `\authoremail{…}`, que lo usa o lo ignora. `title-meta`, `author-meta`, `subject` y `keywords` van a los metadatos del PDF; el subtítulo no. Con autores como mapas, Pandoc no genera `author-meta`: hay que declararlo para que el PDF lleve autor. `version` pasa al estilo con `\docversion{…}`, que la imprime o la ignora; `temas` la pone en la portada, tras la fecha, con un icono de bifurcación.
 
 `abstract` imprime el resumen y, si hay `keywords`, las palabras clave a continuación. `thanks` es la variable oficial para los agradecimientos; la plantilla la pasa como `\thanks` dentro de `\title`, y el estilo decide su forma: sin estilo, o con `temas`, es una nota al pie en el título; `memoria` la convierte en el capítulo «Agradecimientos», tras la portada. Puede tener varios párrafos. `subtitle` lo compone el `\subtitle` del estilo, si lo define; si no, Pandoc lo añade bajo el título.
 
@@ -271,6 +272,7 @@ Pandoc carga el paquete de estilo (`fontfamily`) después de la clase y de `unic
 | `\thanks{…}` | `thanks` | Agradecimientos (opcional: si el estilo no lo cambia, es la nota al pie de LaTeX en el título) |
 | `\subtitle{…}` | `subtitle` | Subtítulo (opcional: si el estilo no lo define, Pandoc pone el suyo) |
 | `\authoremail{…}` | `author.email` | Correo del autor (opcional: la plantilla lo declara vacío si el estilo no lo define) |
+| `\docversion{…}` | `version` | Versión del documento (opcional: la plantilla lo declara vacío si el estilo no lo define) |
 
 Todo lo demás (márgenes, títulos, encabezados, índices, notas, bibliografía) lo decide el estilo con LaTeX corriente.
 
@@ -281,6 +283,7 @@ Todo lo demás (márgenes, títulos, encabezados, índices, notas, bibliografía
 `pandoc.tex` es el `default.latex` oficial de Pandoc, incluido como submódulo en `templates/pandoc-templates`, con las inserciones marcadas con `DIVERGE`. Las divergencias son:
 
 - Autores como mapas con `name` y `email`, y el comando `\authoremail` para el estilo.
+- La variable `version`, que pasa al estilo con `\docversion`.
 - Portada solo con `maketitle` (la oficial la pone siempre que hay `title`).
 - Resumen independiente de la portada, con `keywords` dentro.
 - Variables de contenido propias: `lol` y `refs`.
