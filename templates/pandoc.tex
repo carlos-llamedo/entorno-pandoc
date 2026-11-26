@@ -5,9 +5,6 @@
 
 $pandoc-templates/document-metadata.latex()$
 $pandoc-templates/passoptions.latex()$
-% DIVERGE: los nombres de color de xcolor siempre, no solo con colorlinks,
-% porque el color de los enlaces lo pone el estilo.
-\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 \documentclass[
 $for(babel-otherlangs)$
   $babel-otherlangs$,
