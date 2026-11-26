@@ -25,7 +25,7 @@ El estilo se carga con la variable oficial `fontfamily`: es el nombre del paquet
 ```yaml
 fontfamilyoptions:
   - headscaps=true
-  - smallsize=\footnotesize
+  - smallsize=\normalsize
   - tocstyle=columna
 ```
 
@@ -92,7 +92,7 @@ mainfont: Minion Pro
 sansfont: Meta Pro
 ```
 
-Las fuentes que no se declaren conservan las del estilo (en `memoria` y `temas`, Arno Pro, Myriad Pro, Source Code Pro y STIX Two Math, con Source Serif 4, Source Sans 3 y Source Code Pro como fallbacks). Con un estilo de terceros, como `classicthesis`, se conservan las suyas. Las opciones de una fuente solo se aplican si se declara también la fuente. Los fallbacks son las fuentes donde se buscan los caracteres que no tiene la principal; cada elemento es un nombre de fuente seguido de `:mode=harf`. `fontfamilies` define familias adicionales con `\newfontfamily`: cada elemento lleva `name` (el comando, p. ej. `\griego`), `font` y, opcionalmente, `options`. Sin `microtypeoptions`, microtype activa la protrusión y la expansión.
+Las fuentes que no se declaren conservan las del estilo (en `memoria` y `temas`, Arno Pro, Cronos Pro, Source Code Pro y STIX Two Math, con Source Serif 4, Source Sans 3 y Source Code Pro como fallbacks). Con un estilo de terceros, como `classicthesis`, se conservan las suyas. Las opciones de una fuente solo se aplican si se declara también la fuente. Los fallbacks son las fuentes donde se buscan los caracteres que no tiene la principal; cada elemento es un nombre de fuente seguido de `:mode=harf`. `fontfamilies` define familias adicionales con `\newfontfamily`: cada elemento lleva `name` (el comando, p. ej. `\griego`), `font` y, opcionalmente, `options`. Sin `microtypeoptions`, microtype activa la protrusión y la expansión.
 
 Las variables `fontoptions` controlan cómo [`fontspec`](https://ctan.org/pkg/fontspec) procesa las fuentes. Los usos más frecuentes son:
 
